@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Módulo 1 · Guía interactiva</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Módulo 1</h1>
+  <p>Conceptos de seguridad, cumplimiento e identidad — con diagramas y ejercicios interactivos</p>
+  <button class="check-btn" style="margin-top:14px; background:var(--coral);" onclick="clearAllAnswers()">🗑️ Borrar todas mis respuestas</button>
+</header>
+
+<nav>
+  <a href="#cia">1.1 Tríada CIA</a>
+  <a href="#cia-dd">↳ Práctica</a>
+  <a href="#zt">1.2 Zero Trust</a>
+  <a href="#did">1.3 Defensa en profundidad</a>
+  <a href="#did-dd">↳ Práctica</a>
+  <a href="#src">1.4 Responsabilidad compartida</a>
+  <a href="#hash">1.5 Cifrado vs Hashing</a>
+  <a href="#hash-dd">↳ Práctica</a>
+  <a href="#comp">1.6 GRC y Cumplimiento</a>
+  <a href="#authn">1.7 AuthN vs AuthZ</a>
+  <a href="#ident">1.8 Identidad</a>
+  <a href="#ad">1.9 AD vs Entra ID</a>
+  <a href="#ad-dd">↳ Práctica</a>
+  <a href="#authmethods">1.10 Métodos de autenticación</a>
+  <a href="#mix">🔀 Repaso mixto</a>
+</nav>
+
+<main>
+
+<!-- 1.1 CIA -->
+<section id="cia">
+  <span class="eyebrow">Punto 1.1</span>
+  <h2>La tríada CIA</h2>
+  <p>Todo lo que se estudia en seguridad gira en torno a proteger tres cosas. Si entiendes bien estas tres, puedes razonar el resto del temario sin memorizar.</p>
+
+  <table>
+    <tr><th>Principio</th><th>Pregunta clave</th><th>Ejemplo cotidiano</th></tr>
+    <tr><td><strong>Confidencialidad</strong></td><td>¿Solo lo ve quien debe?</td><td>Tu contraseña del banco solo la conoces tú</td></tr>
+    <tr><td><strong>Integridad</strong></td><td>¿Sigue siendo fiel al original?</td><td>Nadie puede cambiar el importe de una transferencia sin que quede registrado</td></tr>
+    <tr><td><strong>Disponibilidad</strong></td><td>¿Está accesible cuando hace falta?</td><td>Poder entrar a tu correo sin que el servidor esté caído</td></tr>
+  </table>
+
+  <div class="callout">
+    "Cualquier incidente de seguridad rompe al menos una de estas tres patas. Cuando leas un escenario en el examen, la pregunta mental que te tienes que hacer es: ¿esto afecta a que algo se vea de más (confidencialidad), se altere (integridad), o deje de estar accesible (disponibilidad)?"
+  </div>
+
+  <svg viewBox="0 0 680 220" role="img" aria-label="Diagrama de la tríada CIA">
+    <rect x="20" y="20" width="640" height="180" rx="18" fill="#fff" stroke="var(--line)"/>
+    <text x="40" y="46" font-size="14" font-weight="700" fill="var(--navy)">Seguridad de la información</text>
+    <g><rect x="45" y="65" width="180" height="110" rx="12" fill="var(--navy)"/>
+      <text x="135" y="100" text-anchor="middle" class="layer-label">Confidencialidad</text>
+      <text x="135" y="122" text-anchor="middle" class="layer-sub">Solo quien debe</text>
+      <text x="135" y="138" text-anchor="middle" class="layer-sub">puede ver</text></g>
+    <g><rect x="250" y="65" width="180" height="110" rx="12" fill="var(--teal)"/>
+      <text x="340" y="100" text-anchor="middle" class="layer-label">Integridad</text>
+      <text x="340" y="122" text-anchor="middle" class="layer-sub">No se altera</text>
+      <text x="340" y="138" text-anchor="middle" class="layer-sub">sin autorización</text></g>
+    <g><rect x="455" y="65" width="180" height="110" rx="12" fill="#B5892F"/>
+      <text x="545" y="100" text-anchor="middle" class="layer-label">Disponibilidad</text>
+      <text x="545" y="122" text-anchor="middle" class="layer-sub">Accesible cuando</text>
+      <text x="545" y="138" text-anchor="middle" class="layer-sub">se necesita</text></g>
+  </svg>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="A" data-explain="Leer información sin autorización es un fallo de confidencialidad: nada se alteró (integridad) ni dejó de funcionar (disponibilidad), solo se vio algo que no debía verse.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Un atacante intercepta el tráfico de red y consigue leer el contenido de unos correos internos, pero no los modifica ni impide que la empresa siga funcionando con normalidad. ¿Qué principio de la tríada CIA se vio comprometido?</p>
+    <div class="options">
+      <label><input type="radio" name="q1cia" value="A"> A) Confidencialidad</label>
+      <label><input type="radio" name="q1cia" value="B"> B) Integridad</label>
+      <label><input type="radio" name="q1cia" value="C"> C) Disponibilidad</label>
+      <label><input type="radio" name="q1cia" value="D"> D) Autenticación</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Un DDoS satura el sistema hasta que deja de responder: ataca directamente la disponibilidad, no la confidencialidad ni la integridad de los datos.">
+      <span>Un ataque DDoS (que consiste en saturar un servidor con una cantidad masiva de tráfico falso hasta que deja de responder) afecta principalmente a la disponibilidad.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Modificar datos sin permiso es un fallo de integridad, no de confidencialidad. Confidencialidad sería que alguien los viera sin permiso, no que los cambiara.">
+      <span>Si alguien modifica los datos de un informe financiero sin autorización, se ha comprometido la confidencialidad.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="El cifrado hace que solo quien tenga la clave correcta pueda leer el contenido, que es justo la definición de proteger la confidencialidad.">
+      <span>Cifrar un archivo ayuda a proteger su confidencialidad.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Integridad" data-explain="Evitar que se alteren cláusulas ya firmadas sin dejar rastro es proteger la integridad del documento, no quién puede verlo (confidencialidad) ni que esté accesible (disponibilidad).">
+    <p class="q">3. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere garantizar que un empleado que edita un contrato no pueda alterar cláusulas ya firmadas sin dejar rastro. El objetivo que están protegiendo es principalmente:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Confidencialidad">Confidencialidad</option>
+      <option value="Integridad">Integridad</option>
+      <option value="Disponibilidad">Disponibilidad</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h3>Medidas concretas que protegen cada pilar (vocabulario que va a aparecer en el examen)</h3>
+  <p>Antes del ejercicio 4, aclaremos qué es cada una de estas medidas — son nombres técnicos que probablemente ya usas de oído con tus compañeros, pero vamos a fijar qué hace cada una exactamente:</p>
+  <table>
+    <tr><th>Medida</th><th>Qué es</th><th>Qué pilar protege</th></tr>
+    <tr><td><strong>Copia de seguridad (backup)</strong></td><td>Una copia guardada de tus datos en otro sitio, que puedes restaurar si el original se pierde, se corrompe o un ataque (como un ransomware) lo cifra sin tu permiso.</td><td><strong>Disponibilidad</strong> — si el sistema original falla, restauras la copia y sigues funcionando.</td></tr>
+    <tr><td><strong>Infraestructura redundante / balanceo de carga</strong></td><td>Tener más de un servidor haciendo el mismo trabajo a la vez, repartiendo las peticiones entre ellos. Si uno falla o se satura, los demás siguen atendiendo sin que el usuario note nada.</td><td><strong>Disponibilidad</strong> — evita que un único punto de fallo tumbe todo el servicio.</td></tr>
+    <tr><td><strong>Cifrado</strong></td><td>Convierte el dato en algo ilegible salvo para quien tenga la clave correcta (lo veremos en detalle en el punto 1.5).</td><td><strong>Confidencialidad</strong> — protege que solo quien debe pueda leer el contenido; no evita que el sistema se caiga.</td></tr>
+    <tr><td><strong>RBAC (Role-Based Access Control / control de acceso basado en roles)</strong></td><td>En vez de dar permisos uno a uno a cada persona, se crean "roles" (por ejemplo: "Lector", "Editor", "Administrador") con un conjunto de permisos ya definido, y a cada usuario se le asigna el rol que le corresponde según su función.</td><td><strong>Autorización</strong> (lo veremos en detalle en el punto 1.7) — decide quién puede hacer qué; no determina si el sistema está disponible ni si los datos son confidenciales por sí sola.</td></tr>
+  </table>
+
+  <div class="exercise" data-answer="A,C" data-explain="Los backups permiten recuperar el sistema tras un fallo, y la infraestructura redundante evita que un único punto de fallo tumbe el servicio: ambas mantienen el sistema disponible. El cifrado (B) protege confidencialidad, y el RBAC (D) es autorización — ninguna de las dos evita que el sistema se caiga.">
+    <p class="q">4. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes medidas ayudan directamente a proteger la <strong>disponibilidad</strong> de un sistema? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q4" value="A"> A) Copias de seguridad (backups) periódicas</label>
+      <label><input type="checkbox" name="q4" value="B"> B) Cifrado de extremo a extremo de los mensajes</label>
+      <label><input type="checkbox" name="q4" value="C"> C) Infraestructura redundante y balanceo de carga</label>
+      <label><input type="checkbox" name="q4" value="D"> D) Control de acceso basado en roles (RBAC)</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h3>Más ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Si el disco no estaba cifrado, cualquiera con acceso físico al portátil puede leer los archivos directamente: es un fallo de confidencialidad, no de integridad ni disponibilidad.">
+    <p class="q">5. <span class="difficulty diff-easy">🟢 Fácil</span> Un atacante roba un portátil de la empresa cuyo disco no estaba cifrado, y consigue leer documentos internos guardados en él sin necesitar ninguna contraseña. ¿Qué pilar de la CIA falló principalmente?</p>
+    <div class="options">
+      <label><input type="radio" name="q5cia" value="A"> A) Integridad</label>
+      <label><input type="radio" name="q5cia" value="B"> B) Confidencialidad</label>
+      <label><input type="radio" name="q5cia" value="C"> C) Disponibilidad</label>
+      <label><input type="radio" name="q5cia" value="D"> D) Autorización</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">6. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="Zero Trust no confía en nada por defecto, ni siquiera dentro de la red de la oficina — siempre verifica.">
+      <span>Si un dispositivo está conectado dentro de la red de la oficina, se puede confiar en él automáticamente sin más verificación.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Un archivo cifrado sigue siendo el mismo archivo; el hash cambia solo si el contenido cambia, así que sirve para detectar alteraciones no autorizadas.">
+      <span>El hashing puede usarse para detectar si un archivo ha sido modificado sin autorización.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="La defensa en profundidad y Zero Trust son complementarios, pero ninguno sustituye al otro: uno trabaja por capas técnicas, el otro por verificación constante de identidad y contexto.">
+      <span>Implementar Zero Trust hace innecesaria la defensa en profundidad, porque ya cubre todos los casos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="cia-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada situación con el pilar de la CIA que protege</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"conf","i2":"integ","i3":"disp"}' data-explain="Solo tú viendo tu nómina es confidencialidad; que nadie altere una factura sin dejar rastro es integridad; que el correo siga funcionando gracias a un servidor de respaldo es disponibilidad.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Toca cada situación y luego el pilar correspondiente.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría a la que pertenece.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Solo tú puedes ver tu nómina</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Nadie puede alterar el importe de una factura sin dejar rastro</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">El correo sigue funcionando gracias a un servidor de respaldo</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="conf" onclick="placeDDItem(this)"><div class="dd-zone-label">Confidencialidad</div></div>
+        <div class="dd-zone" data-zone="integ" onclick="placeDDItem(this)"><div class="dd-zone-label">Integridad</div></div>
+        <div class="dd-zone" data-zone="disp" onclick="placeDDItem(this)"><div class="dd-zone-label">Disponibilidad</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.2 Zero Trust -->
+<section id="zt">
+  <span class="eyebrow">Punto 1.2</span>
+  <h2>Zero Trust (Confianza Cero)</h2>
+  <p>Modelo de seguridad central en todos los productos de Microsoft. Sustituye la idea antigua de "si estás dentro de la red de la empresa, confío en ti" por: <strong>nunca confíes por defecto, verifica siempre</strong>, estés dentro o fuera de la red.</p>
+
+  <svg viewBox="0 0 680 220" role="img" aria-label="Los tres principios de Zero Trust">
+    <rect x="20" y="20" width="640" height="180" rx="18" fill="#fff" stroke="var(--line)"/>
+    <text x="40" y="46" font-size="14" font-weight="700" fill="var(--navy)">Zero Trust</text>
+    <g><rect x="45" y="65" width="180" height="110" rx="12" fill="#5B4B8A"/>
+      <text x="135" y="98" text-anchor="middle" class="layer-label">Verificar</text>
+      <text x="135" y="116" text-anchor="middle" class="layer-label">explícitamente</text>
+      <text x="135" y="140" text-anchor="middle" class="layer-sub">Usuario, dispositivo,</text>
+      <text x="135" y="155" text-anchor="middle" class="layer-sub">ubicación, riesgo</text></g>
+    <g><rect x="250" y="65" width="180" height="110" rx="12" fill="var(--coral)"/>
+      <text x="340" y="98" text-anchor="middle" class="layer-label">Privilegios</text>
+      <text x="340" y="116" text-anchor="middle" class="layer-label">mínimos</text>
+      <text x="340" y="140" text-anchor="middle" class="layer-sub">Solo el acceso</text>
+      <text x="340" y="155" text-anchor="middle" class="layer-sub">justo y a tiempo</text></g>
+    <g><rect x="455" y="65" width="180" height="110" rx="12" fill="#B23A6B"/>
+      <text x="545" y="98" text-anchor="middle" class="layer-label">Asumir</text>
+      <text x="545" y="116" text-anchor="middle" class="layer-label">la brecha</text>
+      <text x="545" y="140" text-anchor="middle" class="layer-sub">Segmentar,</text>
+      <text x="545" y="155" text-anchor="middle" class="layer-sub">cifrar, vigilar</text></g>
+  </svg>
+
+  <ol>
+    <li><strong>Verificar explícitamente:</strong> autenticar y autorizar siempre según todos los datos disponibles (usuario, ubicación, dispositivo, estado del dispositivo, servicio), no solo por estar "en la oficina".</li>
+    <li><strong>Privilegios mínimos:</strong> dar a cada usuario solo el acceso justo y necesario para su tarea, ni un permiso de más, solo el tiempo necesario.</li>
+    <li><strong>Asumir la brecha:</strong> actuar como si el atacante ya estuviera dentro. Segmentar la red, cifrar de extremo a extremo, monitorizar para detectar y responder rápido.</li>
+  </ol>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Volver a pedir verificación cuando cambia el contexto (ubicación, dispositivo, riesgo) — incluso con una sesión ya iniciada — es exactamente el principio de verificar explícitamente.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa exige que, aunque un empleado ya haya iniciado sesión desde la oficina, deba volver a verificar su identidad si intenta acceder desde un país distinto al habitual. ¿Qué principio de Zero Trust está aplicando?</p>
+    <div class="options">
+      <label><input type="radio" name="q1zt" value="A"> A) Privilegios mínimos</label>
+      <label><input type="radio" name="q1zt" value="B"> B) Verificar explícitamente</label>
+      <label><input type="radio" name="q1zt" value="C"> C) Asumir la brecha</label>
+      <label><input type="radio" name="q1zt" value="D"> D) Defensa en profundidad</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="Zero Trust no confía en nada por defecto, ni siquiera dentro de la red de la oficina.">
+      <span>Zero Trust asume que, si un dispositivo está dentro de la red de la oficina, se puede confiar en él automáticamente.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Dar solo el permiso necesario y solo por el tiempo necesario es exactamente la definición de privilegios mínimos.">
+      <span>Dar acceso "justo a tiempo" (Just-In-Time) y solo con el permiso mínimo necesario es un ejemplo de privilegios mínimos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Es justo lo contrario: asumir la brecha significa cifrar, segmentar y vigilar precisamente porque no se confía en el perímetro.">
+      <span>Asumir la brecha significa que la organización no necesita cifrar sus datos porque confía en su perímetro.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.3 Defense in Depth -->
+<section id="did">
+  <span class="eyebrow">Punto 1.3</span>
+  <h2>Defensa en profundidad (Defense in Depth)</h2>
+  <p>En vez de poner una sola barrera, se ponen <strong>varias capas de seguridad</strong>, de forma que si una falla, hay otra detrás. Aquí va la explicación de <strong>qué significa defender cada capa en la práctica</strong>, sin dar nada por hecho:</p>
+
+  <svg viewBox="0 0 680 430" role="img" aria-label="Capas de la defensa en profundidad">
+    <text x="340" y="24" text-anchor="middle" font-size="12" fill="#666">Un atacante debe superar cada capa para llegar a la siguiente</text>
+    <g><rect x="190" y="40" width="300" height="55" rx="10" fill="#1D3557"/>
+      <text x="340" y="63" text-anchor="middle" class="layer-label">Perímetro</text>
+      <text x="340" y="82" text-anchor="middle" class="layer-sub">Firewalls, protección DDoS</text></g>
+    <g><rect x="190" y="110" width="300" height="55" rx="10" fill="#2A6F97"/>
+      <text x="340" y="133" text-anchor="middle" class="layer-label">Red</text>
+      <text x="340" y="152" text-anchor="middle" class="layer-sub">Segmentación en zonas</text></g>
+    <g><rect x="190" y="180" width="300" height="55" rx="10" fill="var(--teal)"/>
+      <text x="340" y="203" text-anchor="middle" class="layer-label">Host</text>
+      <text x="340" y="222" text-anchor="middle" class="layer-sub">Parches, antivirus</text></g>
+    <g><rect x="190" y="250" width="300" height="55" rx="10" fill="#52796F"/>
+      <text x="340" y="273" text-anchor="middle" class="layer-label">Aplicación</text>
+      <text x="340" y="292" text-anchor="middle" class="layer-sub">Código seguro, WAF</text></g>
+    <g><rect x="190" y="320" width="300" height="55" rx="10" fill="var(--coral)"/>
+      <text x="340" y="343" text-anchor="middle" class="layer-label">Datos</text>
+      <text x="340" y="362" text-anchor="middle" class="layer-sub">Cifrado, clasificación</text></g>
+    <text x="340" y="405" text-anchor="middle" font-size="12" fill="#666">Identidad y acceso protegen transversalmente todas las capas</text>
+  </svg>
+
+  <h3>Qué significa defender cada capa (con analogía de una casa)</h3>
+  <div class="analogy">
+    Imagina proteger una casa con objetos de valor dentro. No pones solo una cerradura en la puerta principal — pones una valla, cerraduras en cada habitación, una caja fuerte para lo más valioso. Si alguien salta la valla, todavía tiene que abrir la puerta, y luego cada habitación.
+  </div>
+
+  <table>
+    <tr><th>Capa</th><th>Qué protege</th><th>Ejemplo concreto</th></tr>
+    <tr><td><strong>Perímetro</strong></td><td>La frontera entre internet y la red de la empresa</td><td>Un <em>firewall</em> es un programa/dispositivo que decide qué tráfico de internet puede entrar; bloquea intentos de saturar la red con tráfico falso (ataque DDoS)</td></tr>
+    <tr><td><strong>Red</strong></td><td>Que, si alguien entra, no pueda moverse libremente por todo</td><td>Dividir la red interna en "zonas" (como departamentos separados con su propia llave), para que un atacante en el departamento de marketing no pueda saltar directamente a los servidores de finanzas</td></tr>
+    <tr><td><strong>Host</strong></td><td>Cada ordenador o servidor individual</td><td>Instalar las actualizaciones de seguridad (parches) que tapan agujeros conocidos, y un antivirus que detecta programas maliciosos</td></tr>
+    <tr><td><strong>Aplicación</strong></td><td>El propio programa o página web que usa la gente</td><td>Revisar que el código no tenga fallos aprovechables; un <em>Web Application Firewall (WAF)</em> filtra peticiones sospechosas a una web</td></tr>
+    <tr><td><strong>Datos</strong></td><td>La información en sí — el objetivo final de cualquier atacante</td><td>Cifrar los archivos y clasificarlos (marcar qué es "confidencial"), para que aunque alguien llegue hasta aquí, no pueda leerlos o al menos se sepa que es sensible</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>Nota:</strong> no necesitas saber configurar cada capa técnicamente para el examen — solo entender qué problema resuelve cada una y en qué orden actúan.
+  </div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="Red" data-explain="La segmentación de la red interna en zonas es precisamente lo que impide el movimiento lateral de un atacante hacia otras partes de la empresa, aunque ya haya superado el perímetro.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un atacante consigue superar el firewall perimetral, pero la red interna está dividida en zonas separadas. ¿Qué capa limita que se mueva libremente hacia los servidores de finanzas?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Perímetro">Perímetro</option>
+      <option value="Red">Red</option>
+      <option value="Aplicación">Aplicación</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,C" data-explain="Los parches (A) y el antivirus (C) protegen cada máquina individual, que es la capa de host. La segmentación (B) es la capa de red, y el firewall perimetral (D) es la capa de perímetro.">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes medidas corresponden a la capa de <strong>host</strong>? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q2did" value="A"> A) Instalar actualizaciones de seguridad (parches)</label>
+      <label><input type="checkbox" name="q2did" value="B"> B) Segmentar la red en zonas</label>
+      <label><input type="checkbox" name="q2did" value="C"> C) Usar un antivirus en cada servidor</label>
+      <label><input type="checkbox" name="q2did" value="D"> D) Filtrar tráfico con un firewall perimetral</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="did-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada medida con su capa de defensa en profundidad</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"perim","i2":"red","i3":"host","i4":"datos"}' data-explain="Firewall = perímetro (frontera con internet). Segmentar en zonas = red (limita el movimiento lateral). Antivirus = host (cada máquina individual). Cifrar archivos = datos (la capa más profunda).">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Toca cada medida y luego la capa a la que protege.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la capa a la que pertenece.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Firewall que filtra tráfico de internet</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Dividir la red interna en zonas separadas</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Antivirus instalado en cada servidor</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Cifrar los archivos más sensibles</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="perim" onclick="placeDDItem(this)"><div class="dd-zone-label">Perímetro</div></div>
+        <div class="dd-zone" data-zone="red" onclick="placeDDItem(this)"><div class="dd-zone-label">Red</div></div>
+        <div class="dd-zone" data-zone="host" onclick="placeDDItem(this)"><div class="dd-zone-label">Host</div></div>
+        <div class="dd-zone" data-zone="datos" onclick="placeDDItem(this)"><div class="dd-zone-label">Datos</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.4 Shared Responsibility -->
+<section id="src">
+  <span class="eyebrow">Punto 1.4</span>
+  <h2>Modelo de responsabilidad compartida</h2>
+  <p>Antes de ver la tabla, aclaremos qué es cada tipo de servicio en la nube — son <strong>distintos niveles de "cuánto te dan ya hecho"</strong>:</p>
+
+  <div class="analogy">
+    Piénsalo como alquilar algo para montar un restaurante:
+    <ul>
+      <li><strong>On-premises (todo tuyo):</strong> compras el edificio, instalas la cocina, contratas todo. Tú lo mantienes absolutamente todo.</li>
+      <li><strong>IaaS (Infraestructura como servicio):</strong> alquilas un local vacío. El dueño mantiene el edificio (estructura, tejado), pero tú instalas la cocina, decoras, y gestionas el día a día. En informática: Microsoft te da un "servidor virtual" ya funcionando, pero tú instalas el sistema operativo y las aplicaciones. Ejemplo: Azure Virtual Machines.</li>
+      <li><strong>PaaS (Plataforma como servicio):</strong> alquilas un local con la cocina ya instalada y funcionando. Solo llevas tus ingredientes y recetas. En informática: Microsoft te da el sistema operativo y el entorno ya listo; tú solo subes tu aplicación y tus datos. Ejemplo: Azure App Service.</li>
+      <li><strong>SaaS (Software como servicio):</strong> pides comida a domicilio. No cocinas nada, solo consumes el resultado final. En informática: usas una aplicación ya terminada y gestionada por completo por el proveedor. Ejemplo: Microsoft 365, Gmail.</li>
+    </ul>
+  </div>
+
+  <p>Ahora sí, quién es responsable de qué en cada modelo:</p>
+
+  <table>
+    <tr><th></th><th>On-premises</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr>
+    <tr><td>Datos, cuentas, identidades</td><td>Cliente</td><td>Cliente</td><td>Cliente</td><td>Cliente</td></tr>
+    <tr><td>Dispositivos</td><td>Cliente</td><td>Cliente</td><td>Cliente</td><td>Cliente</td></tr>
+    <tr><td>Sistema operativo</td><td>Cliente</td><td>Cliente</td><td>Microsoft</td><td>Microsoft</td></tr>
+    <tr><td>Red física, hosts, datacenter</td><td>Cliente</td><td>Microsoft</td><td>Microsoft</td><td>Microsoft</td></tr>
+  </table>
+
+  <div class="tip"><strong>Regla mental:</strong> cuanto más "servicio gestionado" (hacia la derecha en la tabla), menos responsabilidad técnica tiene el cliente. Pero <strong>la identidad y los datos siempre son responsabilidad del cliente</strong>, en cualquiera de los cuatro modelos — eso Microsoft nunca lo asume por ti.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="En IaaS, Microsoft gestiona el hardware físico y la virtualización, pero el sistema operativo de la máquina virtual y sus actualizaciones son responsabilidad del cliente.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa usa Azure Virtual Machines (IaaS) para alojar su propia aplicación. ¿Quién es responsable de instalar las actualizaciones del sistema operativo de esas máquinas?</p>
+    <div class="options">
+      <label><input type="radio" name="q1src" value="A"> A) Microsoft</label>
+      <label><input type="radio" name="q1src" value="B"> B) El cliente</label>
+      <label><input type="radio" name="q1src" value="C"> C) Ambos por igual</label>
+      <label><input type="radio" name="q1src" value="D"> D) Ninguno, se actualiza solo</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="En SaaS, Microsoft gestiona el sistema operativo del servidor por completo; el cliente no tiene que tocarlo.">
+      <span>En un servicio SaaS como Microsoft 365, el cliente es responsable de mantener actualizado el sistema operativo del servidor.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Independientemente del modelo, los datos y las identidades nunca pasan a ser responsabilidad de Microsoft.">
+      <span>En cualquier modelo (on-premises, IaaS, PaaS o SaaS), los datos y las identidades siempre son responsabilidad del cliente.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="En PaaS, Microsoft se encarga del sistema operativo y el entorno de ejecución; el cliente sigue siendo dueño de su código y sus datos.">
+      <span>En PaaS, Microsoft gestiona el sistema operativo y el entorno de ejecución, pero el cliente sigue siendo responsable de su código y sus datos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.5 Encryption vs Hashing -->
+<section id="hash">
+  <span class="eyebrow">Punto 1.5</span>
+  <h2>Cifrado vs. Hashing</h2>
+  <p>Son las dos formas de "transformar" datos para protegerlos, pero sirven para cosas completamente distintas.</p>
+
+  <div class="analogy">
+    <strong>Cifrado = una caja fuerte con llave.</strong> Metes un documento dentro (lo cifras) y queda irreconocible. Cualquiera que tenga la llave correcta puede abrirla y leer el documento original tal cual estaba. Es <strong>reversible</strong>: cifras y luego puedes descifrar.
+    <br><br>
+    <strong>Hashing = pasar el documento por una trituradora especial.</strong> Siempre que metas el mismo documento, sale exactamente la misma "huella" de trocitos (de longitud fija). Pero es imposible reconstruir el documento original a partir de esos trocitos — <strong>no es reversible, nunca</strong>. Y si cambias una sola coma en el documento original, la huella que sale es completamente distinta.
+  </div>
+
+  <h3>¿Para qué sirve cada uno en la práctica?</h3>
+  <table>
+    <tr><th></th><th>Cifrado</th><th>Hashing</th></tr>
+    <tr><td>¿Se puede revertir?</td><td>Sí, con la clave correcta</td><td>No, nunca</td></tr>
+    <tr><td>¿Para qué se usa?</td><td>Proteger datos que <em>necesitas volver a leer</em> más tarde (un email, un archivo)</td><td>Comprobar que algo no ha cambiado, o guardar contraseñas sin guardar la contraseña real</td></tr>
+    <tr><td>Ejemplo real</td><td>Cifras un correo para que solo el destinatario, con su clave, pueda leerlo</td><td>Una web nunca guarda tu contraseña tal cual: guarda su "huella" (hash). Cuando inicias sesión, calcula el hash de lo que escribiste y compara huellas. Si coinciden, entras — sin que la empresa haya guardado tu contraseña real en ningún momento</td></tr>
+  </table>
+
+  <div class="tip"><strong>Truco de examen:</strong> si la pregunta habla de "verificar que un archivo no fue modificado" o "guardar contraseñas de forma segura" → hashing. Si habla de "proteger un archivo para que solo alguien con la clave lo pueda leer" → cifrado.</div>
+
+  <h3>Dos formas de cifrar: simétrico vs. asimétrico</h3>
+  <p>Dentro del cifrado (la "caja fuerte"), hay dos maneras distintas de gestionar la llave:</p>
+
+  <div class="analogy">
+    <strong>Cifrado simétrico = una sola llave para todo.</strong> La misma llave que cierra la caja fuerte es la que la abre. Es rápido, pero tiene un problema: si dos personas necesitan comunicarse, ambas necesitan tener esa misma llave — y en algún momento hay que enviársela de forma segura, lo cual es un riesgo (si alguien la intercepta por el camino, puede leer todo lo cifrado con ella).
+    <br><br>
+    <strong>Cifrado asimétrico = dos llaves distintas, emparejadas.</strong> Una <strong>clave pública</strong>, que puedes compartir con cualquiera sin ningún riesgo (solo sirve para cifrar, no para descifrar), y una <strong>clave privada</strong>, que nunca compartes con nadie (es la única que puede descifrar lo que se cifró con su pareja pública). Así, alguien puede cifrar un mensaje para ti usando tu clave pública (que es de dominio público), y solo tú, con tu clave privada, puedes leerlo — sin haber tenido que quedar antes para intercambiar ningún secreto.
+  </div>
+
+  <table>
+    <tr><th></th><th>Cifrado simétrico</th><th>Cifrado asimétrico</th></tr>
+    <tr><td>Claves</td><td>Una sola, compartida</td><td>Dos: pública (se comparte) y privada (secreta)</td></tr>
+    <tr><td>Velocidad</td><td>Rápido</td><td>Más lento</td></tr>
+    <tr><td>Riesgo principal</td><td>Hay que compartir la clave de forma segura antes de empezar</td><td>Ninguno al compartir la clave pública — la privada nunca sale de su dueño</td></tr>
+    <tr><td>Cuándo se usa</td><td>Cifrar grandes volúmenes de datos ya en un canal ya establecido</td><td>Establecer la comunicación inicial de forma segura, firmas digitales</td></tr>
+  </table>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="C" data-explain="El hashing produce una huella distinta si el contenido cambia, por lo que comparar huellas antes y después permite detectar cualquier alteración durante la transferencia.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere comprobar que un archivo descargado no ha sido alterado durante la transferencia. ¿Qué técnica es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="q1hash" value="A"> A) Cifrado simétrico</label>
+      <label><input type="radio" name="q1hash" value="B"> B) Cifrado asimétrico</label>
+      <label><input type="radio" name="q1hash" value="C"> C) Hashing</label>
+      <label><input type="radio" name="q1hash" value="D"> D) Autenticación multifactor</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="asimétrico" data-explain="El cifrado asimétrico usa una clave pública para cifrar y una clave privada distinta para descifrar, así que no hace falta haber compartido antes ningún secreto en persona — solo la clave pública puede circular libremente.">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Dos personas necesitan comunicarse cifrando mensajes sin haber compartido antes una clave secreta en persona. La opción más adecuada es cifrado:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="simétrico">simétrico</option>
+      <option value="asimétrico">asimétrico</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="hash-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada descripción con el tipo de protección correcto</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"hashing","i2":"asim","i3":"sim"}' data-explain="No poder revertir nada es hashing. Usar clave pública y privada distintas es cifrado asimétrico. Usar la misma clave para cifrar y descifrar es cifrado simétrico.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Toca cada descripción y luego el tipo de protección al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">No se puede revertir, ni con ninguna clave</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Usa una clave pública para cifrar y una privada distinta para descifrar</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Usa la misma clave para cifrar y descifrar</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="hashing" onclick="placeDDItem(this)"><div class="dd-zone-label">Hashing</div></div>
+        <div class="dd-zone" data-zone="asim" onclick="placeDDItem(this)"><div class="dd-zone-label">Cifrado asimétrico</div></div>
+        <div class="dd-zone" data-zone="sim" onclick="placeDDItem(this)"><div class="dd-zone-label">Cifrado simétrico</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.6 Compliance -->
+<section id="comp">
+  <span class="eyebrow">Punto 1.6</span>
+  <h2>Conceptos de GRC: Governance, Risk y Compliance</h2>
+  <p>El examen agrupa el cumplimiento dentro de un marco más amplio llamado <strong>GRC</strong> — las siglas de tres conceptos relacionados pero distintos que conviene separar bien:</p>
+
+  <table>
+    <tr><th>Sigla</th><th>Concepto</th><th>Qué significa</th></tr>
+    <tr><td><strong>G</strong></td><td>Governance (gobernanza)</td><td>El conjunto de reglas, roles y procesos internos que definen <em>cómo</em> se toman las decisiones en la organización y quién es responsable de qué. Es la estructura de control interno.</td></tr>
+    <tr><td><strong>R</strong></td><td>Risk (riesgo)</td><td>Identificar, evaluar y gestionar los riesgos que podrían afectar a la organización (de seguridad, legales, financieros, operativos), para decidir cómo reducirlos o asumirlos de forma consciente.</td></tr>
+    <tr><td><strong>C</strong></td><td>Compliance (cumplimiento)</td><td>Seguir un conjunto de reglas externas —leyes obligatorias o estándares de buenas prácticas— sobre cómo debes manejar la información, especialmente datos personales o sensibles.</td></tr>
+  </table>
+
+  <div class="analogy">
+    Piénsalo como conducir un coche: la <strong>gobernanza</strong> son las normas internas que tú mismo te impones (revisar el aceite cada X km, no usar el móvil al volante). El <strong>riesgo</strong> es evaluar qué probabilidad hay de tener un accidente en cada trayecto y por qué. El <strong>cumplimiento</strong> es seguir el código de circulación, que es una norma externa que no has escrito tú y que es obligatoria.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> los tres conceptos están relacionados pero no son lo mismo — la gobernanza es <em>interna</em> (cómo decides), el riesgo es <em>evaluar</em> amenazas potenciales, y el cumplimiento es seguir reglas <em>externas</em> ya establecidas. Una empresa puede tener buena gobernanza y aun así incumplir una ley si no las conoce.</div>
+
+  <h3>Ejemplos reales de normativas de cumplimiento</h3>
+  <table>
+    <tr><th>Normativa</th><th>Qué regula</th></tr>
+    <tr><td>RGPD</td><td>Protección de datos personales de ciudadanos en la Unión Europea (cómo se recogen, guardan y usan tus datos)</td></tr>
+    <tr><td>HIPAA</td><td>Protección de datos de salud de pacientes en EE. UU.</td></tr>
+    <tr><td>PCI-DSS</td><td>Seguridad de los datos de tarjetas de pago</td></tr>
+    <tr><td>ISO 27001</td><td>Estándar internacional de gestión de la seguridad de la información (no es ley, pero muchas empresas lo adoptan como buena práctica)</td></tr>
+  </table>
+
+  <h3>¿Por qué importa cumplir?</h3>
+  <p>Si una empresa no cumple, se puede enfrentar a: multas legales (a veces millonarias), pérdida de confianza de sus clientes, o incluso prohibición de operar en según qué país o sector.</p>
+
+  <div class="tip"><strong>El rol de Microsoft:</strong> herramientas como Microsoft Purview (que veremos en el Módulo 4) ayudan a clasificar información sensible, prevenir fugas de datos, y generar informes que demuestran que cumples. Pero <strong>la responsabilidad legal final de cumplir siempre es de la organización</strong>, nunca de Microsoft — Microsoft solo pone las herramientas a tu disposición.</div>
+
+  <h3>Ejercicios sobre GRC</h3>
+
+  <div class="exercise" data-answer="A" data-explain="Definir quién puede aprobar qué tipo de decisiones dentro de la empresa es una regla interna sobre cómo se decide — eso es gobernanza (governance), no riesgo ni cumplimiento.">
+    <p class="q">A. <span class="difficulty diff-med">🟡 Medio</span> Una empresa define internamente qué personas tienen que aprobar cualquier decisión que afecte a más de 10.000€. ¿A qué parte de GRC pertenece esto principalmente?</p>
+    <div class="options">
+      <label><input type="radio" name="qgrc_a" value="A"> A) Governance (gobernanza)</label>
+      <label><input type="radio" name="qgrc_a" value="B"> B) Risk (riesgo)</label>
+      <label><input type="radio" name="qgrc_a" value="C"> C) Compliance (cumplimiento)</label>
+      <label><input type="radio" name="qgrc_a" value="D"> D) Auditoría (registrar quién hizo qué y cuándo, para revisarlo después)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"gov","i2":"risk","i3":"comp"}' data-explain="Definir roles y procesos de decisión internos es Governance. Evaluar la probabilidad de un ciberataque es Risk. Seguir el RGPD es Compliance, una norma externa obligatoria.">
+    <p class="q">B. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada situación y luego el concepto de GRC al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Definir qué departamento debe aprobar cada tipo de gasto</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Evaluar la probabilidad de sufrir un ciberataque este año</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Cumplir el RGPD al gestionar datos de clientes europeos</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="gov" onclick="placeDDItem(this)"><div class="dd-zone-label">Governance</div></div>
+        <div class="dd-zone" data-zone="risk" onclick="placeDDItem(this)"><div class="dd-zone-label">Risk</div></div>
+        <div class="dd-zone" data-zone="comp" onclick="placeDDItem(this)"><div class="dd-zone-label">Compliance</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="HIPAA regula específicamente la protección de datos de salud de pacientes en Estados Unidos.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una clínica en EE. UU. necesita asegurarse de que cumple con las normas de protección de datos de salud de sus pacientes. ¿Qué normativa es la más relevante?</p>
+    <div class="options">
+      <label><input type="radio" name="q1comp" value="A"> A) RGPD</label>
+      <label><input type="radio" name="q1comp" value="B"> B) HIPAA</label>
+      <label><input type="radio" name="q1comp" value="C"> C) PCI-DSS</label>
+      <label><input type="radio" name="q1comp" value="D"> D) ISO 27001</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Microsoft ofrece las herramientas, pero cumplir la ley siempre es responsabilidad legal de la organización que usa esos datos.">
+      <span>Cumplir con una normativa como el RGPD es responsabilidad legal de la organización, no de Microsoft.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Purview y herramientas similares ayudan a clasificar datos sensibles y a generar informes de cumplimiento.">
+      <span>Las herramientas de cumplimiento de Microsoft (como Purview) ayudan a clasificar y proteger datos sensibles.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Microsoft nunca asume la responsabilidad legal del cliente; solo proporciona las herramientas para ayudar a cumplir.">
+      <span>Si una empresa usa servicios de Microsoft, Microsoft asume toda la responsabilidad legal de cumplir el RGPD en su lugar.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.7 AuthN vs AuthZ -->
+<section id="authn">
+  <span class="eyebrow">Punto 1.7</span>
+  <h2>Autenticación vs. Autorización</h2>
+  <p>Son dos pasos distintos y secuenciales — primero uno, luego el otro:</p>
+
+  <svg viewBox="0 0 700 210" role="img" aria-label="Flujo de autenticación y autorización">
+    <g><rect x="20" y="80" width="110" height="70" rx="10" fill="#6C757D"/>
+      <text x="75" y="112" text-anchor="middle" class="layer-label">Usuario</text>
+      <text x="75" y="130" text-anchor="middle" class="layer-sub">intenta entrar</text></g>
+    <path d="M130 115 L165 115" stroke="#999" stroke-width="2" marker-end="url(#a1)"/>
+    <g><rect x="170" y="65" width="170" height="100" rx="12" fill="#1D3557"/>
+      <text x="255" y="95" text-anchor="middle" class="layer-label">Autenticación</text>
+      <text x="255" y="118" text-anchor="middle" class="layer-sub">¿Quién eres?</text>
+      <text x="255" y="135" text-anchor="middle" class="layer-sub">Usuario+contraseña+MFA</text></g>
+    <path d="M340 115 L375 115" stroke="#999" stroke-width="2" marker-end="url(#a1)"/>
+    <g><rect x="380" y="65" width="170" height="100" rx="12" fill="var(--teal)"/>
+      <text x="465" y="95" text-anchor="middle" class="layer-label">Autorización</text>
+      <text x="465" y="118" text-anchor="middle" class="layer-sub">¿Qué puedes hacer?</text>
+      <text x="465" y="135" text-anchor="middle" class="layer-sub">Roles y permisos</text></g>
+    <path d="M550 115 L585 115" stroke="#999" stroke-width="2" marker-end="url(#a1)"/>
+    <g><rect x="590" y="80" width="90" height="70" rx="10" fill="#B5892F"/>
+      <text x="635" y="112" text-anchor="middle" class="layer-label">Recurso</text>
+      <text x="635" y="130" text-anchor="middle" class="layer-sub">✓ acceso</text></g>
+    <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker></defs>
+    <text x="350" y="195" text-anchor="middle" font-size="12" fill="#666">Primero se demuestra la identidad, y solo después se concede o deniega el acceso</text>
+  </svg>
+
+  <table>
+    <tr><th></th><th>Autenticación (AuthN)</th><th>Autorización (AuthZ)</th></tr>
+    <tr><td>Pregunta</td><td>¿Quién eres?</td><td>¿Qué puedes hacer?</td></tr>
+    <tr><td>Cómo</td><td>Usuario + contraseña + MFA</td><td>Roles y permisos</td></tr>
+    <tr><td>Ejemplo</td><td>Mostrar el DNI en el control del aeropuerto</td><td>Que tu tarjeta de embarque solo te deje entrar por una puerta concreta</td></tr>
+  </table>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Usuario, contraseña y un código del móvil son dos factores para demostrar quién eres: eso es autenticación. La autorización vendría después, al decidir qué puede ver o hacer una vez identificado.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Un empleado abre el portal de la empresa e introduce su usuario, contraseña y luego un código que le llega al móvil. ¿Qué proceso está ocurriendo?</p>
+    <div class="options">
+      <label><input type="radio" name="q1authn" value="A"> A) Autorización</label>
+      <label><input type="radio" name="q1authn" value="B"> B) Autenticación</label>
+      <label><input type="radio" name="q1authn" value="C"> C) Federación (usar una identidad ya verificada por otro sistema, sin volver a autenticarte)</label>
+      <label><input type="radio" name="q1authn" value="D"> D) Auditoría (registrar quién hizo qué y cuándo, para revisarlo después)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Decidir si un usuario ya identificado puede leer un archivo concreto es exactamente la función de la autorización.">
+      <span>La autorización determina si el usuario tiene permiso para leer un archivo concreto.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Decidir qué acciones puede realizar alguien ya identificado es autorización, no autenticación. La autenticación solo confirma la identidad, no decide qué puede hacer después.">
+      <span>La autenticación determina qué acciones puede realizar un usuario ya identificado.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Las identidades de carga de trabajo permiten que aplicaciones y scripts se autentiquen sin que haya una persona detrás escribiendo una contraseña.">
+      <span>Un servicio automatizado (sin persona detrás) también puede tener una identidad propia.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B,C" data-explain="Una aplicación que se conecta sola a una base de datos (B) y un script que actúa sin intervención humana (C) son identidades de carga de trabajo. El empleado (A) y el invitado externo (D) son identidades humanas, aunque el invitado sea externo a la empresa.">
+    <p class="q">3. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes son ejemplos de identidades de carga de trabajo (workload identities)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q3wl" value="A"> A) Un empleado que inicia sesión con su usuario y contraseña</label>
+      <label><input type="checkbox" name="q3wl" value="B"> B) Una aplicación que se conecta automáticamente a una base de datos</label>
+      <label><input type="checkbox" name="q3wl" value="C"> C) Un script programado que sube archivos cada noche sin intervención humana</label>
+      <label><input type="checkbox" name="q3wl" value="D"> D) Un cliente externo que accede como invitado a un documento compartido</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="autorización" data-explain="Decidir qué puede hacer un usuario ya identificado (como si puede o no eliminar un archivo según su rol) es autorización, no autenticación.">
+    <p class="q">4. <span class="difficulty diff-easy">🟢 Fácil</span> Cuando un sistema decide que un usuario ya autenticado, con rol de "Lector", no puede eliminar un archivo, esa decisión pertenece al proceso de:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="autenticación">autenticación</option>
+      <option value="autorización">autorización</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.8 Identity -->
+<section id="ident">
+  <span class="eyebrow">Punto 1.8</span>
+  <h2>La identidad como el nuevo perímetro de seguridad</h2>
+  <p>Antes, la seguridad se centraba en proteger la red física de la oficina (firewalls, cables, edificio). Hoy, con gente trabajando desde cualquier sitio y datos en la nube, <strong>la identidad se ha convertido en el perímetro real que hay que proteger</strong>. Ya no importa tanto "dónde estás" sino "quién eres y si se puede confiar en tu sesión ahora mismo". Por eso el primer principio de Zero Trust ("verificar explícitamente") gira siempre en torno a la identidad.</p>
+
+  <h3>Tipos de identidades</h3>
+  <ul>
+    <li><strong>Humanas:</strong> empleados, clientes, socios externos (invitados).</li>
+    <li><strong>De carga de trabajo (workload identities):</strong> aplicaciones o scripts que necesitan autenticarse para funcionar automáticamente, sin que haya una persona escribiendo una contraseña.</li>
+    <li><strong>De dispositivo:</strong> el propio ordenador o móvil también puede tener una identidad registrada, para comprobar que es un dispositivo de confianza antes de dar acceso.</li>
+    <li><strong>De agente (agent identities):</strong> el tipo más reciente — agentes de inteligencia artificial que actúan de forma autónoma o en nombre de una persona, acceden a recursos e interactúan con otros sistemas. Necesitan su propia identidad, distinta de una aplicación tradicional, porque su comportamiento es menos predecible y hay que poder autenticarlos, autorizarlos y gobernarlos igual que a cualquier otra identidad.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> los cuatro tipos deben autenticarse y autorizarse igual — una identidad de carga de trabajo, de dispositivo o de agente comprometida da a un atacante el mismo tipo de acceso que una cuenta humana comprometida. No pienses la seguridad de identidad solo en términos de "usuarios".</div>
+
+  <h3>Los cuatro pilares de una infraestructura de identidad</h3>
+  <p>Gestionar identidades en una organización implica mucho más que usuarios y contraseñas: hay que cubrir <strong>todo el ciclo de vida de cada identidad</strong>, desde que se crea hasta que se elimina. Microsoft organiza esto en cuatro pilares:</p>
+
+  <svg viewBox="0 0 700 260" role="img" aria-label="Los cuatro pilares de una infraestructura de identidad">
+    <rect x="20" y="20" width="660" height="220" rx="20" fill="#fff" stroke="var(--line)"/>
+    <text x="40" y="45" font-size="14" font-weight="700" fill="var(--navy)">Ciclo de vida de una identidad</text>
+    <g><rect x="45" y="65" width="145" height="150" rx="12" fill="var(--navy)"/>
+      <text x="117" y="100" text-anchor="middle" class="layer-label">Administración</text>
+      <text x="117" y="125" text-anchor="middle" class="layer-sub">Crear, actualizar</text>
+      <text x="117" y="142" text-anchor="middle" class="layer-sub">y eliminar</text>
+      <text x="117" y="159" text-anchor="middle" class="layer-sub">identidades</text></g>
+    <g><rect x="200" y="65" width="145" height="150" rx="12" fill="#5B4B8A"/>
+      <text x="272" y="100" text-anchor="middle" class="layer-label">Autenticación</text>
+      <text x="272" y="130" text-anchor="middle" class="layer-sub">¿Quién eres?</text></g>
+    <g><rect x="355" y="65" width="145" height="150" rx="12" fill="var(--teal)"/>
+      <text x="427" y="100" text-anchor="middle" class="layer-label">Autorización</text>
+      <text x="427" y="130" text-anchor="middle" class="layer-sub">¿Qué puedes</text>
+      <text x="427" y="147" text-anchor="middle" class="layer-sub">hacer?</text></g>
+    <g><rect x="510" y="65" width="145" height="150" rx="12" fill="#B5892F"/>
+      <text x="582" y="100" text-anchor="middle" class="layer-label">Auditoría</text>
+      <text x="582" y="125" text-anchor="middle" class="layer-sub">Quién hizo qué,</text>
+      <text x="582" y="142" text-anchor="middle" class="layer-sub">cuándo y</text>
+      <text x="582" y="159" text-anchor="middle" class="layer-sub">desde dónde</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Pilar</th><th>Qué cubre</th></tr>
+    <tr><td><strong>Administración</strong></td><td>Creación, gestión y gobernanza de identidades de usuarios, dispositivos y servicios: cómo se crean y asignan (aprovisionamiento), cómo se actualizan cuando cambia el rol de alguien, y cómo se eliminan cuando alguien deja la organización (desaprovisionamiento). También incluye las políticas que rigen todo esto.</td></tr>
+    <tr><td><strong>Autenticación</strong></td><td>Comprobar que una identidad es quien dice ser, mediante credenciales legítimas, antes de conceder acceso. Ya la vimos en detalle en el punto 1.7.</td></tr>
+    <tr><td><strong>Autorización</strong></td><td>Determinar qué puede hacer una identidad ya autenticada, evaluando sus permisos y el contexto de la solicitud. También la vimos en el punto 1.7.</td></tr>
+    <tr><td><strong>Auditoría</strong></td><td>Registrar quién hizo qué, cuándo y desde dónde: registros de inicio de sesión, informes de actividad, alertas de comportamiento anómalo, e investigación forense. Es clave para cumplir requisitos de cumplimiento y para entender el alcance de una brecha de seguridad si ocurre.</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas los <strong>cuatro pilares de la identidad</strong> (Administración, Autenticación, Autorización, Auditoría — sobre cómo se gestiona el ciclo de vida completo de una identidad) con la <strong>tríada CIA</strong> del punto 1.1 (Confidencialidad, Integridad, Disponibilidad — sobre qué se protege de la información en general). Son dos marcos distintos con distinto número de elementos (4 vs. 3) y objetivos distintos.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="A" data-explain="Crear la cuenta al contratar a alguien y eliminarla cuando se va son ejemplos de aprovisionamiento y desaprovisionamiento, que forman parte del pilar de Administración.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa define el proceso para crear automáticamente la cuenta de un empleado el día que lo contratan, y eliminarla el día que se va. ¿A qué pilar de la infraestructura de identidad pertenece esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q0pilares" value="A"> A) Administración</label>
+      <label><input type="radio" name="q0pilares" value="B"> B) Autenticación</label>
+      <label><input type="radio" name="q0pilares" value="C"> C) Autorización</label>
+      <label><input type="radio" name="q0pilares" value="D"> D) Auditoría</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="D" data-explain="Investigar quién accedió a un archivo y cuándo, después de un incidente, es exactamente la función del pilar de Auditoría — registros de actividad e investigación forense.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Tras detectar una fuga de datos, un administrador revisa los registros de inicio de sesión para averiguar quién accedió a un archivo concreto y desde dónde. ¿Qué pilar de la infraestructura de identidad está usando?</p>
+    <div class="options">
+      <label><input type="radio" name="q0pilares2" value="A"> A) Administración</label>
+      <label><input type="radio" name="q0pilares2" value="B"> B) Autenticación</label>
+      <label><input type="radio" name="q0pilares2" value="C"> C) Autorización</label>
+      <label><input type="radio" name="q0pilares2" value="D"> D) Auditoría</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"admin","i2":"authn","i3":"authz","i4":"audit"}' data-explain="Crear y eliminar cuentas es Administración. Comprobar credenciales es Autenticación. Decidir qué puede hacer alguien ya identificado es Autorización. Registrar y revisar quién hizo qué es Auditoría.">
+    <p class="q">3. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el pilar de identidad al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el pilar correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Crear la cuenta de un empleado nuevo y eliminarla cuando se va</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Comprobar que la contraseña y el código del móvil son correctos</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Decidir si un usuario ya identificado puede borrar un archivo</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Revisar los registros de inicio de sesión tras un incidente</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="admin" onclick="placeDDItem(this)"><div class="dd-zone-label">Administración</div></div>
+        <div class="dd-zone" data-zone="authn" onclick="placeDDItem(this)"><div class="dd-zone-label">Autenticación</div></div>
+        <div class="dd-zone" data-zone="authz" onclick="placeDDItem(this)"><div class="dd-zone-label">Autorización</div></div>
+        <div class="dd-zone" data-zone="audit" onclick="placeDDItem(this)"><div class="dd-zone-label">Auditoría</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+
+  <div class="exercise" data-answer="A,C" data-explain="El empleado interno (A) y el socio externo invitado (C) son personas, por tanto identidades humanas — aunque el socio sea externo. El script (B) y la aplicación (D) son identidades de carga de trabajo.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> ¿Cuáles de las siguientes son identidades humanas? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q1ident" value="A"> A) Un empleado interno</label>
+      <label><input type="checkbox" name="q1ident" value="B"> B) Un script que se ejecuta cada noche</label>
+      <label><input type="checkbox" name="q1ident" value="C"> C) Un socio externo invitado a un proyecto</label>
+      <label><input type="checkbox" name="q1ident" value="D"> D) Una aplicación que llama a una API automáticamente</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="C" data-explain="Registrar y verificar el propio equipo antes de dar acceso es tratar al dispositivo como una identidad más, distinta de la persona que lo usa.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Que un portátil de la empresa tenga que estar registrado y verificado antes de acceder a ciertos recursos corresponde a qué tipo de identidad:</p>
+    <div class="options">
+      <label><input type="radio" name="q2ident" value="A"> A) Identidad humana</label>
+      <label><input type="radio" name="q2ident" value="B"> B) Identidad de carga de trabajo</label>
+      <label><input type="radio" name="q2ident" value="C"> C) Identidad de dispositivo</label>
+      <label><input type="radio" name="q2ident" value="D"> D) Identidad federada (una identidad ya verificada por otro sistema de confianza)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<!-- 1.9 AD vs Entra ID -->
+<section id="ad">
+  <span class="eyebrow">Punto 1.9</span>
+  <h2>Active Directory vs. Microsoft Entra ID</h2>
+
+  <h3>Qué son los Servicios de dominio de Active Directory (AD DS)</h3>
+  <p><strong>Active Directory Domain Services (AD DS)</strong> es el servicio de directorio clásico de Microsoft, instalado en servidores físicos dentro de la propia empresa (on-premises), que existe desde hace más de 20 años. Un "servicio de directorio" es, en esencia, una base de datos centralizada que guarda información sobre todo lo que forma parte de la red: usuarios, equipos, grupos, impresoras, políticas — y la pone a disposición de administradores y de los propios equipos de la red.</p>
+
+  <p>AD DS organiza todo en una estructura jerárquica de <strong>dominios</strong> (un conjunto de objetos que comparten una misma base de datos y políticas de seguridad), que a su vez pueden agruparse en <strong>árboles</strong> y <strong>bosques</strong> (varios dominios relacionados entre sí). Sus funciones principales son:</p>
+  <ul>
+    <li><strong>Autenticación</strong>: usando el protocolo <strong>Kerberos</strong>, cuando un usuario inicia sesión en un equipo unido al dominio.</li>
+    <li><strong>Autorización</strong>: mediante <strong>directivas de grupo (Group Policy)</strong> y permisos, que definen qué puede hacer cada usuario o equipo dentro de la red.</li>
+    <li><strong>Consulta de directorio</strong>: usando el protocolo <strong>LDAP</strong>, para que aplicaciones y administradores puedan buscar y leer información del directorio (por ejemplo, "¿a qué departamento pertenece este usuario?").</li>
+    <li><strong>Gestión centralizada</strong>: un administrador puede aplicar una configuración o política a miles de equipos del dominio de una sola vez.</li>
+  </ul>
+
+  <h3>Limitaciones de Active Directory para un entorno moderno</h3>
+  <p>AD DS se diseñó para un mundo muy distinto al actual: empleados trabajando desde equipos físicamente conectados (o por VPN) a la red de la oficina, con todo el software instalado localmente. Esto le genera limitaciones reales hoy en día:</p>
+  <ul>
+    <li><strong>No está pensado para trabajo remoto ni dispositivos móviles</strong>: un equipo necesita "ver" a un controlador de dominio (normalmente mediante VPN) para autenticarse correctamente contra AD DS; no fue diseñado para que un móvil o un portátil personal se autentiquen directamente desde cualquier red pública.</li>
+    <li><strong>No entiende de forma nativa los protocolos modernos</strong>: Kerberos y LDAP no son compatibles de fábrica con OAuth 2.0, OpenID Connect o SAML, que es lo que usan hoy la inmensa mayoría de aplicaciones SaaS en la nube. Para conectar AD DS con ese mundo hace falta una pieza adicional, como <strong>Active Directory Federation Services (AD FS)</strong>, que veremos en el punto siguiente.</li>
+    <li><strong>No incluye MFA, acceso condicional ni evaluación de riesgo por sí solo</strong>: estas son capacidades que sí trae de serie Entra ID en la nube, pero que AD DS no ofrece de forma nativa sin herramientas adicionales.</li>
+    <li><strong>Colaborar con gente externa (partners, proveedores) es complicado</strong>: dar acceso a alguien de fuera de la organización normalmente implica crearle una cuenta completa en el dominio, o configurar una federación específica — no está pensado para invitados puntuales como sí lo está Entra ID.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> por estas limitaciones es por lo que las empresas migran o combinan AD DS con Microsoft Entra ID: Entra ID es, en palabras de Microsoft, "la evolución en la nube" de Active Directory, pensada desde el principio para dispositivos móviles, aplicaciones SaaS y trabajo desde cualquier lugar.</div>
+
+  <svg viewBox="0 0 680 300" role="img" aria-label="Comparación AD y Entra ID con Entra Connect">
+    <g><rect x="40" y="30" width="260" height="150" rx="14" fill="#495867"/>
+      <text x="170" y="58" text-anchor="middle" class="layer-label">Active Directory</text>
+      <text x="170" y="76" text-anchor="middle" class="layer-sub">(on-premises)</text>
+      <text x="170" y="105" text-anchor="middle" class="layer-sub">Servidores físicos</text>
+      <text x="170" y="122" text-anchor="middle" class="layer-sub">en tu oficina</text>
+      <text x="170" y="145" text-anchor="middle" class="layer-sub">Kerberos / LDAP</text></g>
+    <g><rect x="380" y="30" width="260" height="150" rx="14" fill="#1D3557"/>
+      <text x="510" y="58" text-anchor="middle" class="layer-label">Microsoft Entra ID</text>
+      <text x="510" y="76" text-anchor="middle" class="layer-sub">(en la nube)</text>
+      <text x="510" y="105" text-anchor="middle" class="layer-sub">Microsoft 365, Azure,</text>
+      <text x="510" y="122" text-anchor="middle" class="layer-sub">apps SaaS</text>
+      <text x="510" y="145" text-anchor="middle" class="layer-sub">OAuth2 / OpenID / SAML</text></g>
+    <path d="M300 90 L378 90" stroke="var(--teal)" stroke-width="2" marker-end="url(#a2)"/>
+    <path d="M378 130 L300 130" stroke="var(--teal)" stroke-width="2" marker-end="url(#a2)"/>
+    <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--teal)"/></marker></defs>
+    <g><rect x="225" y="205" width="230" height="65" rx="12" fill="var(--teal)"/>
+      <text x="340" y="232" text-anchor="middle" class="layer-label">Microsoft Entra Connect</text>
+      <text x="340" y="252" text-anchor="middle" class="layer-sub">Sincroniza ambos mundos</text></g>
+  </svg>
+
+  <table>
+    <tr><th></th><th>Active Directory (AD DS)</th><th>Microsoft Entra ID</th></tr>
+    <tr><td>Dónde vive</td><td>Servidores físicos en la oficina</td><td>En la nube</td></tr>
+    <tr><td>Protocolos</td><td>Kerberos, LDAP</td><td>OAuth 2.0, OpenID Connect, SAML</td></tr>
+    <tr><td>Para qué</td><td>Gestión clásica de identidades local</td><td>Acceso a Microsoft 365, Azure, apps SaaS</td></tr>
+  </table>
+
+  <p><strong>Identidad híbrida:</strong> muchas empresas usan ambos a la vez. <strong>Microsoft Entra Connect</strong> sincroniza las cuentas de AD local con Entra ID, para que la misma cuenta sirva en los dos mundos sin duplicar usuarios.</p>
+
+  <div class="tip">
+    <strong>Para que no se confundan las tres herramientas de Microsoft que hemos nombrado:</strong>
+    <ul style="margin:8px 0 0;">
+      <li><strong>Microsoft Entra Connect</strong> — sincroniza identidades entre AD local y Entra ID. No hace nada de seguridad ni cumplimiento, solo mantiene las cuentas iguales en ambos sitios.</li>
+      <li><strong>Microsoft Defender</strong> — familia de herramientas de <em>seguridad</em>: detecta y responde a amenazas (protege dispositivos, correo, identidades, la nube). Lo veremos en el Módulo 3.</li>
+      <li><strong>Microsoft Purview</strong> — familia de herramientas de <em>cumplimiento</em>: clasifica información, previene fugas de datos, ayuda a cumplir normativas. Lo veremos en el Módulo 4.</li>
+    </ul>
+    Por eso en el ejercicio del desplegable la respuesta era Entra Connect: es el único de los tres que sincroniza cuentas de usuario.
+  </div>
+
+  <h3>Ejercicios sobre AD DS</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Kerberos es el protocolo que usa AD DS para autenticar a un usuario cuando inicia sesión en un equipo unido al dominio.">
+    <p class="q">A. <span class="difficulty diff-med">🟡 Medio</span> ¿Qué protocolo usa Active Directory Domain Services para autenticar a un usuario cuando inicia sesión en un equipo unido al dominio?</p>
+    <div class="options">
+      <label><input type="radio" name="qad_a" value="A"> A) OAuth 2.0</label>
+      <label><input type="radio" name="qad_a" value="B"> B) Kerberos</label>
+      <label><input type="radio" name="qad_a" value="C"> C) SAML</label>
+      <label><input type="radio" name="qad_a" value="D"> D) OpenID Connect</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">B. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación sobre las limitaciones de AD DS en un entorno moderno, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="AD DS necesita que el equipo pueda comunicarse con un controlador de dominio (normalmente vía VPN), lo cual no encaja bien con dispositivos móviles conectándose desde redes públicas.">
+      <span>AD DS no fue diseñado pensando en dispositivos móviles que se conectan desde redes públicas fuera de la oficina.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Kerberos y LDAP no son compatibles de fábrica con OAuth 2.0/OpenID Connect/SAML; hace falta una pieza adicional como AD FS para conectar AD DS con aplicaciones SaaS modernas.">
+      <span>AD DS no entiende de forma nativa los protocolos que usan la mayoría de aplicaciones SaaS modernas.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="El acceso condicional es una capacidad nativa de Entra ID en la nube, no de AD DS por sí solo.">
+      <span>AD DS incluye acceso condicional de forma nativa, sin necesitar ninguna herramienta adicional.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Próximo bloque: el rol del proveedor de identidad, la autenticación moderna con tokens, cómo funciona realmente la federación, y los métodos de autenticación (MFA, biometría, passwordless).
+  </div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="C" data-explain="Entra Connect es la herramienta que sincroniza cuentas entre Active Directory local y Entra ID, evitando cuentas duplicadas. Defender y Purview hacen otras cosas (seguridad y cumplimiento), y RBAC es control de acceso, no sincronización.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere que sus empleados inicien sesión en Microsoft 365 con la misma cuenta que ya usan en su Active Directory local, sin crear cuentas duplicadas. ¿Qué deben implementar?</p>
+    <div class="options">
+      <label><input type="radio" name="q1ad" value="A"> A) Microsoft Defender</label>
+      <label><input type="radio" name="q1ad" value="B"> B) Microsoft Purview</label>
+      <label><input type="radio" name="q1ad" value="C"> C) Microsoft Entra Connect</label>
+      <label><input type="radio" name="q1ad" value="D"> D) RBAC</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="Active Directory Domain Services usa Kerberos y LDAP, no OAuth 2.0 — ese es el protocolo típico de Entra ID.">
+      <span>Active Directory Domain Services usa OAuth 2.0 como protocolo principal.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Entra ID está pensado precisamente para dar acceso a Microsoft 365, Azure y otras aplicaciones SaaS en la nube.">
+      <span>Microsoft Entra ID permite iniciar sesión en aplicaciones SaaS en la nube.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="La identidad híbrida significa que ambos sistemas siguen funcionando a la vez, sincronizados — no se abandona el Active Directory local.">
+      <span>Una empresa con identidad híbrida deja de usar su Active Directory local en cuanto configura Entra ID.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="ad-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada característica con el sistema al que pertenece</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"ad","i2":"entra","i3":"connect"}' data-explain="Kerberos y LDAP son de Active Directory local. OAuth 2.0 y OpenID Connect son de Entra ID en la nube. Sincronizar cuentas entre ambos mundos es la función de Entra Connect.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada característica y luego el sistema al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el sistema correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Usa Kerberos y LDAP</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Usa OAuth 2.0 y OpenID Connect</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Sincroniza cuentas entre ambos mundos</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="ad" onclick="placeDDItem(this)"><div class="dd-zone-label">Active Directory (local)</div></div>
+        <div class="dd-zone" data-zone="entra" onclick="placeDDItem(this)"><div class="dd-zone-label">Microsoft Entra ID</div></div>
+        <div class="dd-zone" data-zone="connect" onclick="placeDDItem(this)"><div class="dd-zone-label">Microsoft Entra Connect</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="authmethods">
+  <span class="eyebrow">Punto 1.10</span>
+  <h2>Proveedor de identidad, tokens, federación y métodos de autenticación</h2>
+
+  <h3>El rol de un proveedor de identidad (Identity Provider / IdP)</h3>
+  <p>Un <strong>proveedor de identidad</strong> es el sistema que crea, mantiene y gestiona la información de identidad, y que ofrece de forma centralizada los servicios de <strong>autenticación, autorización y auditoría</strong> (los cuatro pilares que vimos en el punto 1.8, salvo la administración pura de cuentas). Microsoft Entra ID es un ejemplo de proveedor de identidad en la nube; otros ejemplos son Google, X, Amazon o GitHub cuando ofrecen "iniciar sesión con..." en otras webs.</p>
+
+  <p>Antes de que existiera este modelo centralizado, cada aplicación tenía que gestionar sus propias contraseñas y su propia lógica de inicio de sesión — lo cual era inseguro (cada app era un punto de fuga distinto) y muy incómodo para el usuario (una contraseña por cada sitio).</p>
+
+  <h3>Autenticación moderna: el modelo basado en un IdP central</h3>
+  <p>Con la <strong>autenticación moderna</strong>, ninguna aplicación individual gestiona ni ve tu contraseña directamente. En su lugar:</p>
+  <ol>
+    <li>La aplicación te redirige a un proveedor de identidad central (por ejemplo, Entra ID).</li>
+    <li>Te autenticas ante ese proveedor (usuario, contraseña, MFA...).</li>
+    <li>El proveedor de identidad te entrega un <strong>token</strong>: una prueba firmada digitalmente de que ya te autenticaste, junto con información sobre quién eres.</li>
+    <li>La aplicación confía en ese token (porque confía en el proveedor que lo firmó) y te deja entrar, sin haber visto nunca tu contraseña.</li>
+  </ol>
+
+  <div class="analogy">
+    Es como enseñar tu DNI en la recepción de un edificio de oficinas compartido: no le enseñas el DNI a cada empresa del edificio por separado — lo enseñas una vez en recepción, te dan una acreditación (el token), y cada planta confía en esa acreditación sin volver a pedirte el DNI.
+  </div>
+
+  <p>Que un proveedor de identidad sea <strong>central</strong> tiene ventajas de gestión importantes: la organización puede aplicar políticas de autenticación y autorización de forma consistente en todas las aplicaciones a la vez, vigilar el comportamiento de los usuarios, detectar actividad sospechosa, y reducir ataques — todo desde un único punto, en vez de tener que replicarlo app por app.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "autenticación moderna" es justo lo contrario de que cada aplicación valide tu contraseña por su cuenta — se basa en <em>tokens</em> emitidos por un proveedor de identidad central, no en reenviar credenciales una y otra vez.</div>
+
+  <h3>Cómo funciona realmente la federación</h3>
+  <p>Ya vimos el concepto de federación de forma general. Ahora veamos el mecanismo real, paso a paso, con un ejemplo:</p>
+
+  <p>Imagina que tu empresa ("GlobalCo") usa Active Directory local, y quiere que sus empleados puedan usar una aplicación externa ("DesignX") con la misma cuenta, sin que DesignX tenga que crear ni gestionar contraseñas de empleados de GlobalCo.</p>
+  <ol>
+    <li>Un empleado intenta entrar a DesignX.</li>
+    <li>DesignX no gestiona la contraseña del empleado: <strong>redirige</strong> al empleado al proveedor de identidad de su propia empresa (GlobalCo).</li>
+    <li>El empleado se autentica ante su propio sistema (por ejemplo, Active Directory local de GlobalCo, a través de un servicio de federación como <strong>AD FS — Active Directory Federation Services</strong>).</li>
+    <li>El sistema de GlobalCo genera un token o una "aserción" firmada (con protocolos como <strong>SAML</strong> o <strong>WS-Federation</strong>) que confirma quién es el empleado.</li>
+    <li>Ese token vuelve al navegador del empleado, que lo entrega a DesignX.</li>
+    <li>DesignX confía en la firma de GlobalCo (porque existe una <strong>relación de confianza — "federation trust"</strong> ya establecida entre ambas organizaciones) y le da acceso, sin haber visto nunca la contraseña real del empleado.</li>
+  </ol>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la pieza clave de la federación es la <strong>relación de confianza (trust)</strong> previamente establecida entre dos sistemas de identidad distintos. AD FS es la herramienta de Microsoft que permite que un Active Directory local actúe como proveedor de identidad federado para servicios externos, sin necesitar duplicar cuentas.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="El proveedor de identidad centraliza autenticación, autorización y auditoría — permite aplicar políticas consistentes y vigilar comportamiento desde un único punto, en vez de que cada aplicación gestione sus propias contraseñas por separado.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere aplicar la misma política de seguridad de inicio de sesión a todas sus aplicaciones a la vez, sin configurar cada una por separado. ¿Qué concepto permite esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1idp" value="A"> A) Cifrado asimétrico</label>
+      <label><input type="radio" name="q1idp" value="B"> B) Un proveedor de identidad central (IdP)</label>
+      <label><input type="radio" name="q1idp" value="C"> C) Un grupo de seguridad</label>
+      <label><input type="radio" name="q1idp" value="D"> D) Una identidad administrada</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="D" data-explain="AD FS es la pieza que permite que un Active Directory local actúe como proveedor de identidad federado, generando los tokens/aserciones (SAML/WS-Federation) que un servicio externo puede aceptar sin ver la contraseña real del usuario.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa con Active Directory local quiere que sus empleados usen una aplicación externa con su misma cuenta, sin que esa aplicación externa vea nunca la contraseña real del empleado. ¿Qué pieza de Microsoft permite establecer esa relación de confianza?</p>
+    <div class="options">
+      <label><input type="radio" name="q2fed" value="A"> A) Microsoft Entra Connect</label>
+      <label><input type="radio" name="q2fed" value="B"> B) Azure Key Vault</label>
+      <label><input type="radio" name="q2fed" value="C"> C) RBAC</label>
+      <label><input type="radio" name="q2fed" value="D"> D) Active Directory Federation Services (AD FS)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"idp","i2":"token","i3":"trust","i4":"adfs"}' data-explain="El sistema que centraliza autenticación/autorización/auditoría es el proveedor de identidad. La prueba firmada de que ya te autenticaste es el token. La relación previa entre dos organizaciones que permite aceptar tokens del otro sistema es la relación de confianza (trust). La herramienta de Microsoft que permite federar un AD local es AD FS.">
+    <p class="q">3. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el concepto al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el concepto correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Sistema que centraliza autenticación, autorización y auditoría</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Prueba firmada digitalmente de que ya te autenticaste</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Relación previa entre dos organizaciones que permite aceptar sus tokens</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Herramienta de Microsoft que federa un Active Directory local</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="idp" onclick="placeDDItem(this)"><div class="dd-zone-label">Proveedor de identidad</div></div>
+        <div class="dd-zone" data-zone="token" onclick="placeDDItem(this)"><div class="dd-zone-label">Token</div></div>
+        <div class="dd-zone" data-zone="trust" onclick="placeDDItem(this)"><div class="dd-zone-label">Relación de confianza</div></div>
+        <div class="dd-zone" data-zone="adfs" onclick="placeDDItem(this)"><div class="dd-zone-label">AD FS</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <p>Ya vimos que la autenticación responde a "¿quién eres?". Ahora toca ver <strong>con qué</strong> se puede demostrar eso, de más débil a más fuerte.</p>
+
+  <h3>Los tres "factores" de autenticación</h3>
+  <p>Todo método se basa en uno (o varios) de estos tres tipos de prueba:</p>
+
+  <svg viewBox="0 0 680 220" role="img" aria-label="Los tres factores de autenticación">
+    <rect x="20" y="20" width="640" height="180" rx="18" fill="#fff" stroke="var(--line)"/>
+    <text x="40" y="46" font-size="14" font-weight="700" fill="var(--navy)">Factores de autenticación</text>
+    <g><rect x="45" y="65" width="180" height="110" rx="12" fill="var(--navy)"/>
+      <text x="135" y="105" text-anchor="middle" class="layer-label">Algo que sabes</text>
+      <text x="135" y="130" text-anchor="middle" class="layer-sub">Contraseña, PIN</text></g>
+    <g><rect x="250" y="65" width="180" height="110" rx="12" fill="var(--teal)"/>
+      <text x="340" y="105" text-anchor="middle" class="layer-label">Algo que tienes</text>
+      <text x="340" y="130" text-anchor="middle" class="layer-sub">Móvil, llave física</text></g>
+    <g><rect x="455" y="65" width="180" height="110" rx="12" fill="#B5892F"/>
+      <text x="545" y="105" text-anchor="middle" class="layer-label">Algo que eres</text>
+      <text x="545" y="130" text-anchor="middle" class="layer-sub">Huella, cara</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Método</th><th>Factor(es)</th><th>Idea clave</th></tr>
+    <tr><td><strong>Contraseña</strong></td><td>Algo que sabes</td><td>El más débil: se puede robar con phishing, adivinar, o reutilizar entre sitios</td></tr>
+    <tr><td><strong>MFA</strong></td><td>Al menos 2 factores <em>distintos</em></td><td>Si roban tu contraseña, sigue faltando el otro factor (ej. tu móvil)</td></tr>
+    <tr><td><strong>Biometría</strong></td><td>Algo que eres</td><td>No se puede "robar" como una contraseña escrita, pero tampoco se puede "cambiar" si se compromete</td></tr>
+    <tr><td><strong>Passwordless</strong></td><td>Algo que tienes + algo que eres (sin contraseña)</td><td>Windows Hello, Microsoft Authenticator, llaves FIDO2 — si no hay contraseña, no hay nada que robar por phishing</td></tr>
+  </table>
+
+  <div class="tip"><strong>Truco de examen:</strong> MFA exige factores de <em>tipos distintos</em>. Contraseña + pregunta de seguridad NO es MFA real (ambas son "algo que sabes"). Huella + reconocimiento facial tampoco (ambas son "algo que eres").</div>
+
+  <h3>Federación y SSO: resumen visual del mecanismo</h3>
+  <p>Recordando el mecanismo que acabamos de ver paso a paso: la <strong>federación</strong> permite que una identidad verificada por un proveedor sirva para acceder a otro sistema distinto, gracias a la relación de confianza ya establecida entre ambos — sin crear una cuenta y contraseña nuevas cada vez. Ejemplo cotidiano: "Iniciar sesión con Google" en una web — Google verifica quién eres, y esa web confía en esa verificación.</p>
+  <p>Esto es la base del <strong>SSO (Single Sign-On / inicio de sesión único)</strong>: inicias sesión una vez, y accedes a varias aplicaciones sin volver a autenticarte en cada una.</p>
+
+  <svg viewBox="0 0 700 260" role="img" aria-label="Diagrama de federación de identidades y SSO">
+    <g><rect x="20" y="100" width="120" height="70" rx="10" fill="#6C757D"/>
+      <text x="80" y="128" text-anchor="middle" class="layer-label">Usuario</text>
+      <text x="80" y="146" text-anchor="middle" class="layer-sub">inicia sesión 1 vez</text></g>
+    <path d="M140 135 L178 135" stroke="#999" stroke-width="2" marker-end="url(#a3)"/>
+    <g><rect x="180" y="90" width="180" height="90" rx="12" fill="#5B4B8A"/>
+      <text x="270" y="120" text-anchor="middle" class="layer-label">Proveedor de</text>
+      <text x="270" y="138" text-anchor="middle" class="layer-label">identidad</text>
+      <text x="270" y="160" text-anchor="middle" class="layer-sub">(ej. Entra ID)</text></g>
+    <path d="M360 115 L398 70" stroke="var(--teal)" stroke-width="2" marker-end="url(#a3)"/>
+    <path d="M360 135 L398 135" stroke="var(--teal)" stroke-width="2" marker-end="url(#a3)"/>
+    <path d="M360 155 L398 200" stroke="var(--teal)" stroke-width="2" marker-end="url(#a3)"/>
+    <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker></defs>
+    <g><rect x="400" y="30" width="150" height="60" rx="10" fill="var(--teal)"/><text x="475" y="65" text-anchor="middle" class="layer-label">App A</text></g>
+    <g><rect x="400" y="105" width="150" height="60" rx="10" fill="var(--teal)"/><text x="475" y="140" text-anchor="middle" class="layer-label">App B</text></g>
+    <g><rect x="400" y="180" width="150" height="60" rx="10" fill="var(--teal)"/><text x="475" y="215" text-anchor="middle" class="layer-label">App C</text></g>
+    <text x="350" y="250" text-anchor="middle" font-size="12" fill="#666">El usuario no vuelve a iniciar sesión en cada app: el proveedor ya confirmó quién es</text>
+  </svg>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Desbloquear con la cara, sin escribir contraseña, es exactamente autenticación passwordless: usa 'algo que eres' en vez de 'algo que sabes'.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Un empleado desbloquea su portátil con su cara, sin escribir ninguna contraseña. ¿Qué tipo de autenticación es esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1auth" value="A"> A) MFA con dos factores</label>
+      <label><input type="radio" name="q1auth" value="B"> B) Autenticación passwordless</label>
+      <label><input type="radio" name="q1auth" value="C"> C) Federación de identidades</label>
+      <label><input type="radio" name="q1auth" value="D"> D) SSO</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B,D" data-explain="B y D combinan 'algo que sabes' (contraseña) con 'algo que tienes' (móvil): son dos factores distintos, MFA real. A combina dos veces 'algo que sabes' (contraseña y pregunta de seguridad), y C combina dos veces 'algo que eres' (huella y cara) — no cuentan como MFA aunque parezcan dos pasos.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de las siguientes combinaciones cuentan como MFA real (dos factores <strong>distintos</strong>)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q2auth" value="A"> A) Contraseña + pregunta de seguridad</label>
+      <label><input type="checkbox" name="q2auth" value="B"> B) Contraseña + código enviado al móvil</label>
+      <label><input type="checkbox" name="q2auth" value="C"> C) Huella dactilar + reconocimiento facial</label>
+      <label><input type="checkbox" name="q2auth" value="D"> D) Contraseña + aprobación en la app Microsoft Authenticator</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">3. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="MFA exige al menos dos factores distintos; una sola contraseña es un único factor ('algo que sabes').">
+      <span>Una contraseña por sí sola ya se considera MFA.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Es exactamente el concepto de federación: confiar en la verificación de identidad que ya hizo otro proveedor.">
+      <span>La federación de identidades permite iniciar sesión en una app usando una identidad ya verificada por otro proveedor, como "Iniciar sesión con Google".</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Al contrario: una huella o cara comprometida no se puede 'cambiar' como una contraseña, lo cual es una desventaja real de la biometría.">
+      <span>La biometría se puede "cambiar" fácilmente si se ve comprometida, igual que una contraseña.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="SSO" data-explain="SSO (Single Sign-On) es justo eso: autenticarte una vez y acceder a varias aplicaciones sin repetir el proceso en cada una.">
+    <p class="q">4. <span class="difficulty diff-easy">🟢 Fácil</span> Cuando inicias sesión una vez y accedes a varias aplicaciones distintas sin volver a autenticarte en cada una, eso se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="SSO">SSO</option>
+      <option value="MFA">MFA</option>
+      <option value="Passwordless">Passwordless</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+</section>
+
+<section id="mix">
+  <span class="eyebrow">Repaso final</span>
+  <h2>Repaso mixto — todo el Módulo 1</h2>
+  <p>Preguntas combinando varios puntos a la vez, en distinto orden y formato, tal como puede aparecer en el examen real — incluyendo ya los métodos de autenticación del punto 1.10.</p>
+
+  <div class="exercise" data-answer="A" data-explain="Leer documentos sin autorización es un fallo de confidencialidad. No hubo alteración (integridad) ni caída del sistema (disponibilidad).">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un atacante roba un portátil de la empresa que no tenía el disco cifrado y consigue leer documentos confidenciales guardados en él. ¿Qué pilar de la CIA falló principalmente?</p>
+    <div class="options">
+      <label><input type="radio" name="qm1" value="A"> A) Confidencialidad</label>
+      <label><input type="radio" name="qm1" value="B"> B) Integridad</label>
+      <label><input type="radio" name="qm1" value="C"> C) Disponibilidad</label>
+      <label><input type="radio" name="qm1" value="D"> D) Autenticación</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Son complementarios: Zero Trust verifica identidad y contexto en cada acceso; la defensa en profundidad protege con capas técnicas independientes del contexto.">
+      <span>Zero Trust y la defensa en profundidad son conceptos complementarios: uno se centra en identidad y contexto, el otro en capas técnicas.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="En SaaS, Microsoft gestiona el sistema operativo del servidor por completo.">
+      <span>En un servicio SaaS, el cliente sigue siendo responsable de mantener el sistema operativo del servidor.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="El hashing es irreversible: guardar la huella (hash) en vez de la contraseña real protege aunque roben la base de datos.">
+      <span>El hashing se usa para guardar contraseñas de forma segura sin guardar la contraseña real.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="PCI-DSS" data-explain="PCI-DSS regula específicamente la seguridad de los datos de tarjetas de pago.">
+    <p class="q">3. <span class="difficulty diff-easy">🟢 Fácil</span> Un banco necesita cumplir con normas de seguridad de tarjetas de pago. La normativa relevante es:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="RGPD">RGPD</option>
+      <option value="PCI-DSS">PCI-DSS</option>
+      <option value="HIPAA">HIPAA</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,C" data-explain="La autorización decide qué puede hacer alguien ya identificado (A) y se basa en roles y permisos (C). Verificar con contraseña y MFA (B) es autenticación, que siempre ocurre antes (D es al revés).">
+    <p class="q">4. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes afirmaciones describen correctamente la autorización? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm4" value="A"> A) Decide qué puede hacer un usuario ya identificado</label>
+      <label><input type="checkbox" name="qm4" value="B"> B) Verifica la identidad mediante contraseña y MFA</label>
+      <label><input type="checkbox" name="qm4" value="C"> C) Se basa en roles y permisos</label>
+      <label><input type="checkbox" name="qm4" value="D"> D) Es el primer paso, antes de la autenticación</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="C" data-explain="Reforzar el acceso a los datos en sí (cifrado) es la última capa, la que protege el objetivo final aunque un atacante ya haya entrado.">
+    <p class="q">5. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere asegurarse de que, si algún día un atacante entra en la red, no pueda leer los archivos más sensibles sin la clave correspondiente. ¿Qué capa de la defensa en profundidad están reforzando?</p>
+    <div class="options">
+      <label><input type="radio" name="qm5" value="A"> A) Red</label>
+      <label><input type="radio" name="qm5" value="B"> B) Host</label>
+      <label><input type="radio" name="qm5" value="C"> C) Datos</label>
+      <label><input type="radio" name="qm5" value="D"> D) Aplicación</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">6. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="Entra Connect sincroniza identidades entre AD local y Entra ID; la detección de amenazas es trabajo de Microsoft Defender.">
+      <span>Microsoft Entra Connect es una herramienta de seguridad para detectar amenazas.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Una aplicación que actúa sola, sin persona detrás, es un ejemplo típico de identidad de carga de trabajo.">
+      <span>Una aplicación que se conecta automáticamente a una base de datos tiene una identidad de carga de trabajo.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Los datos del cliente nunca pasan a ser responsabilidad de Microsoft, en ningún modelo.">
+      <span>El modelo de responsabilidad compartida significa que Microsoft es responsable de los datos del cliente en cualquier servicio.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="autenticación" data-explain="Demostrar quién eres con contraseña y un segundo factor (el código del móvil) es autenticación; la autorización vendría después, decidiendo qué puedes hacer.">
+    <p class="q">7. <span class="difficulty diff-easy">🟢 Fácil</span> Comprobar que un usuario realmente es quien dice ser, mediante contraseña y un código enviado al móvil, es un ejemplo de:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="autenticación">autenticación</option>
+      <option value="autorización">autorización</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,C" data-explain="Identidades y datos (A y C) son siempre responsabilidad del cliente en cualquier modelo. El sistema operativo (B) y el datacenter físico (D) pasan a ser responsabilidad de Microsoft según se avanza hacia PaaS/SaaS e IaaS/PaaS/SaaS respectivamente.">
+    <p class="q">8. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes son responsabilidad del cliente en TODOS los modelos (on-premises, IaaS, PaaS y SaaS)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm8" value="A"> A) Identidades y cuentas</label>
+      <label><input type="checkbox" name="qm8" value="B"> B) Sistema operativo</label>
+      <label><input type="checkbox" name="qm8" value="C"> C) Datos</label>
+      <label><input type="checkbox" name="qm8" value="D"> D) Datacenter físico</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Desbloquear con la cara, sin escribir contraseña, es autenticación passwordless: usa 'algo que eres' en vez de 'algo que sabes'.">
+    <p class="q">9. <span class="difficulty diff-easy">🟢 Fácil</span> Un empleado desbloquea su portátil con su cara, sin escribir ninguna contraseña. ¿Qué tipo de autenticación es esto?</p>
+    <div class="options">
+      <label><input type="radio" name="qm9" value="A"> A) MFA con dos factores</label>
+      <label><input type="radio" name="qm9" value="B"> B) Autenticación passwordless</label>
+      <label><input type="radio" name="qm9" value="C"> C) Federación de identidades</label>
+      <label><input type="radio" name="qm9" value="D"> D) SSO</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">10. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="MFA exige al menos dos factores distintos; una sola contraseña es un único factor.">
+      <span>Una contraseña por sí sola ya se considera MFA.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Es exactamente el concepto de federación: confiar en la verificación de identidad que ya hizo otro proveedor, sin crear cuenta nueva.">
+      <span>La federación de identidades permite iniciar sesión en una app usando una identidad ya verificada por otro proveedor.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Al contrario: la biometría comprometida no se puede 'cambiar' como una contraseña, lo cual es una desventaja real frente a otros factores.">
+      <span>La biometría se puede cambiar fácilmente si se ve comprometida, igual que una contraseña.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="SSO" data-explain="SSO (Single Sign-On) es justo eso: autenticarte una vez y acceder a varias aplicaciones sin repetir el proceso en cada una.">
+    <p class="q">11. <span class="difficulty diff-easy">🟢 Fácil</span> Cuando inicias sesión una vez y accedes a varias aplicaciones sin volver a autenticarte en cada una, eso se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="SSO">SSO</option>
+      <option value="MFA">MFA</option>
+      <option value="Passwordless">Passwordless</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B,D" data-explain="B y D combinan dos factores distintos (algo que sabes + algo que tienes): son MFA real. A combina dos veces 'algo que sabes' (contraseña y pregunta de seguridad), y C combina dos veces 'algo que eres' (huella y cara) — ninguna de las dos cuenta como MFA aunque parezcan dos pasos.">
+    <p class="q">12. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de las siguientes combinaciones cuentan como MFA real (dos factores distintos)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm12" value="A"> A) Contraseña + pregunta de seguridad</label>
+      <label><input type="checkbox" name="qm12" value="B"> B) Contraseña + código enviado al móvil</label>
+      <label><input type="checkbox" name="qm12" value="C"> C) Huella dactilar + reconocimiento facial</label>
+      <label><input type="checkbox" name="qm12" value="D"> D) Contraseña + aprobación en la app Microsoft Authenticator</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"zt","i2":"cia","i3":"mfa","i4":"sso"}' data-explain="Verificar siempre, privilegios mínimos y asumir la brecha son los tres principios de Zero Trust. Confidencialidad, integridad y disponibilidad son la tríada CIA. Contraseña + código del móvil es MFA. Iniciar sesión una vez y acceder a varias apps es SSO.">
+    <p class="q">13. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el concepto del Módulo 1 al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el concepto correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Verificar siempre, privilegios mínimos, asumir la brecha</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Confidencialidad, integridad y disponibilidad</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Contraseña + código enviado al móvil</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Iniciar sesión una vez y acceder a varias aplicaciones</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="zt" onclick="placeDDItem(this)"><div class="dd-zone-label">Zero Trust</div></div>
+        <div class="dd-zone" data-zone="cia" onclick="placeDDItem(this)"><div class="dd-zone-label">Tríada CIA</div></div>
+        <div class="dd-zone" data-zone="mfa" onclick="placeDDItem(this)"><div class="dd-zone-label">MFA</div></div>
+        <div class="dd-zone" data-zone="sso" onclick="placeDDItem(this)"><div class="dd-zone-label">SSO</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    <strong>🎓 Para ir más allá:</strong> Microsoft ofrece una <a href="https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/practice/assessment" target="_blank" rel="noopener">evaluación de práctica oficial y gratuita para el SC-900</a> en Microsoft Learn (necesitas iniciar sesión con una cuenta Microsoft). No es idéntica al examen real ni en formato ni en dificultad, pero te da una idea fiable de cómo se redactan las preguntas oficiales. Te recomiendo hacerla cuando termines de repasar los cuatro módulos completos, no solo este.
+    <br><br>
+    También puedes repasar la <a href="https://learn.microsoft.com/es-es/training/paths/describe-concepts-of-security-compliance-identity/" target="_blank" rel="noopener">ruta de aprendizaje oficial de este módulo en Microsoft Learn</a> (en español), que incluye sus propias preguntas de comprobación al final de cada unidad.
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto queda cerrado el Módulo 1 completo (10-15% del examen). Próximo módulo: Microsoft Entra (25-30% del examen) — usuarios, grupos, acceso condicional y gobernanza de identidad.
+  </div>
+</section>
+</main>
+
+<footer>SC-900 · Guía de estudio personal · Irene</footer>
+
+<script>
+/* --- Almacenamiento: usa window.storage si está disponible (vista previa en Claude),
+   y si no, localStorage (cuando abres el archivo .html directamente en tu navegador) --- */
+const PREFIX = 'sc900m1:';
+
+function hashKey(str){
+  let hash = 5381;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return 'q' + Math.abs(hash);
+}
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+async function deleteKey(key){
+  try{ if(window.storage){ await window.storage.delete(PREFIX+key, false); return; } }catch(e){}
+  try{ localStorage.removeItem(PREFIX+key); }catch(e){}
+}
+
+function checkRadio(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const selected = ex.querySelector('input[type=radio]:checked');
+  const fb = ex.querySelector('.feedback');
+  if(!selected){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(selected.value === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'radio', value:selected.value, fbClass:cls, fbText:text});
+}
+function checkSelect(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const sel = ex.querySelector('select').value;
+  const fb = ex.querySelector('.feedback');
+  if(!sel){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(sel === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'select', value:sel, fbClass:cls, fbText:text});
+}
+function checkMulti(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer.split(',').sort();
+  const explain = ex.dataset.explain || '';
+  const checked = Array.from(ex.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value).sort();
+  const fb = ex.querySelector('.feedback');
+  if(checked.length===0){ fb.className='feedback incorrect'; fb.textContent='Selecciona al menos una opción.'; return; }
+  let cls, text;
+  if(JSON.stringify(checked)===JSON.stringify(answer)){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. Las respuestas correctas son: ' + answer.join(' y ') + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'multi', values:checked, fbClass:cls, fbText:text});
+}
+function selectYN(btn, value){
+  const row = btn.closest('.yn-row');
+  row.dataset.selected = value;
+  row.querySelectorAll('.yn-btns button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveKey(row.dataset.key, {selected:value});
+}
+function checkYNGroup(btn){
+  const ex = btn.closest('.exercise');
+  const rows = ex.querySelectorAll('.yn-row');
+  const fb = ex.querySelector('.feedback');
+  let correct=0, total=rows.length, missing=false;
+  let lines=[];
+  rows.forEach((r,i)=>{
+    if(!r.dataset.selected){ missing=true; return; }
+    const ok = r.dataset.selected === r.dataset.answer;
+    if(ok) correct++;
+    const mark = ok ? '✓' : '✗ (correcto: ' + r.dataset.answer + ')';
+    lines.push((i+1) + '. ' + mark + ' — ' + (r.dataset.explain || ''));
+  });
+  if(missing){ fb.className='feedback incorrect'; fb.textContent='Responde todas las afirmaciones antes de comprobar.'; return; }
+  const cls = (correct===total) ? 'feedback correct' : 'feedback incorrect';
+  const html = '<strong>' + (correct===total ? '¡Las ' + total + ' correctas!' : 'Aciertos: ' + correct + ' de ' + total + '.') + '</strong><br>' + lines.join('<br>');
+  fb.className = cls;
+  fb.innerHTML = html;
+  saveKey(ex.dataset.key + '-fb', {fbClass:cls, fbHTML:html});
+}
+
+/* --- Asignar claves únicas y restaurar respuestas guardadas al cargar la página --- */
+async function restoreAll(){
+  const exercises = document.querySelectorAll('.exercise');
+  exercises.forEach((ex,i)=>{
+    const qEl = ex.querySelector('.q');
+    const qText = qEl ? qEl.textContent.trim() : (ex.dataset.answer || ('ex'+i));
+    ex.dataset.key = hashKey(qText);
+  });
+
+  for(const ex of exercises){
+    const ynRows = ex.querySelectorAll('.yn-row');
+    if(ynRows.length){
+      ynRows.forEach((row,j)=>{
+        const span = row.querySelector('span');
+        const rowText = span ? span.textContent.trim() : ('row'+j);
+        row.dataset.key = ex.dataset.key + '-' + hashKey(rowText);
+      });
+      for(const row of ynRows){
+        const saved = await loadKey(row.dataset.key);
+        if(saved && saved.selected){
+          row.dataset.selected = saved.selected;
+          row.querySelectorAll('.yn-btns button').forEach(b=>{
+            if(b.textContent.trim() === saved.selected) b.classList.add('selected');
+          });
+        }
+      }
+      const fbSaved = await loadKey(ex.dataset.key + '-fb');
+      if(fbSaved){
+        const fb = ex.querySelector('.feedback');
+        fb.className = fbSaved.fbClass; fb.innerHTML = fbSaved.fbHTML;
+      }
+      continue;
+    }
+    const saved = await loadKey(ex.dataset.key);
+    if(!saved) continue;
+    const fb = ex.querySelector('.feedback');
+    if(saved.type === 'radio'){
+      const input = ex.querySelector('input[type=radio][value="'+CSS.escape(saved.value)+'"]');
+      if(input) input.checked = true;
+    } else if(saved.type === 'select'){
+      const sel = ex.querySelector('select');
+      if(sel) sel.value = saved.value;
+    } else if(saved.type === 'dragdrop'){
+      for(const id in saved.mapping){
+        const item = ex.querySelector('.dd-item[data-id="'+CSS.escape(id)+'"]');
+        const zone = ex.querySelector('.dd-zone[data-zone="'+CSS.escape(saved.mapping[id])+'"]');
+        if(item && zone){ zone.appendChild(item); item.classList.add('placed'); }
+      }
+    } else if(saved.type === 'multi'){
+      saved.values.forEach(v=>{
+        const input = ex.querySelector('input[type=checkbox][value="'+CSS.escape(v)+'"]');
+        if(input) input.checked = true;
+      });
+    }
+    if(saved.fbClass){ fb.className = saved.fbClass; fb.textContent = saved.fbText; }
+  }
+}
+
+async function clearAllAnswers(){
+  if(!confirm('¿Borrar todas tus respuestas guardadas? Esto no se puede deshacer.')) return;
+  const exercises = document.querySelectorAll('.exercise');
+  for(const ex of exercises){
+    await deleteKey(ex.dataset.key);
+    await deleteKey(ex.dataset.key + '-fb');
+    ex.querySelectorAll('.yn-row').forEach(row=> deleteKey(row.dataset.key));
+  }
+  location.reload();
+}
+
+
+/* --- Drag & drop (toca para colocar) --- */
+let selectedDDItem = null;
+function selectDDItem(el){
+  if(el.classList.contains('placed')){
+    const ex = el.closest('.exercise');
+    ex.querySelector('.dd-pool').appendChild(el);
+    el.classList.remove('placed','selected');
+    if(selectedDDItem === el) selectedDDItem = null;
+    return;
+  }
+  const ex = el.closest('.exercise');
+  ex.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone){
+  if(!selectedDDItem) return;
+  const ex = zone.closest('.exercise');
+  if(selectedDDItem.closest('.exercise') !== ex) return;
+  const existing = zone.querySelector('.dd-item');
+  if(existing){ ex.querySelector('.dd-pool').appendChild(existing); existing.classList.remove('placed'); }
+  zone.appendChild(selectedDDItem);
+  selectedDDItem.classList.remove('selected');
+  selectedDDItem.classList.add('placed');
+  selectedDDItem = null;
+}
+function checkDragDrop(btn){
+  const ex = btn.closest('.exercise');
+  const answer = JSON.parse(ex.dataset.answer);
+  const explain = ex.dataset.explain || '';
+  const zones = ex.querySelectorAll('.dd-zone');
+  const totalItems = ex.querySelectorAll('.dd-item').length;
+  let mapping = {};
+  zones.forEach(zone=>{
+    const item = zone.querySelector('.dd-item');
+    if(item) mapping[item.dataset.id] = zone.dataset.zone;
+  });
+  const fb = ex.querySelector('.feedback');
+  if(Object.keys(mapping).length < totalItems){
+    fb.className='feedback incorrect'; fb.textContent='Coloca todos los elementos antes de comprobar.'; return;
+  }
+  let correct = true;
+  for(const id in answer){ if(mapping[id] !== answer[id]) correct = false; }
+  const cls = correct ? 'feedback correct' : 'feedback incorrect';
+  const text = (correct ? '¡Correcto! ' : 'No del todo correcto. ') + explain;
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'dragdrop', mapping, fbClass:cls, fbText:text});
+}
+
+document.addEventListener('DOMContentLoaded', restoreAll);
+</script>
+
+</body>
+</html>

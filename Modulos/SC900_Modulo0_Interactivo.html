@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Módulo 0 · Conceptos básicos de ciberseguridad</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Módulo 0</h1>
+  <p>Conceptos básicos de ciberseguridad — contexto de apoyo, no examinado en el SC-900</p>
+  <button class="check-btn" style="margin-top:14px; background:var(--coral);" onclick="clearAllAnswers()">🗑️ Borrar todas mis respuestas</button>
+</header>
+
+<nav>
+  <a href="#intro0">Aviso importante</a>
+  <a href="#whatiscyber">0.1 Qué es la ciberseguridad</a>
+  <a href="#malware">0.2 Tipos de malware</a>
+  <a href="#mitigations">0.3 Mitigaciones básicas</a>
+  <a href="#pki">0.4 Criptografía y PKI</a>
+  <a href="#authattacks">0.5 Ataques de autenticación</a>
+  <a href="#netthreats">0.6 Amenazas de red</a>
+  <a href="#devthreats">0.7 Amenazas de dispositivo</a>
+  <a href="#appthreats">0.8 Amenazas de aplicación</a>
+</nav>
+
+<main>
+<section id="intro0">
+  <span class="eyebrow">Aviso</span>
+  <h2>Este módulo NO entra en el examen SC-900</h2>
+  <p>La ruta de Microsoft Learn de la que sale este contenido ("Describe los conceptos básicos de ciberseguridad") es un curso <strong>previo y general</strong> que Microsoft recomienda a quien no tiene ningún conocimiento previo de seguridad — pero no aparece en la guía de estudio oficial del SC-900 ni se examina. La incluyo porque, sin conocimientos informáticos previos, te va a ayudar a entender con más soltura el vocabulario que usamos en los Módulos 1 a 4.</p>
+  <div class="tip"><strong>💡 Cómo usar este módulo:</strong> no hace falta memorizarlo ni hacer los ejercicios con la misma exigencia que los Módulos 1-4 — léelo como quien lee una introducción, para tener una base antes de entrar en el temario real.</div>
+</section>
+
+<section id="whatiscyber">
+  <span class="eyebrow">Punto 0.1</span>
+  <h2>Qué es la ciberseguridad y el panorama de amenazas</h2>
+  <p>La <strong>ciberseguridad</strong> es el conjunto de prácticas, procesos y tecnologías para proteger sistemas, redes y datos frente a ataques digitales. En el fondo, es evitar que alguien no autorizado acceda, altere o interrumpa algo que no debería poder tocar — justo lo que ya viste como tríada CIA en el Módulo 1, pero aquí lo vemos desde el punto de vista de "quién ataca y cómo", no de "qué se protege".</p>
+
+  <h3>El panorama de amenazas (threat landscape)</h3>
+  <p>Es el conjunto de todos los peligros posibles a los que se enfrenta una organización: desde un empleado que hace clic en un enlace malicioso, hasta un grupo organizado de atacantes intentando robar datos por dinero. Como este panorama es enorme y cambia constantemente, las organizaciones usan <strong>inteligencia de amenazas (threat intelligence)</strong>: recopilar información sobre vulnerabilidades, ataques conocidos y atacantes activos, para poder anticiparse en vez de solo reaccionar.</p>
+
+  <div class="analogy">
+    Piensa en un barrio: el "panorama de amenazas" sería todo lo que podría pasar (robos, vandalismo, incendios). La "inteligencia de amenazas" sería que el barrio comparta información entre vecinos sobre robos recientes en la zona, para saber qué vigilar.
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Recopilar información sobre atacantes, vulnerabilidades y ataques conocidos para anticiparse es exactamente la definición de inteligencia de amenazas.">
+    <p class="q">1. ¿Verdadero o falso? La inteligencia de amenazas consiste en recopilar información sobre atacantes y vulnerabilidades conocidas para poder anticiparse a un ataque.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="malware">
+  <span class="eyebrow">Punto 0.2</span>
+  <h2>Tipos de malware</h2>
+  <p><strong>Malware</strong> viene de "malicious software" (software malicioso): cualquier programa diseñado para dañar, robar información, o tomar control de un sistema sin permiso. No todo el malware funciona igual — conviene distinguir los tipos más comunes:</p>
+
+  <table>
+    <tr><th>Tipo</th><th>Qué hace</th></tr>
+    <tr><td><strong>Virus</strong></td><td>Se adjunta a un archivo o programa legítimo, y se propaga cuando ese archivo se ejecuta o comparte — necesita "anfitrión" e intervención humana para propagarse.</td></tr>
+    <tr><td><strong>Gusano (worm)</strong></td><td>Se propaga solo, por la red, sin necesitar que un humano ejecute nada ni que se adjunte a otro archivo.</td></tr>
+    <tr><td><strong>Troyano (trojan)</strong></td><td>Se disfraza de programa legítimo y útil, pero esconde una función maliciosa dentro.</td></tr>
+    <tr><td><strong>Ransomware</strong></td><td>Cifra los archivos de la víctima y exige un pago (rescate) para devolver el acceso.</td></tr>
+    <tr><td><strong>Spyware</strong></td><td>Espía la actividad del usuario (pulsaciones de teclado, navegación) sin que se dé cuenta.</td></tr>
+    <tr><td><strong>Rootkit</strong></td><td>Se esconde profundamente en el sistema operativo para que sea muy difícil de detectar y eliminar.</td></tr>
+    <tr><td><strong>Coin miner (criptominero)</strong></td><td>Usa la capacidad de procesamiento del equipo de la víctima para minar criptomoneda, sin su consentimiento.</td></tr>
+  </table>
+
+  <div class="tip"><strong>💡 Dato clave:</strong> la diferencia entre virus y gusano es la más preguntada: el virus necesita un anfitrión y ejecución humana; el gusano se propaga solo por la red.</div>
+
+  <div class="exercise" data-answer="B" data-explain="El ransomware cifra los archivos de la víctima y exige un pago para restaurar el acceso — es el tipo de malware más asociado a extorsión económica directa.">
+    <p class="q">1. Un empleado no puede acceder a ninguno de sus archivos, y aparece un mensaje pidiendo un pago en criptomoneda para recuperarlos. ¿Qué tipo de malware es este?</p>
+    <div class="options">
+      <label><input type="radio" name="q1mal" value="A"> A) Gusano</label>
+      <label><input type="radio" name="q1mal" value="B"> B) Ransomware</label>
+      <label><input type="radio" name="q1mal" value="C"> C) Spyware</label>
+      <label><input type="radio" name="q1mal" value="D"> D) Rootkit</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"virus","i2":"worm","i3":"trojan"}' data-explain="El virus necesita un archivo anfitrión y ejecución humana. El gusano se propaga solo por la red. El troyano se disfraza de programa legítimo para esconder su función maliciosa.">
+    <p class="q">2. Toca cada descripción y luego el tipo de malware al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Necesita adjuntarse a un archivo y que un humano lo ejecute</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Se propaga solo por la red, sin intervención humana</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Se disfraza de programa útil para esconder su función maliciosa</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="virus" onclick="placeDDItem(this)"><div class="dd-zone-label">Virus</div></div>
+        <div class="dd-zone" data-zone="worm" onclick="placeDDItem(this)"><div class="dd-zone-label">Gusano</div></div>
+        <div class="dd-zone" data-zone="trojan" onclick="placeDDItem(this)"><div class="dd-zone-label">Troyano</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="mitigations">
+  <span class="eyebrow">Punto 0.3</span>
+  <h2>Estrategias básicas de mitigación</h2>
+  <p>"Mitigar" significa reducir el impacto o la probabilidad de un ataque, aunque no se pueda eliminar el riesgo al 100%. Algunas estrategias básicas, que ya reconocerás de otros módulos:</p>
+  <ul>
+    <li><strong>Mantener el software actualizado (parches)</strong>: la mayoría de los ataques aprovechan fallos ya conocidos y corregidos, pero no instalados.</li>
+    <li><strong>Usar antivirus/antimalware</strong>: detecta y bloquea software malicioso conocido.</li>
+    <li><strong>Formar a las personas</strong>: la mayoría de los ataques empiezan con un humano haciendo clic en algo — enseñar a reconocer contenido sospechoso reduce mucho el riesgo.</li>
+    <li><strong>Privilegios mínimos</strong>: dar a cada persona o sistema solo el acceso que necesita, para limitar el daño si algo se compromete (ya lo vimos como parte de Zero Trust).</li>
+    <li><strong>Copias de seguridad</strong>: si algo falla o se cifra por ransomware, poder restaurar sin pagar ni perder todo.</li>
+  </ul>
+  <div class="tip"><strong>💡 Dato clave:</strong> ninguna medida de seguridad es infalible por sí sola — por eso se combinan varias capas (esto ya lo conoces como "defensa en profundidad").</div>
+</section>
+
+<section id="pki">
+  <span class="eyebrow">Punto 0.4</span>
+  <h2>Criptografía y PKI (Infraestructura de clave pública)</h2>
+  <p>Ya viste cifrado y hashing en el Módulo 1. Aquí añadimos dos piezas más que no cubrimos: firma digital y certificados digitales.</p>
+
+  <h3>Firma digital (digital signing)</h3>
+  <p>Es una forma de usar cifrado asimétrico para demostrar dos cosas a la vez: que un mensaje viene realmente de quien dice enviarlo (autenticidad), y que no se ha modificado por el camino (integridad). El emisor "firma" el mensaje con su clave privada, y cualquiera puede comprobar la firma con la clave pública correspondiente — si la firma no coincide, algo se alteró o no viene de quien dice.</p>
+
+  <h3>Certificados digitales</h3>
+  <p>Un <strong>certificado digital</strong> es un documento electrónico que vincula una clave pública con la identidad de su dueño (una persona, una web, una empresa), y que está firmado por una <strong>autoridad de certificación (CA)</strong> de confianza — un tercero que da fe de que esa clave pública realmente pertenece a quien dice. Es la base de que tu navegador confíe en que una web es quien dice ser (el candado verde/gris de HTTPS).</p>
+
+  <div class="analogy">
+    Un certificado digital es como un DNI: no basta con que alguien diga "soy Juan", el DNI lo emite una autoridad (el Estado) que da fe de que esa foto y ese nombre corresponden a esa persona.
+  </div>
+
+  <div class="tip"><strong>💡 Dato clave:</strong> la firma digital demuestra quién envió algo y que no se alteró; el certificado digital demuestra que una clave pública concreta pertenece realmente a quien dice ser dueño de ella.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Un certificado digital, emitido por una autoridad de certificación de confianza, es precisamente lo que vincula una clave pública con la identidad verificada de su dueño.">
+    <p class="q">1. ¿Verdadero o falso? Un certificado digital ayuda a confirmar que una clave pública concreta realmente pertenece a la persona o empresa que dice ser su dueña.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="authattacks">
+  <span class="eyebrow">Punto 0.5</span>
+  <h2>Ataques basados en autenticación y técnicas de autorización</h2>
+  <p>Ya viste qué son autenticación y autorización en el Módulo 1. Aquí vemos cómo se ataca específicamente ese proceso.</p>
+
+  <h3>Ataques comunes contra la autenticación</h3>
+  <table>
+    <tr><th>Ataque</th><th>Cómo funciona</th></tr>
+    <tr><td><strong>Fuerza bruta</strong></td><td>Probar automáticamente muchísimas combinaciones de contraseña hasta acertar</td></tr>
+    <tr><td><strong>Password spraying</strong></td><td>Probar una sola contraseña muy común (como "123456") contra muchísimas cuentas distintas, para no bloquear ninguna cuenta individual por demasiados intentos</td></tr>
+    <tr><td><strong>Phishing</strong></td><td>Engañar a la víctima para que ella misma entregue su contraseña, normalmente con una web o correo que imita a uno legítimo</td></tr>
+  </table>
+
+  <div class="tip"><strong>💡 Dato clave:</strong> el password spraying es más difícil de detectar que la fuerza bruta clásica, porque no genera muchos intentos fallidos en una sola cuenta (lo que activaría un bloqueo), sino pocos intentos repartidos entre muchas cuentas.</div>
+
+  <h3>Técnicas de autorización</h3>
+  <p>Ya conoces RBAC (control de acceso basado en roles) del Módulo 1/2. La idea general de fondo es siempre la misma: decidir el acceso según reglas (rol, atributos, políticas), nunca dar acceso "por defecto" a todo el mundo.</p>
+
+  <div class="exercise" data-answer="B" data-explain="El password spraying prueba una sola contraseña común contra muchas cuentas, evitando que ninguna cuenta individual acumule tantos intentos fallidos como para activar un bloqueo.">
+    <p class="q">1. Un atacante prueba la contraseña "Primavera2026" contra 500 cuentas de empleados distintas, una vez cada una, para no activar ningún bloqueo por intentos fallidos. ¿Qué técnica está usando?</p>
+    <div class="options">
+      <label><input type="radio" name="q1auth0" value="A"> A) Fuerza bruta</label>
+      <label><input type="radio" name="q1auth0" value="B"> B) Password spraying</label>
+      <label><input type="radio" name="q1auth0" value="C"> C) Phishing</label>
+      <label><input type="radio" name="q1auth0" value="D"> D) Ransomware</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="netthreats">
+  <span class="eyebrow">Punto 0.6</span>
+  <h2>Amenazas de red y cómo protegerse</h2>
+  <p>Ya viste las herramientas concretas de Azure (NSG, Firewall, WAF...) en el Módulo 3. Aquí vemos los conceptos generales de red que hay detrás, válidos para cualquier entorno, no solo Azure.</p>
+
+  <table>
+    <tr><th>Amenaza</th><th>Qué es</th></tr>
+    <tr><td><strong>Ataque de intermediario (Man-in-the-Middle)</strong></td><td>Un atacante se coloca entre dos partes que se comunican, interceptando o alterando la comunicación sin que ninguna de las dos lo note</td></tr>
+    <tr><td><strong>DDoS</strong></td><td>Ya lo vimos: saturar un sistema con tráfico masivo falso hasta que deja de responder</td></tr>
+    <tr><td><strong>Envenenamiento de DNS</strong></td><td>Manipular las respuestas del sistema de nombres de dominio para redirigir a la víctima a un sitio falso sin que lo note</td></tr>
+  </table>
+
+  <p><strong>Formas básicas de protegerse</strong>: cifrar las comunicaciones (HTTPS, VPN), segmentar la red, y usar firewalls — todo esto ya lo viste aplicado en Azure en el Módulo 3.</p>
+
+  <div class="exercise" data-answer="Si" data-explain="Un ataque de intermediario consiste exactamente en esto: interceptar la comunicación entre dos partes sin que ninguna lo note.">
+    <p class="q">1. ¿Verdadero o falso? Un ataque de intermediario (Man-in-the-Middle) consiste en interceptar la comunicación entre dos partes sin que ninguna se dé cuenta.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="devthreats">
+  <span class="eyebrow">Punto 0.7</span>
+  <h2>Amenazas de dispositivo y controles de seguridad</h2>
+  <p>Los dispositivos (portátiles, móviles, tablets) son un objetivo constante porque son el punto de entrada más directo a los datos de una persona o empresa.</p>
+  <ul>
+    <li><strong>Software desactualizado</strong>: la causa más común de que un dispositivo sea vulnerable — por eso los parches son tan importantes.</li>
+    <li><strong>Pérdida o robo físico</strong>: si el disco no está cifrado, cualquiera con el dispositivo en mano puede leer su contenido (ya lo vimos en el Módulo 1).</li>
+    <li><strong>Aplicaciones no verificadas</strong>: instalar software de fuentes no confiables aumenta el riesgo de malware.</li>
+  </ul>
+  <p><strong>Controles habituales</strong>: mantener el sistema actualizado, cifrar el disco, usar antivirus, y en el entorno empresarial, gestionar los dispositivos de forma centralizada (por ejemplo, con Microsoft Intune, aunque esto ya se sale del alcance del SC-900).</p>
+</section>
+
+<section id="appthreats">
+  <span class="eyebrow">Punto 0.8</span>
+  <h2>Amenazas de aplicación y cómo protegerse</h2>
+  <p>Las aplicaciones (webs, apps móviles, APIs) son otro punto de entrada habitual. Ya conoces del Módulo 3 dos ataques concretos:</p>
+  <ul>
+    <li><strong>Inyección SQL</strong>: insertar código malicioso en un campo de formulario para manipular la base de datos detrás de la aplicación.</li>
+    <li><strong>Cross-Site Scripting (XSS)</strong>: insertar código malicioso que se ejecuta en el navegador de otros usuarios que visitan la misma página.</li>
+  </ul>
+  <p>La protección pasa por escribir código de forma segura desde el principio (validar todo lo que introduce el usuario, nunca confiar en la entrada sin comprobar), y añadir capas adicionales como un WAF (Módulo 3), que filtra este tipo de ataques antes de que lleguen a la aplicación.</p>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto termina el Módulo 0 — recuerda que es contexto de apoyo, no materia de examen. Ahora que tienes esta base, los Módulos 1 a 4 (que sí son el temario real del SC-900) deberían resultarte más fáciles de seguir.
+  </div>
+</section>
+
+</main>
+
+<footer>SC-900 · Guía de estudio personal · Irene</footer>
+
+<script>
+/* --- Almacenamiento: usa window.storage si está disponible (vista previa en Claude),
+   y si no, localStorage (cuando abres el archivo .html directamente en tu navegador) --- */
+const PREFIX = 'sc900m0:';
+
+function hashKey(str){
+  let hash = 5381;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return 'q' + Math.abs(hash);
+}
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+async function deleteKey(key){
+  try{ if(window.storage){ await window.storage.delete(PREFIX+key, false); return; } }catch(e){}
+  try{ localStorage.removeItem(PREFIX+key); }catch(e){}
+}
+
+function checkRadio(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const selected = ex.querySelector('input[type=radio]:checked');
+  const fb = ex.querySelector('.feedback');
+  if(!selected){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(selected.value === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'radio', value:selected.value, fbClass:cls, fbText:text});
+}
+function checkSelect(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const sel = ex.querySelector('select').value;
+  const fb = ex.querySelector('.feedback');
+  if(!sel){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(sel === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'select', value:sel, fbClass:cls, fbText:text});
+}
+function checkMulti(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer.split(',').sort();
+  const explain = ex.dataset.explain || '';
+  const checked = Array.from(ex.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value).sort();
+  const fb = ex.querySelector('.feedback');
+  if(checked.length===0){ fb.className='feedback incorrect'; fb.textContent='Selecciona al menos una opción.'; return; }
+  let cls, text;
+  if(JSON.stringify(checked)===JSON.stringify(answer)){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. Las respuestas correctas son: ' + answer.join(' y ') + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'multi', values:checked, fbClass:cls, fbText:text});
+}
+function selectYN(btn, value){
+  const row = btn.closest('.yn-row');
+  row.dataset.selected = value;
+  row.querySelectorAll('.yn-btns button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveKey(row.dataset.key, {selected:value});
+}
+function checkYNGroup(btn){
+  const ex = btn.closest('.exercise');
+  const rows = ex.querySelectorAll('.yn-row');
+  const fb = ex.querySelector('.feedback');
+  let correct=0, total=rows.length, missing=false;
+  let lines=[];
+  rows.forEach((r,i)=>{
+    if(!r.dataset.selected){ missing=true; return; }
+    const ok = r.dataset.selected === r.dataset.answer;
+    if(ok) correct++;
+    const mark = ok ? '✓' : '✗ (correcto: ' + r.dataset.answer + ')';
+    lines.push((i+1) + '. ' + mark + ' — ' + (r.dataset.explain || ''));
+  });
+  if(missing){ fb.className='feedback incorrect'; fb.textContent='Responde todas las afirmaciones antes de comprobar.'; return; }
+  const cls = (correct===total) ? 'feedback correct' : 'feedback incorrect';
+  const html = '<strong>' + (correct===total ? '¡Las ' + total + ' correctas!' : 'Aciertos: ' + correct + ' de ' + total + '.') + '</strong><br>' + lines.join('<br>');
+  fb.className = cls;
+  fb.innerHTML = html;
+  saveKey(ex.dataset.key + '-fb', {fbClass:cls, fbHTML:html});
+}
+
+/* --- Asignar claves únicas y restaurar respuestas guardadas al cargar la página --- */
+async function restoreAll(){
+  const exercises = document.querySelectorAll('.exercise');
+  exercises.forEach((ex,i)=>{
+    const qEl = ex.querySelector('.q');
+    const qText = qEl ? qEl.textContent.trim() : (ex.dataset.answer || ('ex'+i));
+    ex.dataset.key = hashKey(qText);
+  });
+
+  for(const ex of exercises){
+    const ynRows = ex.querySelectorAll('.yn-row');
+    if(ynRows.length){
+      ynRows.forEach((row,j)=>{
+        const span = row.querySelector('span');
+        const rowText = span ? span.textContent.trim() : ('row'+j);
+        row.dataset.key = ex.dataset.key + '-' + hashKey(rowText);
+      });
+      for(const row of ynRows){
+        const saved = await loadKey(row.dataset.key);
+        if(saved && saved.selected){
+          row.dataset.selected = saved.selected;
+          row.querySelectorAll('.yn-btns button').forEach(b=>{
+            if(b.textContent.trim() === saved.selected) b.classList.add('selected');
+          });
+        }
+      }
+      const fbSaved = await loadKey(ex.dataset.key + '-fb');
+      if(fbSaved){
+        const fb = ex.querySelector('.feedback');
+        fb.className = fbSaved.fbClass; fb.innerHTML = fbSaved.fbHTML;
+      }
+      continue;
+    }
+    const saved = await loadKey(ex.dataset.key);
+    if(!saved) continue;
+    const fb = ex.querySelector('.feedback');
+    if(saved.type === 'radio'){
+      const input = ex.querySelector('input[type=radio][value="'+CSS.escape(saved.value)+'"]');
+      if(input) input.checked = true;
+    } else if(saved.type === 'select'){
+      const sel = ex.querySelector('select');
+      if(sel) sel.value = saved.value;
+    } else if(saved.type === 'dragdrop'){
+      for(const id in saved.mapping){
+        const item = ex.querySelector('.dd-item[data-id="'+CSS.escape(id)+'"]');
+        const zone = ex.querySelector('.dd-zone[data-zone="'+CSS.escape(saved.mapping[id])+'"]');
+        if(item && zone){ zone.appendChild(item); item.classList.add('placed'); }
+      }
+    } else if(saved.type === 'multi'){
+      saved.values.forEach(v=>{
+        const input = ex.querySelector('input[type=checkbox][value="'+CSS.escape(v)+'"]');
+        if(input) input.checked = true;
+      });
+    }
+    if(saved.fbClass){ fb.className = saved.fbClass; fb.textContent = saved.fbText; }
+  }
+}
+
+async function clearAllAnswers(){
+  if(!confirm('¿Borrar todas tus respuestas guardadas? Esto no se puede deshacer.')) return;
+  const exercises = document.querySelectorAll('.exercise');
+  for(const ex of exercises){
+    await deleteKey(ex.dataset.key);
+    await deleteKey(ex.dataset.key + '-fb');
+    ex.querySelectorAll('.yn-row').forEach(row=> deleteKey(row.dataset.key));
+  }
+  location.reload();
+}
+
+
+/* --- Drag & drop (toca para colocar) --- */
+let selectedDDItem = null;
+function selectDDItem(el){
+  if(el.classList.contains('placed')){
+    const ex = el.closest('.exercise');
+    ex.querySelector('.dd-pool').appendChild(el);
+    el.classList.remove('placed','selected');
+    if(selectedDDItem === el) selectedDDItem = null;
+    return;
+  }
+  const ex = el.closest('.exercise');
+  ex.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone){
+  if(!selectedDDItem) return;
+  const ex = zone.closest('.exercise');
+  if(selectedDDItem.closest('.exercise') !== ex) return;
+  const existing = zone.querySelector('.dd-item');
+  if(existing){ ex.querySelector('.dd-pool').appendChild(existing); existing.classList.remove('placed'); }
+  zone.appendChild(selectedDDItem);
+  selectedDDItem.classList.remove('selected');
+  selectedDDItem.classList.add('placed');
+  selectedDDItem = null;
+}
+function checkDragDrop(btn){
+  const ex = btn.closest('.exercise');
+  const answer = JSON.parse(ex.dataset.answer);
+  const explain = ex.dataset.explain || '';
+  const zones = ex.querySelectorAll('.dd-zone');
+  const totalItems = ex.querySelectorAll('.dd-item').length;
+  let mapping = {};
+  zones.forEach(zone=>{
+    const item = zone.querySelector('.dd-item');
+    if(item) mapping[item.dataset.id] = zone.dataset.zone;
+  });
+  const fb = ex.querySelector('.feedback');
+  if(Object.keys(mapping).length < totalItems){
+    fb.className='feedback incorrect'; fb.textContent='Coloca todos los elementos antes de comprobar.'; return;
+  }
+  let correct = true;
+  for(const id in answer){ if(mapping[id] !== answer[id]) correct = false; }
+  const cls = correct ? 'feedback correct' : 'feedback incorrect';
+  const text = (correct ? '¡Correcto! ' : 'No del todo correcto. ') + explain;
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'dragdrop', mapping, fbClass:cls, fbText:text});
+}
+
+document.addEventListener('DOMContentLoaded', restoreAll);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Módulo 4 · Guía interactiva</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Módulo 4</h1>
+  <p>Soluciones de cumplimiento de Microsoft — con diagramas y ejercicios interactivos</p>
+  <button class="check-btn" style="margin-top:14px; background:var(--coral);" onclick="clearAllAnswers()">🗑️ Borrar todas mis respuestas</button>
+</header>
+
+<nav>
+  <a href="#stp">4.1 Service Trust Portal y privacidad</a>
+  <a href="#priva">4.2 Microsoft Priva</a>
+  <a href="#purviewportal">4.3 Portal de Purview</a>
+  <a href="#compmanager">4.4 Compliance Manager</a>
+  <a href="#compscore">4.5 Compliance score</a>
+  <a href="#dataclass">4.6 Clasificación de datos</a>
+  <a href="#explorers">4.7 Content/Activity Explorer</a>
+  <a href="#sensitivitylabels">4.8 Etiquetas de confidencialidad</a>
+  <a href="#dlp">4.9 DLP</a>
+  <a href="#recordsmgmt">4.10 Gestión de registros</a>
+  <a href="#retention">4.11 Políticas de retención</a>
+  <a href="#insiderrisk">4.12 Riesgos internos</a>
+  <a href="#ediscovery">4.13 eDiscovery</a>
+  <a href="#audit">4.14 Audit</a>
+  <a href="#mix4">🔀 Repaso mixto</a>
+</nav>
+
+<main>
+<section id="stp">
+  <span class="eyebrow">Punto 4.1</span>
+  <h2>Service Trust Portal y principios de privacidad de Microsoft</h2>
+
+  <h3>Service Trust Portal (STP)</h3>
+  <p>Es un sitio web público (<code>servicetrust.microsoft.com</code>) donde Microsoft publica documentación y recursos sobre cómo protege, gestiona y cumple normativas en sus servicios en la nube. No es una herramienta para gestionar tu propia empresa — es información que Microsoft ofrece <strong>sobre sí misma</strong>, para que tú puedas demostrarle a tus propios auditores o clientes que los servicios de Microsoft que usas cumplen ciertos estándares.</p>
+  <p>Incluye cosas como: informes de auditoría, certificaciones de cumplimiento (ISO, SOC...), guías de cumplimiento por región o sector, y evaluaciones de riesgo que Microsoft ya ha hecho sobre sus propios servicios.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el Service Trust Portal es documentación <em>que Microsoft publica sobre sus propios servicios</em> — no confundirlo con Compliance Manager (que veremos después), que evalúa el cumplimiento <em>de tu propia organización</em>.</div>
+
+  <h3>Principios de privacidad de Microsoft</h3>
+  <p>Microsoft publica un compromiso público sobre cómo trata los datos de sus clientes, resumido en varios principios clave:</p>
+  <ul>
+    <li><strong>Control</strong>: tú decides dónde están tus datos, quién accede a ellos y cómo se usan — no Microsoft.</li>
+    <li><strong>Transparencia</strong>: Microsoft explica claramente qué datos recoge y para qué los usa.</li>
+    <li><strong>Seguridad</strong>: los datos se protegen con las medidas de seguridad que ya hemos visto a lo largo del curso.</li>
+    <li><strong>Sin uso publicitario de tus datos empresariales</strong>: Microsoft no usa el contenido de tus correos, documentos o chats de empresa para dirigirte anuncios.</li>
+    <li><strong>Cumplimiento normativo fuerte</strong>: Microsoft se compromete a cumplir las leyes de protección de datos aplicables en cada región.</li>
+  </ul>
+
+  <div class="exercise" data-answer="A" data-explain="El Service Trust Portal es documentación pública que Microsoft ofrece sobre el cumplimiento de sus propios servicios en la nube, útil para que sus clientes lo usen como evidencia ante sus propios auditores.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa necesita un informe de auditoría oficial que demuestre que Azure cumple con el estándar ISO 27001, para presentárselo a su propio auditor externo. ¿Dónde puede encontrarlo?</p>
+    <div class="options">
+      <label><input type="radio" name="q1stp" value="A"> A) Service Trust Portal</label>
+      <label><input type="radio" name="q1stp" value="B"> B) Compliance Manager</label>
+      <label><input type="radio" name="q1stp" value="C"> C) Content Explorer</label>
+      <label><input type="radio" name="q1stp" value="D"> D) Microsoft Priva</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="priva">
+  <span class="eyebrow">Punto 4.2</span>
+  <h2>Microsoft Priva</h2>
+  <p><strong>Microsoft Priva</strong> es la plataforma de Microsoft centrada específicamente en <strong>privacidad</strong> (distinta de "seguridad" en general). Tiene dos grandes capacidades:</p>
+
+  <table>
+    <tr><th>Capacidad</th><th>Qué hace</th></tr>
+    <tr><td><strong>Gestión de riesgos de privacidad (Privacy Risk Management)</strong></td><td>Detecta situaciones de riesgo relacionadas con datos personales: acumulación excesiva de datos personales en un sitio (data hoarding), datos personales sobreexpuestos a demasiada gente dentro de la empresa, o transferencias de datos personales entre departamentos o países que podrían violar una normativa.</td></tr>
+    <tr><td><strong>Solicitudes de derechos del interesado (Subject Rights Requests / DSR)</strong></td><td>Automatiza el proceso de responder cuando una persona ejerce sus derechos sobre sus propios datos (por ejemplo, el "derecho al olvido" del RGPD): encuentra todos los datos personales de esa persona en la organización, y ayuda a exportarlos, corregirlos o eliminarlos según lo que pida.</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Priva se centra en <em>datos personales de individuos</em> y en los derechos que esas personas tienen sobre sus propios datos — no en la seguridad general de la empresa ni en la clasificación de documentos de negocio (eso lo veremos con Purview más adelante).</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Automatizar la búsqueda, exportación o eliminación de los datos personales de alguien que ejerce su derecho al olvido es exactamente la función de Subject Rights Requests en Microsoft Priva." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Cuando un cliente pide que se eliminen todos sus datos personales de la empresa (derecho al olvido), Microsoft Priva puede ayudar a localizar y gestionar esa solicitud automáticamente.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="purviewportal">
+  <span class="eyebrow">Punto 4.3</span>
+  <h2>El portal de Microsoft Purview</h2>
+  <p><strong>Microsoft Purview</strong> es la familia de herramientas de cumplimiento y gobernanza de datos de Microsoft (ya la mencionamos brevemente en el Módulo 1). El <strong>portal de Microsoft Purview</strong> (<code>purview.microsoft.com</code>) es el punto de entrada centralizado a todas esas herramientas: Compliance Manager, protección de la información, DLP, gestión de riesgos internos, eDiscovery y auditoría — todo desde un mismo sitio, en vez de ir a consolas separadas.</p>
+
+  <p>El acceso al portal requiere que el usuario tenga asignado uno de ciertos roles, como <strong>Administrador global</strong>, <strong>Administrador de cumplimiento</strong>, o <strong>Administrador de datos de cumplimiento</strong>.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el portal de Purview es el "paraguas" que agrupa todas las soluciones de cumplimiento que vamos a ver en el resto de este módulo — piensa en él como el punto de partida, no como una herramienta con una función propia además de organizar el resto.</div>
+
+  <div class="exercise" data-answer="B" data-explain="El portal de Purview es el punto de entrada centralizado a todas las herramientas de cumplimiento de Microsoft; requiere un rol como Administrador de cumplimiento, entre otros, para acceder." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere que un empleado gestione DLP, eDiscovery y retención desde un único sitio centralizado, sin entrar a consolas distintas para cada cosa. ¿Dónde debe entrar?</p>
+    <div class="options">
+      <label><input type="radio" name="q1pv" value="A"> A) Azure Portal</label>
+      <label><input type="radio" name="q1pv" value="B"> B) El portal de Microsoft Purview</label>
+      <label><input type="radio" name="q1pv" value="C"> C) Service Trust Portal</label>
+      <label><input type="radio" name="q1pv" value="D"> D) Microsoft Defender portal</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="compmanager">
+  <span class="eyebrow">Punto 4.4</span>
+  <h2>Compliance Manager</h2>
+  <p>Dentro del portal de Purview, <strong>Compliance Manager</strong> es la solución que ayuda a evaluar y gestionar el cumplimiento normativo de tu propia organización de principio a fin: desde inventariar tus riesgos de protección de datos, hasta implementar controles, mantenerte al día con regulaciones, y generar informes para tus auditores.</p>
+
+  <h3>Cómo funciona</h3>
+  <ul>
+    <li><strong>Evaluaciones (assessments)</strong>: Compliance Manager trae más de 300 plantillas prediseñadas para normativas y estándares comunes (RGPD, ISO 27001, HIPAA...), y también permite crear evaluaciones personalizadas para necesidades propias de tu organización.</li>
+    <li><strong>Acciones de mejora (improvement actions)</strong>: cada evaluación se traduce en acciones concretas a realizar. Algunas las gestiona Microsoft automáticamente (por ejemplo, cifrado ya activado en su infraestructura); otras las tienes que completar tú (por ejemplo, activar una política concreta en tu tenant).</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas Compliance Manager (evaluaciones y puntuación de cumplimiento normativo) con el portal de Purview en general (que es el paraguas de todas las herramientas) ni con el Service Trust Portal (documentación pública de Microsoft sobre sí misma).</div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"stp","i2":"purview","i3":"cm"}' data-explain="El Service Trust Portal ofrece documentación pública de Microsoft sobre sus propios servicios. El portal de Purview es el punto de entrada centralizado a todas las herramientas de cumplimiento. Compliance Manager es la herramienta concreta que evalúa el cumplimiento normativo de tu propia organización con plantillas y acciones de mejora.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego la herramienta a la que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la herramienta correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Documentación pública de Microsoft sobre sus propios servicios</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Punto de entrada centralizado a todas las herramientas de cumplimiento</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Evalúa el cumplimiento normativo de tu propia organización con plantillas y acciones</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="stp" onclick="placeDDItem(this)"><div class="dd-zone-label">Service Trust Portal</div></div>
+        <div class="dd-zone" data-zone="purview" onclick="placeDDItem(this)"><div class="dd-zone-label">Portal de Purview</div></div>
+        <div class="dd-zone" data-zone="cm" onclick="placeDDItem(this)"><div class="dd-zone-label">Compliance Manager</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="compscore">
+  <span class="eyebrow">Punto 4.5</span>
+  <h2>Uso y beneficios del compliance score</h2>
+  <p>El <strong>compliance score</strong> es una puntuación numérica, calculada dentro de Compliance Manager, que mide tu progreso completando las acciones de mejora de tus evaluaciones. Cuanta más puntuación, mejor tu postura de cumplimiento normativo.</p>
+
+  <p>Todos los tenants parten de una puntuación inicial basada en la <strong>línea base de protección de datos de Microsoft 365</strong>, un conjunto de controles que se apoya principalmente en el NIST CSF, ISO, FedRAMP y el RGPD.</p>
+
+  <h3>Ventajas clave del compliance score</h3>
+  <ul>
+    <li><strong>Eficiencia entre normativas</strong>: una misma acción de mejora puede contar para varias normativas distintas a la vez (por ejemplo, activar cifrado en reposo puede sumar puntos tanto para RGPD como para ISO 27001), ahorrando trabajo duplicado.</li>
+    <li><strong>Claridad de responsabilidad compartida</strong>: distingue con claridad qué acciones gestiona Microsoft automáticamente y cuáles tienes que completar tú.</li>
+    <li><strong>Actualización continua</strong>: para ciertas acciones técnicas, detecta automáticamente cambios de configuración en tu entorno y actualiza la puntuación sola.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas el <strong>compliance score</strong> (mide cumplimiento normativo — RGPD, ISO, HIPAA...) con el <strong>Secure Score</strong> de Defender for Cloud que vimos en el Módulo 3 (mide postura de seguridad técnica de recursos de Azure). Son dos puntuaciones distintas, en herramientas distintas, con objetivos distintos.</div>
+
+  <div class="exercise" data-answer="No" data-explain="Son dos puntuaciones distintas en herramientas distintas: el compliance score mide cumplimiento normativo dentro de Compliance Manager, y el Secure Score mide postura de seguridad técnica dentro de Defender for Cloud." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? El compliance score de Compliance Manager y el Secure Score de Defender for Cloud son la misma puntuación mostrada en dos sitios distintos.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Esta es una de las ventajas clave del compliance score: una acción de mejora puede contar simultáneamente para varias normativas, evitando trabajo duplicado." >
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Una sola acción de mejora en Compliance Manager puede sumar puntos para varias normativas distintas a la vez.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="dataclass">
+  <span class="eyebrow">Punto 4.6</span>
+  <h2>Clasificación de datos</h2>
+  <p>Antes de poder proteger la información sensible, hay que saber <strong>dónde está</strong> y <strong>qué tipo de información es</strong>. La clasificación de datos identifica y categoriza automáticamente el contenido de la organización según su sensibilidad o tipo, usando:</p>
+  <ul>
+    <li><strong>Tipos de información confidencial (sensitive info types)</strong>: patrones predefinidos que reconocen datos concretos, como números de tarjeta de crédito, números de la seguridad social, o pasaportes, buscando el formato característico de cada uno.</li>
+    <li><strong>Clasificadores entrenables (trainable classifiers)</strong>: en vez de buscar un patrón fijo, se entrena un modelo con ejemplos de documentos (por ejemplo, "contratos de trabajo") para que aprenda a reconocer ese tipo de contenido aunque no siga un patrón exacto.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> los tipos de información confidencial buscan <em>patrones fijos y reconocibles</em> (como el formato de un número de tarjeta). Los clasificadores entrenables reconocen <em>tipos de contenido</em> que no tienen un patrón fijo, aprendiendo de ejemplos.</div>
+
+  <div class="exercise" data-answer="A" data-explain="Un número de tarjeta de crédito sigue un formato reconocible y fijo, por lo que se detecta con un tipo de información confidencial predefinido, no con un clasificador entrenable." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Para detectar automáticamente números de tarjeta de crédito en documentos de la empresa, ¿qué mecanismo de clasificación es el más adecuado?</p>
+    <div class="options">
+      <label><input type="radio" name="q1dc" value="A"> A) Tipo de información confidencial (patrón predefinido)</label>
+      <label><input type="radio" name="q1dc" value="B"> B) Clasificador entrenable</label>
+      <label><input type="radio" name="q1dc" value="C"> C) Content Explorer</label>
+      <label><input type="radio" name="q1dc" value="D"> D) Retention label</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="explorers">
+  <span class="eyebrow">Punto 4.7</span>
+  <h2>Content Explorer y Activity Explorer</h2>
+  <p>Una vez clasificados los datos, estas dos herramientas te ayudan a entender qué está pasando con ellos, pero responden a preguntas distintas:</p>
+
+  <table>
+    <tr><th>Herramienta</th><th>Qué muestra</th><th>Pregunta que responde</th></tr>
+    <tr><td><strong>Content Explorer</strong></td><td>Una <em>foto actual</em> de dónde vive el contenido clasificado o etiquetado en este momento, en toda la organización</td><td>"¿Dónde está ahora mismo mi contenido sensible?"</td></tr>
+    <tr><td><strong>Activity Explorer</strong></td><td>Un <em>historial de acciones</em> realizadas sobre ese contenido a lo largo del tiempo: cuándo se aplicó una etiqueta, quién descargó un archivo, cuándo se compartió</td><td>"¿Qué ha pasado con mi contenido sensible a lo largo del tiempo?"</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Content Explorer = <em>foto fija</em> del presente (dónde está). Activity Explorer = <em>película</em> del pasado (qué ha pasado con ello). Si la pregunta habla de "dónde se encuentra ahora" → Content Explorer. Si habla de "qué se ha hecho con ello" o "quién lo descargó" → Activity Explorer.</div>
+
+  <div class="exercise" data-answer="Activity Explorer" data-explain="Activity Explorer muestra el historial de acciones sobre el contenido etiquetado, incluyendo quién lo descargó y cuándo — a diferencia de Content Explorer, que muestra solo dónde está el contenido ahora." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Un administrador quiere saber qué empleado descargó un documento etiquetado como "Confidencial" la semana pasada. ¿Qué herramienta debe usar?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Content Explorer">Content Explorer</option>
+      <option value="Activity Explorer">Activity Explorer</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="sensitivitylabels">
+  <span class="eyebrow">Punto 4.8</span>
+  <h2>Etiquetas de confidencialidad (sensitivity labels)</h2>
+  <p>Una <strong>etiqueta de confidencialidad</strong> es una marca (como "Público", "Interno", "Confidencial", "Altamente confidencial") que se aplica a un documento o correo, y que puede llevar aparejadas acciones de protección reales, no solo una etiqueta visual:</p>
+  <ul>
+    <li>Cifrar el documento.</li>
+    <li>Añadir una marca de agua o un pie de página visible.</li>
+    <li>Restringir quién puede reenviarlo, copiarlo o imprimirlo.</li>
+  </ul>
+
+  <p>Las etiquetas se pueden aplicar <strong>manualmente</strong> (el usuario elige la etiqueta al guardar) o <strong>automáticamente</strong> (el sistema detecta contenido sensible, por ejemplo mediante los tipos de información confidencial del punto 4.6, y aplica la etiqueta sola).</p>
+
+  <p>Una <strong>política de etiquetas</strong> define quién puede ver y aplicar cada etiqueta, y si hay una etiqueta por defecto para documentos nuevos.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> una etiqueta de confidencialidad no es solo un texto decorativo — puede llevar cifrado real aplicado. Esto la diferencia de una simple categoría o carpeta.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Las etiquetas de confidencialidad pueden aplicar cifrado real al documento, no son solo una marca visual — esa es su diferencia clave frente a una simple categorización." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Aplicar la etiqueta "Altamente confidencial" a un documento puede cifrarlo automáticamente, no solo mostrar una marca visual.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="dlp">
+  <span class="eyebrow">Punto 4.9</span>
+  <h2>Prevención de pérdida de datos (DLP)</h2>
+  <p><strong>Data Loss Prevention (DLP)</strong> son políticas que detectan cuando alguien está a punto de compartir información sensible de forma inapropiada (por correo, Teams, SharePoint, OneDrive...), y actúan para evitarlo antes de que ocurra la fuga.</p>
+
+  <h3>Qué puede hacer una política de DLP al detectar contenido sensible</h3>
+  <ul>
+    <li><strong>Bloquear</strong> el envío o el uso compartido por completo.</li>
+    <li><strong>Advertir</strong> al usuario con un aviso, pero dejarle continuar si confirma que es intencionado.</li>
+    <li><strong>Auditar</strong> silenciosamente el evento, sin bloquear nada, para revisión posterior.</li>
+  </ul>
+
+  <div class="analogy">
+    Es como un guardia de seguridad en la salida de un almacén que detecta si alguien lleva un producto sin pagar: puede impedirle salir, avisarle para que vuelva a pagar, o simplemente anotar el incidente para revisarlo después, según la política de la tienda.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> DLP actúa <em>en el momento de compartir o enviar</em> la información (preventivo), a diferencia de Activity Explorer (punto 4.7), que solo registra lo que ya pasó (después del hecho).</div>
+
+  <div class="exercise" data-answer="B" data-explain="Bloquear en tiempo real el envío de un correo con un número de tarjeta de crédito detectado es exactamente la función preventiva de una política de DLP." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un empleado intenta enviar por correo un archivo con números de tarjetas de crédito de clientes a una dirección externa, y el sistema bloquea el envío automáticamente. ¿Qué solución de Purview hizo esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1dlp" value="A"> A) Retention label</label>
+      <label><input type="radio" name="q1dlp" value="B"> B) Data Loss Prevention (DLP)</label>
+      <label><input type="radio" name="q1dlp" value="C"> C) Content Explorer</label>
+      <label><input type="radio" name="q1dlp" value="D"> D) eDiscovery</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="recordsmgmt">
+  <span class="eyebrow">Punto 4.10</span>
+  <h2>Gestión de registros (records management)</h2>
+  <p>Un <strong>registro (record)</strong> es contenido que una organización debe conservar como prueba formal de una actividad o transacción por motivos legales o regulatorios (por ejemplo, un contrato firmado, o una factura). La gestión de registros permite marcar contenido como registro, y gestionar todo su ciclo de vida: cuánto tiempo debe conservarse, y qué debe pasar cuando termine ese periodo (revisión, eliminación automática, o conservación adicional).</p>
+
+  <p>Una particularidad importante: cuando un documento se marca como registro, normalmente <strong>queda bloqueado</strong> (no se puede editar ni eliminar libremente), precisamente porque su valor como prueba depende de que no se manipule.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> un registro no es simplemente "un documento importante" — es contenido con una obligación legal o regulatoria de conservación, que por eso queda protegido contra modificación.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Cuando un documento se marca como registro, normalmente queda bloqueado contra edición o eliminación, precisamente porque su valor como prueba depende de que no se manipule." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Cuando un documento se marca como registro (record), normalmente queda bloqueado contra ediciones, para preservar su validez como prueba.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="retention">
+  <span class="eyebrow">Punto 4.11</span>
+  <h2>Políticas y etiquetas de retención</h2>
+  <p>Determinan durante cuánto tiempo se conserva la información, y qué pasa después. Hay dos formas de aplicarlo, con un matiz importante entre ellas:</p>
+
+  <table>
+    <tr><th></th><th>Políticas de retención</th><th>Etiquetas de retención</th></tr>
+    <tr><td>Alcance</td><td>Amplio: se aplican a todo un contenedor (por ejemplo, "todos los chats de Teams", "todos los buzones")</td><td>Granular: se aplican a elementos individuales concretos (un documento, un correo específico)</td></tr>
+    <tr><td>Cómo se aplican</td><td>Automáticamente a todo lo que entra en ese ámbito</td><td>Manual o automáticamente, según reglas específicas para ese contenido concreto</td></tr>
+    <tr><td>Ejemplo</td><td>"Conservar todos los correos de la empresa durante 5 años"</td><td>"Este contrato en concreto se conserva 10 años desde la fecha de firma"</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta describe una regla amplia aplicada a todo un contenedor (buzones, sitios) → política de retención. Si describe una regla específica para un tipo de documento concreto, con reglas propias → etiqueta de retención.</div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"policy","i2":"label"}' data-explain="Aplicar la misma regla a todos los buzones de la empresa es una política de retención (alcance amplio). Aplicar una regla específica a un tipo de documento concreto, con su propia duración, es una etiqueta de retención (alcance granular).">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada situación y luego el mecanismo de retención al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Conservar todos los buzones de correo de la empresa durante 5 años</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Conservar este contrato específico durante 10 años desde su firma</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="policy" onclick="placeDDItem(this)"><div class="dd-zone-label">Política de retención</div></div>
+        <div class="dd-zone" data-zone="label" onclick="placeDDItem(this)"><div class="dd-zone-label">Etiqueta de retención</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="insiderrisk">
+  <span class="eyebrow">Punto 4.12</span>
+  <h2>Gestión de riesgos internos (insider risk management)</h2>
+  <p>No todas las amenazas vienen de fuera. La gestión de riesgos internos detecta comportamientos potencialmente arriesgados por parte de <strong>empleados dentro de la organización</strong>: robo de datos antes de dejar la empresa, filtración de información confidencial, o violaciones de políticas internas.</p>
+
+  <p>Combina señales de distintas fuentes (actividad en archivos, correo, datos de RR. HH. como una fecha de renuncia) con aprendizaje automático para detectar patrones de riesgo, y genera alertas que un investigador puede revisar.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> una característica importante es que, por defecto, protege la privacidad de los empleados <strong>seudonimizando</strong> su identidad en las alertas — un investigador solo ve el nombre real si el caso avanza y se justifica revelarlo, no desde el primer momento.</div>
+
+  <div class="exercise" data-answer="B" data-explain="Detectar el riesgo de que un empleado se lleve información confidencial antes de irse es exactamente el escenario para el que existe la gestión de riesgos internos, distinta de DLP (que actúa sobre el contenido en el momento de compartirlo, no sobre el patrón de comportamiento del empleado)." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa quiere detectar si un empleado que ha presentado su renuncia está descargando archivos confidenciales de forma inusual antes de irse. ¿Qué solución de Purview es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="q1ir" value="A"> A) Data Loss Prevention (DLP)</label>
+      <label><input type="radio" name="q1ir" value="B"> B) Gestión de riesgos internos</label>
+      <label><input type="radio" name="q1ir" value="C"> C) eDiscovery</label>
+      <label><input type="radio" name="q1ir" value="D"> D) Content Explorer</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="ediscovery">
+  <span class="eyebrow">Punto 4.13</span>
+  <h2>eDiscovery</h2>
+  <p><strong>eDiscovery (descubrimiento electrónico)</strong> es el proceso de encontrar, preservar, recopilar y exportar contenido relevante para una investigación legal, litigio o auditoría interna — por ejemplo, todos los correos y documentos relacionados con un caso concreto entre dos fechas.</p>
+
+  <p>Tiene dos niveles:</p>
+  <ul>
+    <li><strong>eDiscovery (Standard)</strong>: búsqueda y exportación básica de contenido.</li>
+    <li><strong>eDiscovery (Premium)</strong>: añade capacidades avanzadas — gestión de custodios (las personas cuyo contenido se investiga), análisis de datos más sofisticado, y herramientas de revisión del contenido encontrado.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> eDiscovery encuentra y <em>preserva</em> contenido para un caso legal concreto — no lo confundas con el registro general de actividad (Audit, punto 4.14) ni con la gestión de riesgos internos (que detecta patrones de comportamiento, no busca contenido para un litigio específico).</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Encontrar y exportar todos los correos relacionados con una demanda es exactamente el propósito de eDiscovery." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Si la empresa recibe una demanda legal y necesita encontrar y exportar todos los correos relacionados con el caso, debe usar eDiscovery.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="audit">
+  <span class="eyebrow">Punto 4.14</span>
+  <h2>Soluciones de auditoría en Microsoft Purview</h2>
+  <p><strong>Audit</strong> registra y permite buscar la actividad de usuarios y administradores en los servicios de Microsoft 365: quién inició sesión, quién modificó un permiso, quién accedió a un buzón — un histórico centralizado de "quién hizo qué", que conecta directamente con el pilar de <strong>Auditoría</strong> que vimos en el Módulo 1 (punto 1.8).</p>
+
+  <p>También tiene dos niveles:</p>
+  <ul>
+    <li><strong>Audit (Standard)</strong>: retiene los registros de auditoría durante un periodo limitado (normalmente 180 días).</li>
+    <li><strong>Audit (Premium)</strong>: retiene los registros durante más tiempo, y da acceso a eventos de alto valor adicionales (como saber exactamente qué correos concretos se abrieron), muy útiles para investigar el alcance real de una brecha de seguridad.</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Audit es el registro general de actividad de toda la organización (para investigar qué pasó); eDiscovery es la búsqueda y exportación de contenido específico para un caso legal concreto. Se pueden usar juntos, pero responden a preguntas distintas.</div>
+
+  <div class="exercise" data-answer="A,C" data-explain="Audit (A) registra actividad general de usuarios y administradores; el pilar de Auditoría del Módulo 1 (C) es el concepto teórico del que Audit es la implementación práctica en Purview. eDiscovery (B) busca contenido para litigios, y DLP (D) previene fugas en el momento de compartir — ninguno de los dos es un registro general de actividad.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de las siguientes están directamente relacionadas con registrar y consultar "quién hizo qué, cuándo y desde dónde"? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q1aud" value="A"> A) Audit (Purview)</label>
+      <label><input type="checkbox" name="q1aud" value="B"> B) eDiscovery</label>
+      <label><input type="checkbox" name="q1aud" value="C"> C) El pilar de Auditoría (Módulo 1)</label>
+      <label><input type="checkbox" name="q1aud" value="D"> D) Data Loss Prevention</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto queda completo el Módulo 4 (Soluciones de cumplimiento de Microsoft, 20-25% del examen) — y con él, el temario completo del SC-900.
+  </div>
+</section>
+
+<section id="mix4">
+  <span class="eyebrow">Repaso final</span>
+  <h2>Repaso mixto — todo el Módulo 4</h2>
+  <p>10 preguntas que combinan todos los subpuntos del módulo (4.1 a 4.14), con dificultad orientada a medio/difícil — trátalo como un simulacro real de este bloque.</p>
+
+  <div class="exercise" data-answer="No" data-explain="Son herramientas distintas: el Service Trust Portal es documentación pública de Microsoft sobre sí misma; Compliance Manager evalúa el cumplimiento de tu propia organización.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? El Service Trust Portal y Compliance Manager son la misma herramienta con nombres distintos.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Microsoft Priva automatiza específicamente el proceso de encontrar, exportar o eliminar los datos personales de un individuo que ejerce sus derechos, como el derecho al olvido del RGPD.">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Un cliente ejerce su derecho al olvido y pide que se eliminen sus datos personales. ¿Qué herramienta ayuda a automatizar esa solicitud?</p>
+    <div class="options">
+      <label><input type="radio" name="qm4_2" value="A"> A) Compliance Manager</label>
+      <label><input type="radio" name="qm4_2" value="B"> B) Microsoft Priva</label>
+      <label><input type="radio" name="qm4_2" value="C"> C) Content Explorer</label>
+      <label><input type="radio" name="qm4_2" value="D"> D) Insider risk management</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">3. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="Son puntuaciones distintas en herramientas distintas: compliance score mide cumplimiento normativo, Secure Score mide postura de seguridad técnica de Azure.">
+      <span>El compliance score y el Secure Score de Defender for Cloud miden exactamente lo mismo.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Activity Explorer registra el historial de acciones sobre contenido etiquetado, incluyendo quién lo compartió y cuándo.">
+      <span>Activity Explorer puede mostrar quién compartió un documento etiquetado como confidencial y cuándo.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Por defecto, la gestión de riesgos internos seudonimiza la identidad del empleado en las alertas, para proteger su privacidad hasta que el caso avance.">
+      <span>La gestión de riesgos internos muestra siempre el nombre real del empleado desde la primera alerta, sin proteger su privacidad.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Etiqueta de retención" data-explain="Una regla específica para un tipo de documento concreto, con su propia duración, es una etiqueta de retención — más granular que una política de retención, que se aplica a todo un contenedor.">
+    <p class="q">4. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere que un tipo concreto de contrato se conserve 10 años, de forma distinta al resto de correos de la empresa. ¿Qué mecanismo es el adecuado?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Política de retención">Política de retención</option>
+      <option value="Etiqueta de retención">Etiqueta de retención</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="DLP bloquea o advierte en tiempo real cuando alguien intenta compartir información sensible; es la herramienta preventiva por excelencia frente a fugas de datos." >
+    <p class="q">5. <span class="difficulty diff-med">🟡 Medio</span> Un empleado intenta compartir un archivo con datos médicos de pacientes fuera de la organización, y el sistema lo bloquea automáticamente en el momento. ¿Qué solución hizo esto?</p>
+    <div class="options">
+      <label><input type="radio" name="qm4_5" value="A"> A) eDiscovery</label>
+      <label><input type="radio" name="qm4_5" value="B"> B) Data Loss Prevention (DLP)</label>
+      <label><input type="radio" name="qm4_5" value="C"> C) Records management</label>
+      <label><input type="radio" name="qm4_5" value="D"> D) Audit</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"dlp","i2":"ir","i3":"ediscovery","i4":"audit"}' data-explain="Bloquear en el momento de compartir es DLP (preventivo). Detectar patrones de comportamiento arriesgado de un empleado es gestión de riesgos internos. Buscar y exportar contenido para un litigio concreto es eDiscovery. Registrar quién hizo qué en todo el tenant es Audit.">
+    <p class="q">6. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego la solución de Purview a la que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la solución correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Bloquea en tiempo real el envío de datos sensibles</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Detecta patrones de comportamiento arriesgado de un empleado</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Busca y exporta contenido para un litigio legal concreto</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Registra quién hizo qué en todo el tenant</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="dlp" onclick="placeDDItem(this)"><div class="dd-zone-label">DLP</div></div>
+        <div class="dd-zone" data-zone="ir" onclick="placeDDItem(this)"><div class="dd-zone-label">Riesgos internos</div></div>
+        <div class="dd-zone" data-zone="ediscovery" onclick="placeDDItem(this)"><div class="dd-zone-label">eDiscovery</div></div>
+        <div class="dd-zone" data-zone="audit" onclick="placeDDItem(this)"><div class="dd-zone-label">Audit</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Un registro (record) queda protegido contra edición o eliminación, precisamente para preservar su validez legal como prueba." >
+    <p class="q">7. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Marcar un documento como registro (record) normalmente impide que se edite o elimine libremente.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Un clasificador entrenable aprende a reconocer un tipo de contenido a partir de ejemplos, útil cuando no hay un patrón fijo como en un número de tarjeta de crédito." >
+    <p class="q">8. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere que el sistema reconozca automáticamente sus propios contratos de trabajo, que no siguen un patrón de texto fijo. ¿Qué mecanismo de clasificación es el más adecuado?</p>
+    <div class="options">
+      <label><input type="radio" name="qm4_8" value="A"> A) Tipo de información confidencial</label>
+      <label><input type="radio" name="qm4_8" value="B"> B) Clasificador entrenable</label>
+      <label><input type="radio" name="qm4_8" value="C"> C) Etiqueta de retención</label>
+      <label><input type="radio" name="qm4_8" value="D"> D) Audit Premium</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    <strong>🎓 Para ir más allá:</strong> Microsoft ofrece una <a href="https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/practice/assessment" target="_blank" rel="noopener">evaluación de práctica oficial y gratuita para el SC-900</a> en Microsoft Learn (necesitas iniciar sesión con una cuenta Microsoft).
+    <br><br>
+    También puedes repasar la <a href="https://learn.microsoft.com/es-es/training/paths/describe-capabilities-of-microsoft-compliance-solutions/" target="_blank" rel="noopener">ruta de aprendizaje oficial de este módulo en Microsoft Learn</a> (en español), y la <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">guía de estudio oficial completa del examen SC-900</a>, que resume el temario exacto de los cuatro módulos.
+  </div>
+</section>
+
+</main>
+
+<footer>SC-900 · Guía de estudio personal · Irene</footer>
+
+<script>
+/* --- Almacenamiento: usa window.storage si está disponible (vista previa en Claude),
+   y si no, localStorage (cuando abres el archivo .html directamente en tu navegador) --- */
+const PREFIX = 'sc900m4:';
+
+function hashKey(str){
+  let hash = 5381;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return 'q' + Math.abs(hash);
+}
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+async function deleteKey(key){
+  try{ if(window.storage){ await window.storage.delete(PREFIX+key, false); return; } }catch(e){}
+  try{ localStorage.removeItem(PREFIX+key); }catch(e){}
+}
+
+function checkRadio(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const selected = ex.querySelector('input[type=radio]:checked');
+  const fb = ex.querySelector('.feedback');
+  if(!selected){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(selected.value === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'radio', value:selected.value, fbClass:cls, fbText:text});
+}
+function checkSelect(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const sel = ex.querySelector('select').value;
+  const fb = ex.querySelector('.feedback');
+  if(!sel){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(sel === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'select', value:sel, fbClass:cls, fbText:text});
+}
+function checkMulti(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer.split(',').sort();
+  const explain = ex.dataset.explain || '';
+  const checked = Array.from(ex.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value).sort();
+  const fb = ex.querySelector('.feedback');
+  if(checked.length===0){ fb.className='feedback incorrect'; fb.textContent='Selecciona al menos una opción.'; return; }
+  let cls, text;
+  if(JSON.stringify(checked)===JSON.stringify(answer)){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. Las respuestas correctas son: ' + answer.join(' y ') + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'multi', values:checked, fbClass:cls, fbText:text});
+}
+function selectYN(btn, value){
+  const row = btn.closest('.yn-row');
+  row.dataset.selected = value;
+  row.querySelectorAll('.yn-btns button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveKey(row.dataset.key, {selected:value});
+}
+function checkYNGroup(btn){
+  const ex = btn.closest('.exercise');
+  const rows = ex.querySelectorAll('.yn-row');
+  const fb = ex.querySelector('.feedback');
+  let correct=0, total=rows.length, missing=false;
+  let lines=[];
+  rows.forEach((r,i)=>{
+    if(!r.dataset.selected){ missing=true; return; }
+    const ok = r.dataset.selected === r.dataset.answer;
+    if(ok) correct++;
+    const mark = ok ? '✓' : '✗ (correcto: ' + r.dataset.answer + ')';
+    lines.push((i+1) + '. ' + mark + ' — ' + (r.dataset.explain || ''));
+  });
+  if(missing){ fb.className='feedback incorrect'; fb.textContent='Responde todas las afirmaciones antes de comprobar.'; return; }
+  const cls = (correct===total) ? 'feedback correct' : 'feedback incorrect';
+  const html = '<strong>' + (correct===total ? '¡Las ' + total + ' correctas!' : 'Aciertos: ' + correct + ' de ' + total + '.') + '</strong><br>' + lines.join('<br>');
+  fb.className = cls;
+  fb.innerHTML = html;
+  saveKey(ex.dataset.key + '-fb', {fbClass:cls, fbHTML:html});
+}
+
+/* --- Asignar claves únicas y restaurar respuestas guardadas al cargar la página --- */
+async function restoreAll(){
+  const exercises = document.querySelectorAll('.exercise');
+  exercises.forEach((ex,i)=>{
+    const qEl = ex.querySelector('.q');
+    const qText = qEl ? qEl.textContent.trim() : (ex.dataset.answer || ('ex'+i));
+    ex.dataset.key = hashKey(qText);
+  });
+
+  for(const ex of exercises){
+    const ynRows = ex.querySelectorAll('.yn-row');
+    if(ynRows.length){
+      ynRows.forEach((row,j)=>{
+        const span = row.querySelector('span');
+        const rowText = span ? span.textContent.trim() : ('row'+j);
+        row.dataset.key = ex.dataset.key + '-' + hashKey(rowText);
+      });
+      for(const row of ynRows){
+        const saved = await loadKey(row.dataset.key);
+        if(saved && saved.selected){
+          row.dataset.selected = saved.selected;
+          row.querySelectorAll('.yn-btns button').forEach(b=>{
+            if(b.textContent.trim() === saved.selected) b.classList.add('selected');
+          });
+        }
+      }
+      const fbSaved = await loadKey(ex.dataset.key + '-fb');
+      if(fbSaved){
+        const fb = ex.querySelector('.feedback');
+        fb.className = fbSaved.fbClass; fb.innerHTML = fbSaved.fbHTML;
+      }
+      continue;
+    }
+    const saved = await loadKey(ex.dataset.key);
+    if(!saved) continue;
+    const fb = ex.querySelector('.feedback');
+    if(saved.type === 'radio'){
+      const input = ex.querySelector('input[type=radio][value="'+CSS.escape(saved.value)+'"]');
+      if(input) input.checked = true;
+    } else if(saved.type === 'select'){
+      const sel = ex.querySelector('select');
+      if(sel) sel.value = saved.value;
+    } else if(saved.type === 'dragdrop'){
+      for(const id in saved.mapping){
+        const item = ex.querySelector('.dd-item[data-id="'+CSS.escape(id)+'"]');
+        const zone = ex.querySelector('.dd-zone[data-zone="'+CSS.escape(saved.mapping[id])+'"]');
+        if(item && zone){ zone.appendChild(item); item.classList.add('placed'); }
+      }
+    } else if(saved.type === 'multi'){
+      saved.values.forEach(v=>{
+        const input = ex.querySelector('input[type=checkbox][value="'+CSS.escape(v)+'"]');
+        if(input) input.checked = true;
+      });
+    }
+    if(saved.fbClass){ fb.className = saved.fbClass; fb.textContent = saved.fbText; }
+  }
+}
+
+async function clearAllAnswers(){
+  if(!confirm('¿Borrar todas tus respuestas guardadas? Esto no se puede deshacer.')) return;
+  const exercises = document.querySelectorAll('.exercise');
+  for(const ex of exercises){
+    await deleteKey(ex.dataset.key);
+    await deleteKey(ex.dataset.key + '-fb');
+    ex.querySelectorAll('.yn-row').forEach(row=> deleteKey(row.dataset.key));
+  }
+  location.reload();
+}
+
+
+/* --- Drag & drop (toca para colocar) --- */
+let selectedDDItem = null;
+function selectDDItem(el){
+  if(el.classList.contains('placed')){
+    const ex = el.closest('.exercise');
+    ex.querySelector('.dd-pool').appendChild(el);
+    el.classList.remove('placed','selected');
+    if(selectedDDItem === el) selectedDDItem = null;
+    return;
+  }
+  const ex = el.closest('.exercise');
+  ex.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone){
+  if(!selectedDDItem) return;
+  const ex = zone.closest('.exercise');
+  if(selectedDDItem.closest('.exercise') !== ex) return;
+  const existing = zone.querySelector('.dd-item');
+  if(existing){ ex.querySelector('.dd-pool').appendChild(existing); existing.classList.remove('placed'); }
+  zone.appendChild(selectedDDItem);
+  selectedDDItem.classList.remove('selected');
+  selectedDDItem.classList.add('placed');
+  selectedDDItem = null;
+}
+function checkDragDrop(btn){
+  const ex = btn.closest('.exercise');
+  const answer = JSON.parse(ex.dataset.answer);
+  const explain = ex.dataset.explain || '';
+  const zones = ex.querySelectorAll('.dd-zone');
+  const totalItems = ex.querySelectorAll('.dd-item').length;
+  let mapping = {};
+  zones.forEach(zone=>{
+    const item = zone.querySelector('.dd-item');
+    if(item) mapping[item.dataset.id] = zone.dataset.zone;
+  });
+  const fb = ex.querySelector('.feedback');
+  if(Object.keys(mapping).length < totalItems){
+    fb.className='feedback incorrect'; fb.textContent='Coloca todos los elementos antes de comprobar.'; return;
+  }
+  let correct = true;
+  for(const id in answer){ if(mapping[id] !== answer[id]) correct = false; }
+  const cls = correct ? 'feedback correct' : 'feedback incorrect';
+  const text = (correct ? '¡Correcto! ' : 'No del todo correcto. ') + explain;
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'dragdrop', mapping, fbClass:cls, fbText:text});
+}
+
+document.addEventListener('DOMContentLoaded', restoreAll);
+</script>
+
+</body>
+</html>

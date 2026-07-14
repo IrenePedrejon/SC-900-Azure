@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Módulo 3 · Guía interactiva</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Módulo 3</h1>
+  <p>Soluciones de seguridad de Microsoft — con diagramas y ejercicios interactivos</p>
+  <button class="check-btn" style="margin-top:14px; background:var(--coral);" onclick="clearAllAnswers()">🗑️ Borrar todas mis respuestas</button>
+</header>
+
+<nav>
+  <a href="#aznet">3.1 Seguridad de red en Azure</a>
+  <a href="#azencrypt">3.2 Cifrado y secretos (Key Vault)</a>
+  <a href="#defcloud">3.3 Microsoft Defender for Cloud</a>
+  <a href="#sentinel">3.4 Microsoft Sentinel</a>
+  <a href="#defxdr">3.5 Defender XDR (visión general)</a>
+  <a href="#defendpoint">3.6 Defender for Endpoint</a>
+  <a href="#defo365">3.7 Defender for Office 365</a>
+  <a href="#defidentity">3.8 Defender for Identity</a>
+  <a href="#mcas">3.9 Defender for Cloud Apps (CASB)</a>
+  <a href="#defvm">3.9b Defender Vulnerability Management</a>
+  <a href="#defti">3.9c Defender Threat Intelligence</a>
+  <a href="#seccopilot">3.10 Security Copilot</a>
+  <a href="#mix3">🔀 Repaso mixto</a>
+</nav>
+
+<main>
+<section id="aznet">
+  <span class="eyebrow">Punto 3.1</span>
+  <h2>Seguridad de red en Azure</h2>
+  <p>Ya vimos en el Módulo 1 el concepto general de "defensa en profundidad" y de firewall. Aquí vemos las herramientas <strong>concretas de Azure</strong> que implementan esas capas.</p>
+
+  <h3>Redes virtuales y segmentación</h3>
+  <p>Una <strong>red virtual de Azure (Virtual Network / VNet)</strong> es tu propia red privada dentro de Azure, aislada del resto de clientes de Azure — el equivalente en la nube a tener tu propia red de cables en una oficina física. Dentro de una VNet, puedes dividir el espacio en <strong>subredes (subnets)</strong>: trozos más pequeños de esa red, cada uno normalmente dedicado a un tipo de recurso (por ejemplo, una subred para los servidores web, otra distinta para la base de datos).</p>
+
+  <p>A esto se le llama <strong>segmentación de red</strong>: en vez de meter todos los recursos en el mismo espacio de red plano, los separas en subredes distintas, y luego controlas qué tráfico puede pasar de una subred a otra. Así, si un atacante compromete la subred de los servidores web, no tiene automáticamente vía libre para llegar a la subred de la base de datos.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la <strong>red virtual (VNet)</strong> y sus <strong>subredes</strong> son la estructura básica sobre la que se construye todo lo demás. Los NSG (que vienes justo después) son las reglas que se aplican <em>sobre</em> esa segmentación para decidir qué tráfico se permite entre subredes o hacia fuera.</div>
+
+  <table>
+    <tr><th>Herramienta</th><th>Qué hace</th><th>Nivel al que protege</th></tr>
+    <tr><td><strong>Red virtual (VNet) y subredes</strong></td><td>Tu propia red privada y aislada dentro de Azure, dividida en trozos más pequeños (subredes) para separar tipos de recursos entre sí</td><td>Estructura base de la red</td></tr>
+    <tr><td><strong>Azure DDoS Protection</strong></td><td>Detecta y mitiga ataques de denegación de servicio distribuido (tráfico masivo falso) antes de que saturen tus recursos. Tiene un nivel <em>Basic</em> (gratis, automático para todos) y uno <em>Standard</em> (de pago, con alertas y mitigación más avanzada)</td><td>Perímetro / red</td></tr>
+    <tr><td><strong>Grupos de seguridad de red (NSG)</strong></td><td>Reglas que filtran qué tráfico entra y sale de una subred o de una tarjeta de red concreta dentro de tu red virtual de Azure</td><td>Red (nivel subred/NIC)</td></tr>
+    <tr><td><strong>Azure Firewall</strong></td><td>Un firewall gestionado por Microsoft, centralizado, que protege toda tu red virtual de Azure de una vez, en vez de configurar reglas subred por subred</td><td>Red (nivel de toda la red virtual)</td></tr>
+    <tr><td><strong>Web Application Firewall (WAF)</strong></td><td>Protege aplicaciones web concretas de ataques específicos de capa de aplicación, como inyección SQL o Cross-Site Scripting (XSS). Se integra con Azure Application Gateway o Azure Front Door</td><td>Aplicación</td></tr>
+    <tr><td><strong>Azure Bastion</strong></td><td>Permite conectarte por RDP/SSH a tus máquinas virtuales directamente desde el portal de Azure, sin necesidad de darle una IP pública a la máquina virtual — elimina la exposición directa a internet</td><td>Acceso de administración seguro</td></tr>
+  </table>
+
+  <div class="analogy">
+    Imagina un edificio de oficinas: el DDoS Protection es como controlar que no entre una avalancha de gente falsa por la puerta principal. El NSG es el guardia de cada planta que decide quién entra a cada despacho. Azure Firewall es la seguridad centralizada de todo el edificio. El WAF es el control específico de la sala donde se atiende al público (la app web). Y Bastion es el pasillo privado por el que entra el personal de mantenimiento, sin tener que pasar por la puerta principal expuesta a la calle.
+  </div>
+
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> NSG filtra a nivel de subred/NIC (más granular, más manual). Azure Firewall centraliza la protección de toda la red virtual (más simple de gestionar a gran escala). El WAF es específico para ataques de aplicación web (capa 7), no de red. Bastion no "filtra" tráfico — da acceso remoto seguro sin exponer una IP pública.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="Si" data-explain="Separar los recursos en subredes distintas y controlar qué tráfico pasa entre ellas es exactamente la definición de segmentación de red: limita que un atacante que compromete una parte pueda moverse libremente al resto." >
+    <p class="q">0. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Dividir una red virtual de Azure en varias subredes, y controlar qué tráfico puede pasar entre ellas, es un ejemplo de segmentación de red.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="C" data-explain="Azure Bastion permite conectarte por RDP/SSH desde el propio portal de Azure sin necesitar una IP pública en la máquina virtual, eliminando la exposición directa a internet.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere que sus administradores puedan conectarse por RDP a una máquina virtual sin que esa máquina tenga una IP pública expuesta a internet. ¿Qué servicio de Azure resuelve esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1net" value="A"> A) Azure Firewall</label>
+      <label><input type="radio" name="q1net" value="B"> B) Grupo de seguridad de red (NSG)</label>
+      <label><input type="radio" name="q1net" value="C"> C) Azure Bastion</label>
+      <label><input type="radio" name="q1net" value="D"> D) Web Application Firewall</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="El NSG filtra a nivel de subred o tarjeta de red concreta; Azure Firewall es el que centraliza la protección de toda la red virtual de una vez.">
+      <span>Un grupo de seguridad de red (NSG) protege automáticamente toda la red virtual completa, sin necesidad de configurar nada más.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="El WAF está pensado específicamente para ataques de capa de aplicación como inyección SQL o XSS, a diferencia de NSG o Azure Firewall que operan a nivel de red.">
+      <span>Un Web Application Firewall (WAF) protege específicamente contra ataques como inyección SQL o Cross-Site Scripting.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="El nivel Basic de Azure DDoS Protection es gratuito y se aplica automáticamente a todos los recursos de Azure.">
+      <span>Azure DDoS Protection tiene un nivel básico gratuito que se aplica automáticamente.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"nsg","i2":"fw","i3":"waf","i4":"bastion"}' data-explain="El NSG filtra a nivel de subred/NIC. Azure Firewall centraliza la protección de toda la red virtual. El WAF protege contra ataques de aplicación web. Bastion da acceso remoto seguro sin IP pública.">
+    <p class="q">3. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el servicio de Azure al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el servicio correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Filtra tráfico a nivel de subred o tarjeta de red</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Centraliza la protección de toda la red virtual</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Protege contra inyección SQL y XSS en una app web</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Da acceso RDP/SSH seguro sin exponer una IP pública</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="nsg" onclick="placeDDItem(this)"><div class="dd-zone-label">NSG</div></div>
+        <div class="dd-zone" data-zone="fw" onclick="placeDDItem(this)"><div class="dd-zone-label">Azure Firewall</div></div>
+        <div class="dd-zone" data-zone="waf" onclick="placeDDItem(this)"><div class="dd-zone-label">WAF</div></div>
+        <div class="dd-zone" data-zone="bastion" onclick="placeDDItem(this)"><div class="dd-zone-label">Azure Bastion</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="azencrypt">
+  <span class="eyebrow">Punto 3.2</span>
+  <h2>Cifrado y gestión de secretos en Azure</h2>
+  <p>Ya vimos qué es el cifrado en el Módulo 1. Aquí vemos las herramientas concretas de Azure para gestionarlo.</p>
+
+  <table>
+    <tr><th>Herramienta</th><th>Qué hace</th></tr>
+    <tr><td><strong>Azure Key Vault</strong></td><td>Un almacén centralizado y seguro para guardar claves de cifrado, secretos (como contraseñas o cadenas de conexión) y certificados. En vez de que cada aplicación guarde sus propios secretos desperdigados, todas los piden a Key Vault cuando los necesitan</td></tr>
+    <tr><td><strong>Azure Disk Encryption</strong></td><td>Cifra el disco de una máquina virtual completo, usando claves gestionadas (opcionalmente guardadas en Key Vault), para que si alguien accede físicamente al disco no pueda leer su contenido</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Key Vault <em>almacena y gestiona</em> las claves y secretos; Disk Encryption <em>usa</em> esas claves para cifrar el disco en sí. No son lo mismo: uno es el "cajón con llave", el otro es "lo que se cierra con esa llave".</div>
+
+  <div class="exercise" data-answer="A" data-explain="Azure Key Vault está diseñado exactamente para esto: centralizar el almacenamiento seguro de secretos, claves y certificados en vez de que cada aplicación los guarde por su cuenta.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa tiene varias aplicaciones que necesitan usar la misma cadena de conexión a una base de datos, y quiere evitar que cada desarrollador la guarde copiada en su propio código. ¿Qué servicio de Azure resuelve esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1enc" value="A"> A) Azure Key Vault</label>
+      <label><input type="radio" name="q1enc" value="B"> B) Azure Disk Encryption</label>
+      <label><input type="radio" name="q1enc" value="C"> C) Azure Bastion</label>
+      <label><input type="radio" name="q1enc" value="D"> D) Microsoft Defender for Cloud</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defcloud">
+  <span class="eyebrow">Punto 3.3</span>
+  <h2>Microsoft Defender for Cloud</h2>
+  <p>Es el centro de gestión de la postura de seguridad de tus recursos en Azure (y también en otras nubes y on-premises). Tiene dos capacidades bien diferenciadas:</p>
+
+  <h3>1. CSPM — Cloud Security Posture Management (gratis)</h3>
+  <p>Evalúa continuamente cómo tienes configurados tus recursos, y te da un <strong>Secure Score</strong> (puntuación de seguridad): cuanto más alto, mejor configurada está tu seguridad. Te da recomendaciones concretas ("activa el cifrado en esta cuenta de almacenamiento", "cierra este puerto abierto") para subir esa puntuación.</p>
+
+  <h3>2. Protección de cargas de trabajo — Cloud Workload Protection (de pago, "planes de Defender")</h3>
+  <p>Además de recomendaciones, detecta amenazas activas en tiempo real sobre recursos concretos: hay un plan de Defender distinto para cada tipo de recurso (Defender for Servers, Defender for Storage, Defender for SQL, Defender for Containers, etc.), cada uno activable por separado según lo que necesites proteger.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el <strong>Secure Score</strong> es gratis y siempre está activo — mide tu postura y da recomendaciones, pero no detecta ataques en curso. Para <em>detección activa de amenazas</em> sobre un recurso concreto, hace falta activar el plan de Defender de pago correspondiente a ese tipo de recurso.</div>
+
+  <h3>Estándares de seguridad y cumplimiento normativo</h3>
+  <p>Además del Secure Score genérico, Defender for Cloud permite aplicar <strong>estándares o iniciativas de seguridad</strong> concretos a tus recursos — por ejemplo, ISO 27001, PCI-DSS o NIST — y te muestra un <strong>panel de cumplimiento normativo (regulatory compliance dashboard)</strong> que traduce tus recomendaciones de seguridad en controles específicos de esa norma. Así, en vez de solo saber que "tu seguridad está bien o mal", puedes ver exactamente qué controles de una normativa concreta ya cumples y cuáles no.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el Secure Score es una puntuación general de buenas prácticas; los estándares de cumplimiento normativo dentro de Defender for Cloud mapean esas mismas recomendaciones contra los requisitos concretos de una norma específica (como PCI-DSS), lo cual es útil para demostrar cumplimiento ante un auditor.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Defender for Cloud puede mapear tus recomendaciones de seguridad contra los controles concretos de una norma como PCI-DSS mediante su panel de cumplimiento normativo, mostrando qué controles ya cumples." >
+    <p class="q">0. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Defender for Cloud puede mostrar qué recomendaciones de seguridad corresponden a los controles concretos de una norma como PCI-DSS, no solo dar una puntuación genérica.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="El Secure Score (CSPM) es la funcionalidad gratuita que evalúa la configuración y da una puntuación con recomendaciones; no requiere activar ningún plan de pago.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere saber, sin coste adicional, qué tan bien configurada está la seguridad de sus recursos de Azure y qué debería mejorar. ¿Qué funcionalidad de Defender for Cloud usa?</p>
+    <div class="options">
+      <label><input type="radio" name="q1dfc" value="A"> A) Un plan de Defender for Servers</label>
+      <label><input type="radio" name="q1dfc" value="B"> B) Secure Score (CSPM)</label>
+      <label><input type="radio" name="q1dfc" value="C"> C) Microsoft Sentinel</label>
+      <label><input type="radio" name="q1dfc" value="D"> D) Azure Bastion</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="El Secure Score da recomendaciones de configuración, pero la detección activa de amenazas en tiempo real requiere activar el plan de Defender de pago correspondiente.">
+      <span>El Secure Score, por sí solo, detecta ataques activos en tiempo real sobre tus máquinas virtuales.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Cada tipo de recurso (servidores, almacenamiento, SQL, contenedores...) tiene su propio plan de Defender activable de forma independiente.">
+      <span>Los planes de Defender para protección de cargas de trabajo se activan por separado según el tipo de recurso.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="sentinel">
+  <span class="eyebrow">Punto 3.4</span>
+  <h2>Microsoft Sentinel</h2>
+  <p>Es la solución de Microsoft de <strong>SIEM + SOAR</strong>, nativa de la nube. Son dos siglas que conviene separar bien:</p>
+
+  <table>
+    <tr><th>Sigla</th><th>Significado</th><th>Qué hace</th></tr>
+    <tr><td><strong>SIEM</strong></td><td>Security Information and Event Management</td><td>Recopila y correlaciona registros (logs) de seguridad de muchas fuentes distintas (Microsoft 365, Azure, firewalls, aplicaciones de terceros) para <strong>detectar</strong> patrones sospechosos que, viendo cada fuente por separado, pasarían desapercibidos</td></tr>
+    <tr><td><strong>SOAR</strong></td><td>Security Orchestration, Automated Response</td><td>Una vez detectada una amenaza, <strong>automatiza la respuesta</strong>: por ejemplo, deshabilitar automáticamente una cuenta comprometida o bloquear una IP, sin esperar a que un humano lo haga manualmente</td></tr>
+  </table>
+
+  <div class="analogy">
+    Piensa en un centro de control de tráfico aéreo: el SIEM sería la sala que junta la información de todos los radares y torres a la vez, para ver patrones que ningún radar aislado vería. El SOAR sería el sistema que, en cuanto detecta dos aviones en rumbo de colisión, activa automáticamente una alerta y redirige uno de ellos, sin esperar a que un humano reaccione primero.
+  </div>
+
+  <h3>Piezas clave de Sentinel</h3>
+  <ul>
+    <li><strong>Conectores de datos</strong>: la forma en que Sentinel recibe información de otras fuentes (Microsoft 365, Defender, firewalls, etc.).</li>
+    <li><strong>Reglas de análisis (analytics rules)</strong>: definen qué patrones se consideran sospechosos y generan un <strong>incidente</strong> cuando se detectan.</li>
+    <li><strong>Libros (workbooks)</strong>: paneles visuales para explorar los datos.</li>
+    <li><strong>Búsqueda (hunting)</strong>: consultas que un analista lanza de forma proactiva para buscar amenazas que las reglas automáticas no hayan detectado todavía.</li>
+    <li><strong>Playbooks</strong>: flujos automatizados (basados en Azure Logic Apps) que ejecutan la respuesta automática — la parte "SOAR".</li>
+  </ul>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta dice "recopilar y correlacionar datos de muchas fuentes para detectar amenazas" → SIEM. Si dice "responder automáticamente sin intervención humana" → SOAR. Sentinel hace ambas cosas a la vez.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="A" data-explain="Correlacionar registros de muchas fuentes distintas para detectar un patrón que ninguna fuente aislada mostraría es exactamente la función SIEM de Sentinel.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere cruzar los registros de inicio de sesión de Microsoft 365 con las alertas de su firewall, para detectar un patrón de ataque que ninguna de las dos fuentes mostraría por separado. ¿Qué capacidad de Sentinel está usando?</p>
+    <div class="options">
+      <label><input type="radio" name="q1sent" value="A"> A) SIEM</label>
+      <label><input type="radio" name="q1sent" value="B"> B) SOAR</label>
+      <label><input type="radio" name="q1sent" value="C"> C) CSPM</label>
+      <label><input type="radio" name="q1sent" value="D"> D) CASB</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B,C" data-explain="Las reglas de análisis (B) detectan patrones y generan incidentes, y la búsqueda o hunting (C) es la investigación proactiva de un analista. Los conectores de datos (A) solo ingieren información, no detectan por sí solos; y los playbooks (D) son la parte de respuesta automática (SOAR), no de detección.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de las siguientes piezas de Sentinel están relacionadas con la <strong>detección</strong> de amenazas, más que con la respuesta automática? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q2sent" value="A"> A) Conectores de datos</label>
+      <label><input type="checkbox" name="q2sent" value="B"> B) Reglas de análisis (analytics rules)</label>
+      <label><input type="checkbox" name="q2sent" value="C"> C) Búsqueda (hunting)</label>
+      <label><input type="checkbox" name="q2sent" value="D"> D) Playbooks</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="SOAR" data-explain="Automatizar una respuesta (deshabilitar una cuenta) sin intervención humana es la parte SOAR de Sentinel, no la parte SIEM (que solo detecta y correlaciona)." >
+    <p class="q">3. <span class="difficulty diff-med">🟡 Medio</span> Cuando Sentinel detecta una cuenta comprometida y la deshabilita automáticamente mediante un playbook, sin que un humano lo apruebe manualmente, esa capacidad se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="SIEM">SIEM</option>
+      <option value="SOAR">SOAR</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defxdr">
+  <span class="eyebrow">Punto 3.5</span>
+  <h2>Microsoft Defender XDR: visión general</h2>
+  <p><strong>XDR</strong> significa <em>Extended Detection and Response</em> (detección y respuesta extendida). La palabra clave es "extendida": en vez de que cada producto de seguridad (correo, dispositivos, identidad, apps en la nube) genere alertas por su cuenta, sin verse entre sí, Defender XDR <strong>correlaciona las señales de todos ellos en un único portal</strong>, para que un ataque que toca varios frentes se vea como <strong>un solo incidente</strong>, no como alertas sueltas y desconectadas.</p>
+
+  <div class="analogy">
+    Es la diferencia entre tener cuatro cámaras de seguridad que graban por separado y nadie mira juntas, frente a una sala de control donde un vigilante ve las cuatro pantallas a la vez y se da cuenta de que la persona que entró por la puerta trasera es la misma que después apareció merodeando por el almacén.
+  </div>
+
+  <p>Defender XDR reúne varios productos especializados, que vemos en los siguientes puntos:</p>
+  <ul>
+    <li><strong>Microsoft Defender for Endpoint</strong>: dispositivos.</li>
+    <li><strong>Microsoft Defender for Office 365</strong>: correo y colaboración.</li>
+    <li><strong>Microsoft Defender for Identity</strong>: Active Directory local.</li>
+    <li><strong>Microsoft Defender for Cloud Apps</strong>: aplicaciones en la nube (CASB).</li>
+    <li><strong>Microsoft Defender Vulnerability Management</strong>: detección y priorización de vulnerabilidades.</li>
+    <li><strong>Microsoft Defender Threat Intelligence (Defender TI)</strong>: inteligencia sobre amenazas externas.</li>
+  </ul>
+
+  <h3>El portal Microsoft Defender</h3>
+  <p>Todos estos productos se gestionan desde un único sitio: el <strong>portal Microsoft Defender</strong> (security.microsoft.com). Es la interfaz unificada donde un analista ve incidentes correlacionados de todos los productos a la vez, en vez de tener que entrar a una consola distinta para cada uno.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas Defender XDR (correlación de amenazas entre productos, seguridad de "puntos finales, identidad, correo y apps") con Defender for Cloud (postura y protección de recursos de <em>infraestructura en Azure</em>: VMs, storage, SQL...). Son familias de productos distintas, aunque las dos empiecen por "Defender".</div>
+
+  <div class="exercise" data-answer="A" data-explain="XDR significa Extended Detection and Response: correlaciona señales de varios productos de seguridad para ver un ataque como un único incidente, no como alertas sueltas." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Qué significa la "X" en Defender XDR?</p>
+    <div class="options">
+      <label><input type="radio" name="q1xdr" value="A"> A) Extended (extendida): correlaciona señales de varios productos</label>
+      <label><input type="radio" name="q1xdr" value="B"> B) External (externa): solo protege recursos fuera de la empresa</label>
+      <label><input type="radio" name="q1xdr" value="C"> C) eXchange: está centrado solo en el correo</label>
+      <label><input type="radio" name="q1xdr" value="D"> D) eXtra: es una versión de pago de Defender for Cloud</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defendpoint">
+  <span class="eyebrow">Punto 3.6</span>
+  <h2>Microsoft Defender for Endpoint</h2>
+  <p>Protege los <strong>dispositivos</strong> (endpoints): portátiles, móviles, servidores — en Windows, macOS, Linux, Android e iOS. No es solo un antivirus: incluye varias capacidades que conviene distinguir.</p>
+
+  <table>
+    <tr><th>Capacidad</th><th>Qué hace</th></tr>
+    <tr><td><strong>Gestión de vulnerabilidades</strong></td><td>Detecta software desactualizado o mal configurado en los dispositivos, antes de que se convierta en un problema</td></tr>
+    <tr><td><strong>Reducción de superficie de ataque</strong></td><td>Bloquea comportamientos que suelen aprovechar los atacantes (por ejemplo, que un documento de Office ejecute código malicioso) aunque el archivo en sí no esté marcado como virus conocido</td></tr>
+    <tr><td><strong>EDR (Endpoint Detection and Response)</strong></td><td>Detecta comportamientos sospechosos ya en curso en el dispositivo (no solo virus conocidos) e investiga la cadena de lo que pasó</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> un antivirus tradicional compara archivos contra una lista de virus conocidos. EDR va más allá: analiza <em>comportamientos</em> sospechosos, incluso de amenazas nunca vistas antes (día cero).</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Bloquear comportamientos típicos de ataque, incluso en archivos no marcados como maliciosos, es exactamente la reducción de superficie de ataque, distinta de un antivirus tradicional basado en firmas conocidas.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? La reducción de superficie de ataque puede bloquear que un documento de Office ejecute código malicioso, aunque ese documento no esté identificado como un virus conocido.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defo365">
+  <span class="eyebrow">Punto 3.7</span>
+  <h2>Microsoft Defender for Office 365</h2>
+  <p>Protege el correo y las herramientas de colaboración (Exchange, SharePoint, Teams, OneDrive) frente a las amenazas más comunes por ese canal: phishing, enlaces maliciosos y archivos adjuntos infectados.</p>
+
+  <table>
+    <tr><th>Funcionalidad</th><th>Qué hace</th></tr>
+    <tr><td><strong>Safe Links</strong></td><td>Comprueba los enlaces en el momento en que se hace clic (no solo cuando llega el correo), por si el enlace se volvió malicioso después de haber sido enviado</td></tr>
+    <tr><td><strong>Safe Attachments</strong></td><td>Abre los archivos adjuntos en un entorno aislado (sandbox) para comprobar que no contienen código malicioso antes de entregarlos al destinatario</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Safe Links protege en el momento del clic (no al recibir el correo); Safe Attachments analiza el archivo en un entorno aislado antes de entregarlo, no después.</div>
+
+  <div class="exercise" data-answer="B" data-explain="Safe Links comprueba el enlace en el momento del clic, no cuando llega el correo — por eso protege incluso si el enlace se volvió malicioso después de haberse enviado.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un enlace en un correo era seguro cuando se envió, pero el atacante lo convirtió en malicioso una semana después. El empleado hace clic hoy y queda protegido igualmente. ¿Qué funcionalidad de Defender for Office 365 permite esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1o365" value="A"> A) Safe Attachments</label>
+      <label><input type="radio" name="q1o365" value="B"> B) Safe Links</label>
+      <label><input type="radio" name="q1o365" value="C"> C) Defender for Identity</label>
+      <label><input type="radio" name="q1o365" value="D"> D) Azure Bastion</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defidentity">
+  <span class="eyebrow">Punto 3.8</span>
+  <h2>Microsoft Defender for Identity</h2>
+  <p>Mientras que Entra ID Protection (Módulo 2) analiza señales de riesgo en la <strong>nube</strong>, Defender for Identity vigila el <strong>Active Directory local (on-premises)</strong>, detectando comportamientos típicos de ataques dirigidos a identidades: movimientos laterales, intentos de escalar privilegios, o técnicas de robo de credenciales dentro de la red interna.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Entra ID Protection = riesgo de identidad en la <em>nube</em>. Defender for Identity = amenazas contra identidades en el <em>Active Directory local</em>. Se complementan, no se sustituyen.</div>
+
+  <div class="exercise" data-answer="B" data-explain="Defender for Identity está diseñado específicamente para monitorizar el Active Directory local y detectar movimientos laterales o robo de credenciales dentro de la red interna." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa quiere detectar si un atacante se mueve lateralmente dentro de su Active Directory local, intentando escalar privilegios entre servidores internos. ¿Qué solución de Microsoft es la adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="q1defid" value="A"> A) Microsoft Entra ID Protection</label>
+      <label><input type="radio" name="q1defid" value="B"> B) Microsoft Defender for Identity</label>
+      <label><input type="radio" name="q1defid" value="C"> C) Microsoft Defender for Cloud Apps</label>
+      <label><input type="radio" name="q1defid" value="D"> D) Azure Firewall</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="mcas">
+  <span class="eyebrow">Punto 3.9</span>
+  <h2>Microsoft Defender for Cloud Apps (CASB)</h2>
+  <p>Es un <strong>CASB (Cloud Access Security Broker)</strong>: un intermediario de seguridad entre tus usuarios y las aplicaciones en la nube que usan (sean de Microsoft o no). Su función principal es dar <strong>visibilidad</strong> sobre qué aplicaciones en la nube se están usando realmente en la empresa, y aplicar políticas sobre ellas.</p>
+
+  <h3>Shadow IT: el problema que resuelve</h3>
+  <p><strong>Shadow IT</strong> son las aplicaciones que los empleados usan por su cuenta, sin que el departamento de IT las conozca ni las haya aprobado (por ejemplo, subir archivos de la empresa a un servicio de almacenamiento personal). Defender for Cloud Apps descubre qué aplicaciones en la nube se están usando realmente en la red de la empresa, aunque nadie las haya dado de alta oficialmente, y permite bloquearlas, permitirlas, o aplicarles políticas de control.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta menciona "aplicaciones que los empleados usan sin aprobación de IT" → Shadow IT, y la herramienta para descubrirlas es Defender for Cloud Apps (CASB), no Defender for Cloud (que es sobre infraestructura de Azure).</div>
+
+  <div class="exercise" data-answer="C" data-explain="Descubrir aplicaciones en la nube usadas sin aprobación de IT (Shadow IT) es la función principal de un CASB como Defender for Cloud Apps." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa sospecha que sus empleados están usando servicios de almacenamiento en la nube no autorizados para compartir archivos de trabajo. ¿Qué solución de Microsoft ayuda a detectar este uso?</p>
+    <div class="options">
+      <label><input type="radio" name="q1casb" value="A"> A) Microsoft Defender for Cloud</label>
+      <label><input type="radio" name="q1casb" value="B"> B) Microsoft Sentinel</label>
+      <label><input type="radio" name="q1casb" value="C"> C) Microsoft Defender for Cloud Apps</label>
+      <label><input type="radio" name="q1casb" value="D"> D) Azure Key Vault</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defvm">
+  <span class="eyebrow">Punto 3.9b</span>
+  <h2>Microsoft Defender Vulnerability Management</h2>
+  <p>Mientras que Defender for Endpoint (punto 3.6) se centra en detectar ataques ya en curso, <strong>Defender Vulnerability Management</strong> se centra en <strong>encontrar y priorizar</strong> los puntos débiles antes de que alguien los aproveche: software desactualizado, configuraciones de seguridad incorrectas, o certificados a punto de caducar en tus dispositivos.</p>
+
+  <p>Su valor principal está en la <strong>priorización</strong>: no se limita a darte una lista enorme de vulnerabilidades, sino que las ordena según el riesgo real que suponen para tu organización en concreto (por ejemplo, una vulnerabilidad en un servidor expuesto a internet es más urgente que la misma vulnerabilidad en un equipo aislado sin acceso externo).</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Defender for Endpoint detecta comportamientos <em>ya en marcha</em> (reactivo/EDR); Defender Vulnerability Management busca <em>puntos débiles antes</em> de que se exploten (preventivo). Se complementan.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Priorizar qué vulnerabilidades corregir primero según el riesgo real para la organización es justo el valor añadido de Defender Vulnerability Management, más allá de simplemente listar fallos.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Microsoft Defender Vulnerability Management no solo detecta vulnerabilidades, sino que las prioriza según el riesgo real para tu organización.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="defti">
+  <span class="eyebrow">Punto 3.9c</span>
+  <h2>Microsoft Defender Threat Intelligence (Defender TI)</h2>
+  <p>Es la capacidad de Microsoft que reúne <strong>inteligencia sobre amenazas externas</strong>: información sobre atacantes conocidos, su infraestructura (dominios, direcciones IP maliciosas), y sus técnicas habituales, recopilada a partir de la enorme cantidad de señales que Microsoft observa globalmente. Los analistas de seguridad la usan para investigar si una IP o un dominio sospechoso que ven en su propia red está asociado a un atacante ya conocido.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Defender TI no analiza tus propios dispositivos ni tu propia red — analiza el panorama de amenazas <em>externo</em> (quién ataca, con qué infraestructura), como contexto para investigar mejor lo que ves dentro de tu organización.</div>
+
+  <div class="exercise" data-answer="B" data-explain="Defender TI reúne inteligencia sobre infraestructura de atacantes externos (dominios, IPs maliciosas conocidas); no es una herramienta para inventariar los propios dispositivos de la organización." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Un analista quiere saber si una dirección IP sospechosa detectada en los registros de la empresa está asociada a un grupo de atacantes ya conocido. ¿Qué herramienta de Microsoft le ayuda con esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1ti" value="A"> A) Microsoft Defender Vulnerability Management</label>
+      <label><input type="radio" name="q1ti" value="B"> B) Microsoft Defender Threat Intelligence</label>
+      <label><input type="radio" name="q1ti" value="C"> C) Azure Bastion</label>
+      <label><input type="radio" name="q1ti" value="D"> D) Azure Key Vault</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="seccopilot">
+  <span class="eyebrow">Punto 3.10</span>
+  <h2>Microsoft Security Copilot</h2>
+  <p>Es el asistente de inteligencia artificial de Microsoft para equipos de seguridad. Se integra con Defender, Sentinel y Entra, y permite a los analistas hacer preguntas en lenguaje natural (por ejemplo, "resume este incidente" o "¿qué dispositivos tienen esta vulnerabilidad?") y obtener respuestas o resúmenes automáticos, en vez de investigar manualmente panel por panel.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Security Copilot no sustituye a Sentinel ni a Defender — se apoya en los datos que ya recogen esas herramientas, y añade una capa de asistencia por IA encima para acelerar la investigación y la respuesta.</div>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto queda completo el Módulo 3 (Soluciones de seguridad de Microsoft, 35-40% del examen — el bloque con más peso). Próximo módulo: Soluciones de cumplimiento de Microsoft (15-20% del examen) — Microsoft Purview, protección de la información, eDiscovery y auditoría.
+  </div>
+</section>
+
+<section id="mix3">
+  <span class="eyebrow">Repaso final</span>
+  <h2>Repaso mixto — todo el Módulo 3</h2>
+  <p>12 preguntas que combinan todos los subpuntos del módulo (3.1 a 3.10), mezcladas y en formatos variados, con dificultad orientada a medio/difícil — trátalo como un simulacro real de este bloque, el más grande del examen.</p>
+
+  <div class="exercise" data-answer="C" data-explain="Azure Bastion da acceso RDP/SSH seguro sin exponer una IP pública en la máquina virtual, a diferencia de NSG (filtra tráfico) o Azure Firewall (protege toda la red)." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa necesita administrar sus máquinas virtuales sin exponer ninguna IP pública en ellas. ¿Qué servicio usa?</p>
+    <div class="options">
+      <label><input type="radio" name="qm3_1" value="A"> A) NSG</label>
+      <label><input type="radio" name="qm3_1" value="B"> B) Azure Firewall</label>
+      <label><input type="radio" name="qm3_1" value="C"> C) Azure Bastion</label>
+      <label><input type="radio" name="qm3_1" value="D"> D) WAF</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="El Secure Score da recomendaciones de configuración (CSPM); la detección activa de amenazas requiere activar un plan de Defender de pago para ese recurso.">
+      <span>El Secure Score de Defender for Cloud detecta ataques activos en tiempo real, sin necesidad de activar ningún plan de pago.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Sentinel combina SIEM (detectar correlacionando datos de muchas fuentes) y SOAR (responder automáticamente mediante playbooks).">
+      <span>Microsoft Sentinel combina capacidades de SIEM (detección) y SOAR (respuesta automática).</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Defender for Identity vigila el Active Directory local; Entra ID Protection es quien analiza el riesgo de identidades en la nube. Son complementarios, no el mismo producto.">
+      <span>Microsoft Defender for Identity y Microsoft Entra ID Protection son exactamente el mismo producto con nombres distintos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B,D" data-explain="Defender for Endpoint (B) protege dispositivos, y Defender for Cloud Apps (D) protege el uso de aplicaciones en la nube (CASB) — ambos forman parte de Defender XDR. Defender for Cloud (A) es sobre infraestructura de Azure, y Azure Firewall (C) es una herramienta de red, ninguno de los dos pertenece a la familia XDR.">
+    <p class="q">3. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de los siguientes productos forman parte de la familia Microsoft Defender XDR? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm3_3" value="A"> A) Microsoft Defender for Cloud</label>
+      <label><input type="checkbox" name="qm3_3" value="B"> B) Microsoft Defender for Endpoint</label>
+      <label><input type="checkbox" name="qm3_3" value="C"> C) Azure Firewall</label>
+      <label><input type="checkbox" name="qm3_3" value="D"> D) Microsoft Defender for Cloud Apps</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Safe Links" data-explain="Safe Links comprueba el enlace en el momento del clic, protegiendo incluso si el enlace se volvió malicioso después de haberse enviado el correo." >
+    <p class="q">4. <span class="difficulty diff-med">🟡 Medio</span> La funcionalidad que comprueba un enlace de correo en el momento exacto en que se hace clic, no solo cuando llega el mensaje, se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Safe Links">Safe Links</option>
+      <option value="Safe Attachments">Safe Attachments</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A" data-explain="El WAF protege específicamente contra ataques de capa de aplicación como inyección SQL o XSS, a diferencia de NSG o Azure Firewall que operan a nivel de red." >
+    <p class="q">5. <span class="difficulty diff-med">🟡 Medio</span> Una aplicación web pública sufre intentos de inyección SQL. ¿Qué servicio de Azure está pensado específicamente para este tipo de ataque?</p>
+    <div class="options">
+      <label><input type="radio" name="qm3_5" value="A"> A) Web Application Firewall (WAF)</label>
+      <label><input type="radio" name="qm3_5" value="B"> B) Grupo de seguridad de red (NSG)</label>
+      <label><input type="radio" name="qm3_5" value="C"> C) Azure Bastion</label>
+      <label><input type="radio" name="qm3_5" value="D"> D) Azure Key Vault</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Descubrir aplicaciones en la nube no autorizadas (Shadow IT) es exactamente la función de un CASB como Defender for Cloud Apps." >
+    <p class="q">6. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Microsoft Defender for Cloud Apps puede descubrir aplicaciones en la nube que los empleados usan sin aprobación de IT (Shadow IT).</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"cspm","i2":"sentinel","i3":"xdr","i4":"copilot"}' data-explain="Dar una puntuación de seguridad con recomendaciones es CSPM (Secure Score). Correlacionar logs de muchas fuentes para detectar y responder es Sentinel (SIEM+SOAR). Unificar señales de endpoints, identidad, correo y apps en un solo incidente es Defender XDR. Responder preguntas en lenguaje natural apoyándose en esos datos es Security Copilot.">
+    <p class="q">7. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego la solución de Microsoft a la que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la solución correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Da una puntuación de seguridad con recomendaciones de configuración</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Correlaciona logs de muchas fuentes y automatiza la respuesta</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Unifica endpoints, identidad, correo y apps en un solo incidente</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Responde preguntas en lenguaje natural apoyándose en esos datos</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="cspm" onclick="placeDDItem(this)"><div class="dd-zone-label">Secure Score (CSPM)</div></div>
+        <div class="dd-zone" data-zone="sentinel" onclick="placeDDItem(this)"><div class="dd-zone-label">Microsoft Sentinel</div></div>
+        <div class="dd-zone" data-zone="xdr" onclick="placeDDItem(this)"><div class="dd-zone-label">Defender XDR</div></div>
+        <div class="dd-zone" data-zone="copilot" onclick="placeDDItem(this)"><div class="dd-zone-label">Security Copilot</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Analizar comportamientos sospechosos ya en curso (no solo comparar contra virus conocidos) es la capacidad EDR de Defender for Endpoint." >
+    <p class="q">8. <span class="difficulty diff-hard">🔴 Difícil</span> Un dispositivo ejecuta un proceso con un comportamiento sospechoso, aunque el archivo no está identificado como ningún virus conocido. ¿Qué capacidad de Defender for Endpoint detecta esto?</p>
+    <div class="options">
+      <label><input type="radio" name="qm3_8" value="A"> A) Gestión de vulnerabilidades</label>
+      <label><input type="radio" name="qm3_8" value="B"> B) EDR (Endpoint Detection and Response)</label>
+      <label><input type="radio" name="qm3_8" value="C"> C) Safe Attachments</label>
+      <label><input type="radio" name="qm3_8" value="D"> D) CASB</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="No" data-explain="Azure Key Vault almacena y gestiona las claves y secretos; Azure Disk Encryption es quien usa esas claves para cifrar el disco. Son dos servicios distintos que trabajan juntos." >
+    <p class="q">9. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Azure Key Vault y Azure Disk Encryption son el mismo servicio con dos nombres distintos.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    <strong>🎓 Para ir más allá:</strong> Microsoft ofrece una <a href="https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/practice/assessment" target="_blank" rel="noopener">evaluación de práctica oficial y gratuita para el SC-900</a> en Microsoft Learn (necesitas iniciar sesión con una cuenta Microsoft).
+    <br><br>
+    También puedes repasar la <a href="https://learn.microsoft.com/es-es/training/paths/describe-capabilities-of-microsoft-security-solutions/" target="_blank" rel="noopener">ruta de aprendizaje oficial de este módulo en Microsoft Learn</a> (en español) — varios de sus módulos (como el de Sentinel) incluyen un laboratorio guiado en un entorno de pruebas gratuito para practicar sin necesitar tu propio tenant.
+  </div>
+</section>
+
+</main>
+
+<footer>SC-900 · Guía de estudio personal · Irene</footer>
+
+<script>
+/* --- Almacenamiento: usa window.storage si está disponible (vista previa en Claude),
+   y si no, localStorage (cuando abres el archivo .html directamente en tu navegador) --- */
+const PREFIX = 'sc900m3:';
+
+function hashKey(str){
+  let hash = 5381;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return 'q' + Math.abs(hash);
+}
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+async function deleteKey(key){
+  try{ if(window.storage){ await window.storage.delete(PREFIX+key, false); return; } }catch(e){}
+  try{ localStorage.removeItem(PREFIX+key); }catch(e){}
+}
+
+function checkRadio(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const selected = ex.querySelector('input[type=radio]:checked');
+  const fb = ex.querySelector('.feedback');
+  if(!selected){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(selected.value === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'radio', value:selected.value, fbClass:cls, fbText:text});
+}
+function checkSelect(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const sel = ex.querySelector('select').value;
+  const fb = ex.querySelector('.feedback');
+  if(!sel){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(sel === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'select', value:sel, fbClass:cls, fbText:text});
+}
+function checkMulti(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer.split(',').sort();
+  const explain = ex.dataset.explain || '';
+  const checked = Array.from(ex.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value).sort();
+  const fb = ex.querySelector('.feedback');
+  if(checked.length===0){ fb.className='feedback incorrect'; fb.textContent='Selecciona al menos una opción.'; return; }
+  let cls, text;
+  if(JSON.stringify(checked)===JSON.stringify(answer)){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. Las respuestas correctas son: ' + answer.join(' y ') + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'multi', values:checked, fbClass:cls, fbText:text});
+}
+function selectYN(btn, value){
+  const row = btn.closest('.yn-row');
+  row.dataset.selected = value;
+  row.querySelectorAll('.yn-btns button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveKey(row.dataset.key, {selected:value});
+}
+function checkYNGroup(btn){
+  const ex = btn.closest('.exercise');
+  const rows = ex.querySelectorAll('.yn-row');
+  const fb = ex.querySelector('.feedback');
+  let correct=0, total=rows.length, missing=false;
+  let lines=[];
+  rows.forEach((r,i)=>{
+    if(!r.dataset.selected){ missing=true; return; }
+    const ok = r.dataset.selected === r.dataset.answer;
+    if(ok) correct++;
+    const mark = ok ? '✓' : '✗ (correcto: ' + r.dataset.answer + ')';
+    lines.push((i+1) + '. ' + mark + ' — ' + (r.dataset.explain || ''));
+  });
+  if(missing){ fb.className='feedback incorrect'; fb.textContent='Responde todas las afirmaciones antes de comprobar.'; return; }
+  const cls = (correct===total) ? 'feedback correct' : 'feedback incorrect';
+  const html = '<strong>' + (correct===total ? '¡Las ' + total + ' correctas!' : 'Aciertos: ' + correct + ' de ' + total + '.') + '</strong><br>' + lines.join('<br>');
+  fb.className = cls;
+  fb.innerHTML = html;
+  saveKey(ex.dataset.key + '-fb', {fbClass:cls, fbHTML:html});
+}
+
+/* --- Asignar claves únicas y restaurar respuestas guardadas al cargar la página --- */
+async function restoreAll(){
+  const exercises = document.querySelectorAll('.exercise');
+  exercises.forEach((ex,i)=>{
+    const qEl = ex.querySelector('.q');
+    const qText = qEl ? qEl.textContent.trim() : (ex.dataset.answer || ('ex'+i));
+    ex.dataset.key = hashKey(qText);
+  });
+
+  for(const ex of exercises){
+    const ynRows = ex.querySelectorAll('.yn-row');
+    if(ynRows.length){
+      ynRows.forEach((row,j)=>{
+        const span = row.querySelector('span');
+        const rowText = span ? span.textContent.trim() : ('row'+j);
+        row.dataset.key = ex.dataset.key + '-' + hashKey(rowText);
+      });
+      for(const row of ynRows){
+        const saved = await loadKey(row.dataset.key);
+        if(saved && saved.selected){
+          row.dataset.selected = saved.selected;
+          row.querySelectorAll('.yn-btns button').forEach(b=>{
+            if(b.textContent.trim() === saved.selected) b.classList.add('selected');
+          });
+        }
+      }
+      const fbSaved = await loadKey(ex.dataset.key + '-fb');
+      if(fbSaved){
+        const fb = ex.querySelector('.feedback');
+        fb.className = fbSaved.fbClass; fb.innerHTML = fbSaved.fbHTML;
+      }
+      continue;
+    }
+    const saved = await loadKey(ex.dataset.key);
+    if(!saved) continue;
+    const fb = ex.querySelector('.feedback');
+    if(saved.type === 'radio'){
+      const input = ex.querySelector('input[type=radio][value="'+CSS.escape(saved.value)+'"]');
+      if(input) input.checked = true;
+    } else if(saved.type === 'select'){
+      const sel = ex.querySelector('select');
+      if(sel) sel.value = saved.value;
+    } else if(saved.type === 'dragdrop'){
+      for(const id in saved.mapping){
+        const item = ex.querySelector('.dd-item[data-id="'+CSS.escape(id)+'"]');
+        const zone = ex.querySelector('.dd-zone[data-zone="'+CSS.escape(saved.mapping[id])+'"]');
+        if(item && zone){ zone.appendChild(item); item.classList.add('placed'); }
+      }
+    } else if(saved.type === 'multi'){
+      saved.values.forEach(v=>{
+        const input = ex.querySelector('input[type=checkbox][value="'+CSS.escape(v)+'"]');
+        if(input) input.checked = true;
+      });
+    }
+    if(saved.fbClass){ fb.className = saved.fbClass; fb.textContent = saved.fbText; }
+  }
+}
+
+async function clearAllAnswers(){
+  if(!confirm('¿Borrar todas tus respuestas guardadas? Esto no se puede deshacer.')) return;
+  const exercises = document.querySelectorAll('.exercise');
+  for(const ex of exercises){
+    await deleteKey(ex.dataset.key);
+    await deleteKey(ex.dataset.key + '-fb');
+    ex.querySelectorAll('.yn-row').forEach(row=> deleteKey(row.dataset.key));
+  }
+  location.reload();
+}
+
+
+/* --- Drag & drop (toca para colocar) --- */
+let selectedDDItem = null;
+function selectDDItem(el){
+  if(el.classList.contains('placed')){
+    const ex = el.closest('.exercise');
+    ex.querySelector('.dd-pool').appendChild(el);
+    el.classList.remove('placed','selected');
+    if(selectedDDItem === el) selectedDDItem = null;
+    return;
+  }
+  const ex = el.closest('.exercise');
+  ex.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone){
+  if(!selectedDDItem) return;
+  const ex = zone.closest('.exercise');
+  if(selectedDDItem.closest('.exercise') !== ex) return;
+  const existing = zone.querySelector('.dd-item');
+  if(existing){ ex.querySelector('.dd-pool').appendChild(existing); existing.classList.remove('placed'); }
+  zone.appendChild(selectedDDItem);
+  selectedDDItem.classList.remove('selected');
+  selectedDDItem.classList.add('placed');
+  selectedDDItem = null;
+}
+function checkDragDrop(btn){
+  const ex = btn.closest('.exercise');
+  const answer = JSON.parse(ex.dataset.answer);
+  const explain = ex.dataset.explain || '';
+  const zones = ex.querySelectorAll('.dd-zone');
+  const totalItems = ex.querySelectorAll('.dd-item').length;
+  let mapping = {};
+  zones.forEach(zone=>{
+    const item = zone.querySelector('.dd-item');
+    if(item) mapping[item.dataset.id] = zone.dataset.zone;
+  });
+  const fb = ex.querySelector('.feedback');
+  if(Object.keys(mapping).length < totalItems){
+    fb.className='feedback incorrect'; fb.textContent='Coloca todos los elementos antes de comprobar.'; return;
+  }
+  let correct = true;
+  for(const id in answer){ if(mapping[id] !== answer[id]) correct = false; }
+  const cls = correct ? 'feedback correct' : 'feedback incorrect';
+  const text = (correct ? '¡Correcto! ' : 'No del todo correcto. ') + explain;
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'dragdrop', mapping, fbClass:cls, fbText:text});
+}
+
+document.addEventListener('DOMContentLoaded', restoreAll);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Chuleta final: lo que más se confunde</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+<style>
+  .pair{background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; display:flex; gap:16px; align-items:stretch;}
+  .pair .side{flex:1; padding:10px 14px; border-radius:8px;}
+  .pair .side.a{background:#EAF3FF; border-left:4px solid var(--navy);}
+  .pair .side.b{background:#F0F7F5; border-left:4px solid var(--teal);}
+  .pair .side h4{margin:0 0 6px; color:var(--navy); font-size:0.95rem;}
+  .pair .side p{margin:0; font-size:0.88rem;}
+  .vs{align-self:center; font-weight:800; color:#bbb; font-size:0.85rem;}
+  .clue{background:#FBF1DD; border-left:4px solid var(--amber); padding:10px 14px; margin-top:10px; font-size:0.85rem; border-radius:0 8px 8px 0;}
+  .modheader{margin-top:44px; padding-bottom:8px; border-bottom:3px solid var(--navy);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Chuleta final</h1>
+  <p>Los pares de conceptos que más se confunden en el examen, módulo a módulo</p>
+</header>
+
+<nav>
+  <a href="#m1">Módulo 1</a>
+  <a href="#m2">Módulo 2</a>
+  <a href="#m3">Módulo 3</a>
+  <a href="#m4">Módulo 4</a>
+</nav>
+
+<main>
+
+<p>Esta chuleta no sustituye el estudio de los cuatro módulos completos — es un repaso final de los pares de conceptos que, por experiencia, más hacen dudar en preguntas de examen porque suenan parecido o aparecen juntos en el mismo escenario. Repásala el día antes.</p>
+
+<section id="m1">
+  <h2 class="modheader">Módulo 1 — Conceptos (10-15%)</h2>
+
+  <div class="pair">
+    <div class="side a"><h4>Cifrado</h4><p>Reversible. Con la clave correcta, se puede volver a leer el dato original.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Hashing</h4><p>Nunca reversible. Sirve para verificar integridad o guardar contraseñas sin guardarlas.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "verificar que no cambió" o "guardar contraseñas" → hashing. "Que solo alguien con la clave lo lea" → cifrado.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Autenticación</h4><p>¿Quién eres? Usuario + contraseña + MFA.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Autorización</h4><p>¿Qué puedes hacer? Roles y permisos, después de autenticarte.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "verificar identidad", "MFA" → autenticación. "Permisos", "acceso a un recurso concreto" → autorización.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Zero Trust</h4><p>3 principios: verificar siempre, privilegios mínimos, asumir la brecha. Centrado en <em>identidad y contexto</em>.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Defensa en profundidad</h4><p>Capas técnicas: perímetro, red, host, aplicación, datos.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: son complementarios, no lo mismo. Zero Trust = filosofía de verificación constante. Defensa en profundidad = capas técnicas independientes.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Tríada CIA</h4><p>3 elementos: Confidencialidad, Integridad, Disponibilidad. Qué se protege de la información.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>4 pilares de identidad</h4><p>4 elementos: Administración, Autenticación, Autorización, Auditoría. Ciclo de vida de una identidad.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: cuenta los elementos (3 vs 4) para no mezclarlos si la pregunta da una lista incompleta como distractor.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Active Directory (AD DS)</h4><p>On-premises. Kerberos, LDAP. Piensa "servidores físicos en la oficina".</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Microsoft Entra ID</h4><p>En la nube. OAuth2, OpenID Connect, SAML. Piensa "Microsoft 365, apps SaaS".</p></div>
+  </div>
+  <div class="clue">🎯 Pista: si la pregunta menciona protocolos concretos, Kerberos/LDAP = AD DS; OAuth/OIDC/SAML = Entra ID.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Governance</h4><p>Reglas internas: quién decide qué dentro de la empresa.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Compliance</h4><p>Reglas externas obligatorias: leyes y normativas (RGPD, HIPAA...).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "quién aprueba internamente" → Governance. "Seguir una ley" → Compliance. "Evaluar probabilidad de amenaza" → Risk.</div>
+</section>
+
+<section id="m2">
+  <h2 class="modheader">Módulo 2 — Microsoft Entra (25-30%)</h2>
+
+  <div class="pair">
+    <div class="side a"><h4>Microsoft Entra Connect</h4><p>Sincroniza identidades entre AD local y Entra ID. No detecta amenazas ni protege datos.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Defender / Purview</h4><p>Defender = seguridad. Purview = cumplimiento. Ninguno sincroniza cuentas.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: si la pregunta habla de "misma cuenta en dos sitios" → Entra Connect, siempre.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Password Hash Sync</h4><p>Entra ID valida solo, con el hash ya sincronizado. Sigue funcionando si el AD local cae.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Pass-through Auth / Federación</h4><p>Necesitan consultar o delegar al AD local en cada inicio de sesión. Si el AD local cae, fallan.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "sigue funcionando aunque el AD local esté caído" → siempre es Password Hash Sync.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Entitlement management</h4><p>Da un paquete de permisos predefinido de una vez, al solicitarlo.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Revisiones de acceso</h4><p>Confirma periódicamente si un acceso ya dado sigue haciendo falta.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "dar de golpe varios permisos" → entitlement management. "Comprobar si sigue haciendo falta" → revisiones de acceso. Ninguna de las dos es PIM.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>PIM</h4><p>Acceso Just-In-Time a roles con privilegios (Administrador global...), con aprobación y tiempo limitado.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Identity Protection</h4><p>Detecta riesgo de usuario y de inicio de sesión; puede combinarse con acceso condicional.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: PIM = "activar un rol temporalmente". Identity Protection = "detectar comportamiento de riesgo".</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Roles de Entra ID</h4><p>Administran identidades y la plataforma (usuarios, licencias, políticas).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>RBAC de Azure</h4><p>Da acceso a recursos concretos: VMs, bases de datos, storage.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "gestionar usuarios/licencias" → roles de Entra ID. "Acceder a una VM o base de datos" → RBAC de Azure.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Riesgo de usuario</h4><p>La cuenta en sí parece comprometida (credenciales filtradas).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Riesgo de inicio de sesión</h4><p>Este intento concreto de acceso es sospechoso (viaje imposible, IP rara).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "credenciales en una filtración" → riesgo de usuario. "Este login concreto es raro" → riesgo de inicio de sesión.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>B2B</h4><p>Colaborar con otras empresas: proveedores, socios, invitados profesionales.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>B2C</h4><p>Dar identidad a consumidores finales de una app pública (con Google, Facebook...).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "socios/proveedores" → B2B. "Clientes/consumidores de mi app" → B2C.</div>
+</section>
+
+<section id="m3">
+  <h2 class="modheader">Módulo 3 — Soluciones de seguridad (35-40%)</h2>
+
+  <div class="pair">
+    <div class="side a"><h4>NSG</h4><p>Filtra tráfico a nivel de subred o tarjeta de red (más granular).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Azure Firewall</h4><p>Centraliza la protección de toda la red virtual de una vez.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: si es "una subred concreta" → NSG. Si es "toda la red de golpe" → Azure Firewall. Ninguno de los dos es el WAF (ese es capa de aplicación web, no de red).</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Secure Score (CSPM)</h4><p>Gratis. Recomendaciones de configuración. No detecta ataques en curso.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Planes de Defender (pago)</h4><p>Detección activa de amenazas en tiempo real, por tipo de recurso.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "sin coste adicional" / "recomendaciones" → Secure Score. "Detectar un ataque ya ocurriendo" → plan de pago.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>SIEM</h4><p>Recopila y correlaciona logs de muchas fuentes para <em>detectar</em> patrones.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>SOAR</h4><p>Automatiza la <em>respuesta</em> (playbooks) sin intervención humana.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "detectar cruzando fuentes" → SIEM. "Actuar automáticamente" → SOAR. Sentinel hace ambas.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Defender XDR</h4><p>Correlaciona endpoints, identidad, correo y apps en un solo incidente.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Defender for Cloud</h4><p>Postura y protección de infraestructura de Azure (VMs, storage, SQL).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: ambos empiezan por "Defender" pero son familias distintas — XDR es amenazas correlacionadas, Cloud es infraestructura Azure.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Defender for Identity</h4><p>Vigila el Active Directory <strong>local</strong> (movimientos laterales, pass-the-hash).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Entra ID Protection</h4><p>Analiza riesgo de identidades en la <strong>nube</strong>.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "Active Directory local" → Defender for Identity. "Riesgo de inicio de sesión en la nube" → Entra ID Protection.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Defender Vulnerability Management</h4><p>Preventivo: encuentra y prioriza puntos débiles antes del ataque.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Defender for Endpoint (EDR)</h4><p>Reactivo: detecta comportamientos sospechosos ya en marcha.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "antes de que ocurra" → Vulnerability Management. "Ya está pasando" → EDR.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Safe Links</h4><p>Comprueba el enlace en el momento exacto del clic.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Safe Attachments</h4><p>Analiza el archivo adjunto en un entorno aislado antes de entregarlo.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "el enlace se volvió malicioso después de enviarse" → Safe Links (por eso comprueba en el clic, no al llegar).</div>
+</section>
+
+<section id="m4">
+  <h2 class="modheader">Módulo 4 — Soluciones de cumplimiento (20-25%)</h2>
+
+  <div class="pair">
+    <div class="side a"><h4>Service Trust Portal</h4><p>Documentación pública de Microsoft sobre <strong>sus propios</strong> servicios.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Compliance Manager</h4><p>Evalúa el cumplimiento de <strong>tu propia</strong> organización.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "informe de auditoría de Microsoft sobre Azure" → Service Trust Portal. "Evaluar si mi empresa cumple el RGPD" → Compliance Manager.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Compliance score</h4><p>Mide cumplimiento normativo (RGPD, ISO, HIPAA) en Compliance Manager.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Secure Score</h4><p>Mide postura de seguridad técnica en Defender for Cloud (Módulo 3).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: son la confusión más común de todo el examen. Herramientas distintas, propósitos distintos — nunca son lo mismo.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Content Explorer</h4><p>Foto del <strong>presente</strong>: dónde está el contenido ahora.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Activity Explorer</h4><p>Historial del <strong>pasado</strong>: qué se ha hecho con ese contenido.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "quién lo descargó/compartió" (una acción pasada) → siempre Activity Explorer.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Política de retención</h4><p>Alcance amplio: todo un contenedor (todos los buzones, todo Teams).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Etiqueta de retención</h4><p>Alcance granular: un documento o tipo de documento concreto.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "todos los X durante Y años" → política. "Este documento en concreto durante Y años" → etiqueta.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>DLP</h4><p>Bloquea/advierte <strong>en el momento</strong> de compartir información sensible.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Insider risk management</h4><p>Detecta <strong>patrones de comportamiento</strong> de un empleado a lo largo del tiempo.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "bloquea un envío concreto ahora mismo" → DLP. "Detecta que alguien lleva semanas descargando de más" → riesgos internos.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>eDiscovery</h4><p>Encuentra y exporta contenido para un <strong>litigio legal concreto</strong>.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Audit</h4><p>Registro general de "quién hizo qué" en <strong>todo</strong> el tenant.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "demanda legal, exportar correos de un caso" → eDiscovery. "Investigar el alcance de una brecha en general" → Audit.</div>
+
+</section>
+
+<div class="callout" style="font-style:normal; margin-top:40px;">
+  Si en el examen dudas entre dos opciones que empiezan igual ("Defender...", "Compliance...", "Entra..."), vuelve a esta chuleta mentalmente: casi siempre la clave está en <strong>quién actúa</strong> (Microsoft vs. tu organización), <strong>cuándo actúa</strong> (antes/durante/después del hecho), o <strong>sobre qué actúa</strong> (nube vs. on-premises, identidad vs. infraestructura).
+</div>
+
+</main>
+
+<footer>SC-900 · Chuleta final de repaso · Irene</footer>
+
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Examen simulado</title>
+<style>
+  :root{
+    --navy:#14213D; --teal:#2A9D8F; --amber:#E9C46A; --coral:#E76F51;
+    --cream:#F8F6F1; --ink:#22262E; --line:#DCD6C8; --green:#1F6B3A; --red:#B23A22;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--cream); color:var(--ink); font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif; line-height:1.55;}
+  header{background:var(--navy); color:#fff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20;}
+  header h1{font-family:Georgia, serif; margin:0; font-size:1.3rem;}
+  #timer{font-size:1.4rem; font-weight:700; font-variant-numeric:tabular-nums; padding:6px 16px; border-radius:8px; background:#0F1A30;}
+  #timer.warn{background:var(--coral); animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.6;}}
+  main{max-width:820px; margin:0 auto; padding:28px 20px 80px;}
+
+  /* Start screen */
+  .start-card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:32px; text-align:center;}
+  .start-card h2{font-family:Georgia, serif; color:var(--navy); margin-top:0;}
+  .stat-row{display:flex; justify-content:center; gap:28px; margin:24px 0; flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat .num{font-size:1.8rem; font-weight:700; color:var(--teal);}
+  .stat .lbl{font-size:0.8rem; color:#7a7568;}
+  .big-btn{background:var(--navy); color:#fff; border:none; padding:14px 32px; border-radius:8px; font-size:1.05rem; cursor:pointer; margin-top:8px;}
+  .big-btn:hover{background:var(--teal);}
+  .history{margin-top:28px; text-align:left;}
+  .history h3{font-size:0.95rem; color:var(--navy);}
+  .history-item{display:flex; justify-content:space-between; padding:8px 12px; border:1px solid var(--line); border-radius:8px; margin-bottom:6px; font-size:0.88rem; background:#FAF9F5;}
+  .history-item .pass{color:var(--green); font-weight:700;}
+  .history-item .fail{color:var(--red); font-weight:700;}
+
+  /* Exam screen */
+  #examScreen{display:none;}
+  .progress-bar{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;}
+  .qnav{display:grid; grid-template-columns:repeat(auto-fill, minmax(30px,1fr)); gap:4px; margin-bottom:18px;}
+  .qnav button{width:100%; aspect-ratio:1; border:1px solid var(--line); background:#fff; border-radius:5px; font-size:0.7rem; cursor:pointer; color:#888;}
+  .qnav button.answered{background:var(--teal); color:#fff; border-color:var(--teal);}
+  .qnav button.current{outline:2px solid var(--navy); font-weight:700;}
+  .q-card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px;}
+  .domain-tag{font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--teal); font-weight:700;}
+  .q-text{font-size:1.05rem; font-weight:600; margin:8px 0 18px; color:var(--navy);}
+  .opt{display:block; padding:10px 14px; margin:6px 0; border:1px solid var(--line); border-radius:8px; cursor:pointer; background:#FAF9F5;}
+  .opt.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .opt input{margin-right:8px;}
+  select.dd{padding:8px 10px; border-radius:6px; border:1px solid var(--line); font-size:1rem; width:100%; max-width:280px;}
+  .tf-row{display:flex; gap:12px;}
+  .tf-btn{flex:1; padding:14px; border:1px solid var(--line); border-radius:8px; background:#FAF9F5; cursor:pointer; font-weight:600; text-align:center;}
+  .tf-btn.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:1.3; min-width:200px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .nav-row{display:flex; justify-content:space-between; margin-top:20px; gap:10px;}
+  .nav-btn{background:#fff; border:1px solid var(--line); padding:10px 20px; border-radius:8px; cursor:pointer; font-size:0.95rem;}
+  .nav-btn.primary{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .nav-btn:disabled{opacity:0.4; cursor:not-allowed;}
+  .finish-row{text-align:center; margin-top:16px;}
+  .finish-btn{background:var(--coral); color:#fff; border:none; padding:10px 22px; border-radius:8px; cursor:pointer; font-size:0.9rem;}
+
+  /* Results screen */
+  #resultsScreen{display:none;}
+  .score-banner{text-align:center; padding:32px; border-radius:14px; margin-bottom:24px;}
+  .score-banner.pass{background:#E4F4E9; border:2px solid var(--green);}
+  .score-banner.fail{background:#FBE7E3; border:2px solid var(--red);}
+  .score-num{font-size:3rem; font-weight:800; font-family:Georgia,serif;}
+  .score-banner.pass .score-num{color:var(--green);}
+  .score-banner.fail .score-num{color:var(--red);}
+  .score-label{font-size:1.1rem; font-weight:700; margin-top:4px;}
+  table.domain-table{width:100%; border-collapse:collapse; margin:20px 0;}
+  table.domain-table th, table.domain-table td{border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:0.9rem;}
+  table.domain-table th{background:var(--navy); color:#fff;}
+  .review-item{background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:12px;}
+  .review-item.correct{border-left:4px solid var(--green);}
+  .review-item.incorrect{border-left:4px solid var(--red);}
+  .review-mark{font-weight:700; font-size:0.85rem;}
+  .review-mark.correct{color:var(--green);}
+  .review-mark.incorrect{color:var(--red);}
+  .review-answer{font-size:0.88rem; margin-top:6px; color:#444;}
+  .review-explain{font-size:0.85rem; margin-top:6px; color:#666; font-style:italic;}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Examen simulado</h1>
+  <div id="timer" style="display:none;">60:00</div>
+</header>
+
+<main>
+
+  <div id="startScreen">
+    <div class="start-card">
+      <h2>Simulacro de examen SC-900</h2>
+      <p>50 preguntas repartidas según el peso oficial de cada módulo. Corrección solo al final, igual que el examen real.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">50</div><div class="lbl">preguntas</div></div>
+        <div class="stat"><div class="num">60</div><div class="lbl">minutos</div></div>
+        <div class="stat"><div class="num">700</div><div class="lbl">para aprobar (/1000)</div></div>
+      </div>
+      <button class="big-btn" onclick="startExam()">Comenzar examen</button>
+      <div class="history" id="historyBox" style="display:none;">
+        <h3>Tus intentos anteriores</h3>
+        <div id="historyList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="examScreen">
+    <div class="progress-bar">
+      <span id="progressText">Pregunta 1 de 50</span>
+      <span id="answeredText">0 respondidas</span>
+    </div>
+    <div class="qnav" id="qnav"></div>
+    <div class="q-card">
+      <div class="domain-tag" id="domainTag"></div>
+      <div class="q-text" id="qText"></div>
+      <div id="qBody"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="goPrev()">← Anterior</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="goNext()">Siguiente →</button>
+    </div>
+    <div class="finish-row">
+      <button class="finish-btn" onclick="confirmFinish()">Finalizar examen</button>
+    </div>
+  </div>
+
+  <div id="resultsScreen"></div>
+
+</main>
+
+<footer>SC-900 · Examen simulado de práctica · Irene</footer>
+
+<script>
+const QUESTIONS_RAW = [
+// ===== DOMINIO 1 — Conceptos (6) =====
+{domain:1, type:'single', text:'Una empresa exige que, aunque un empleado ya haya iniciado sesión desde la oficina, deba volver a verificar su identidad si el dispositivo cambia o el riesgo aumenta. ¿Qué principio de Zero Trust aplica?',
+ options:['Privilegios mínimos','Verificar explícitamente','Asumir la brecha','Defensa en profundidad'], answer:1,
+ explain:'Volver a pedir verificación según el contexto (dispositivo, riesgo) en cada acceso, sin confiar por defecto, es "verificar explícitamente".'},
+{domain:1, type:'truefalse', text:'El hashing permite recuperar el dato original si se dispone de la clave correcta.',
+ answer:false, explain:'El hashing nunca es reversible, ni con ninguna clave — para eso existe el cifrado.'},
+{domain:1, type:'single', text:'En un servicio SaaS como Microsoft 365, ¿quién es responsable de mantener actualizado el sistema operativo del servidor?',
+ options:['El cliente','Microsoft','Ambos por igual','Ninguno de los dos'], answer:1,
+ explain:'En SaaS, Microsoft gestiona el sistema operativo por completo; el cliente solo es responsable de sus datos e identidades.'},
+{domain:1, type:'dropdown', text:'Un cifrado que usa una clave pública para cifrar y una clave privada distinta para descifrar se llama cifrado [_____].',
+ options:['simétrico','asimétrico'], answer:'asimétrico',
+ explain:'El cifrado asimétrico usa un par de claves distintas (pública/privada); el simétrico usa la misma clave para ambas operaciones.'},
+{domain:1, type:'multi', text:'¿Cuáles de las siguientes son identidades de carga de trabajo (workload identities)? (elige 2)',
+ options:['Un empleado que inicia sesión con usuario y contraseña','Una aplicación que se conecta sola a una base de datos','Un socio externo invitado a un proyecto','Un script que se ejecuta cada noche sin intervención humana'],
+ answer:[1,3], explain:'La aplicación y el script actúan sin intervención humana directa: son identidades de carga de trabajo. El empleado y el invitado son identidades humanas.'},
+{domain:1, type:'single', text:'¿Qué protocolo usa Active Directory Domain Services (AD DS) para autenticar a un usuario al iniciar sesión en un equipo unido al dominio?',
+ options:['OAuth 2.0','Kerberos','SAML','OpenID Connect'], answer:1,
+ explain:'AD DS usa Kerberos para autenticación y LDAP para consultas de directorio; los protocolos modernos (OAuth2/SAML/OIDC) son propios de Entra ID.'},
+
+// ===== DOMINIO 2 — Entra (14) =====
+{domain:2, type:'single', text:'¿Cómo se llamaba anteriormente Microsoft Entra ID?',
+ options:['Azure Information Protection','Azure Active Directory','Microsoft Defender','Azure Security Center'], answer:1,
+ explain:'Microsoft renombró Azure Active Directory a Microsoft Entra ID en 2023; siguen siendo el mismo servicio.'},
+{domain:2, type:'multi', text:'¿Cuáles de las siguientes son ejemplos de identidades de carga de trabajo en Entra ID? (elige 2)',
+ options:['Un usuario invitado externo','Una entidad de servicio con credenciales manuales','Una identidad administrada gestionada por Azure','Un dispositivo registrado'],
+ answer:[1,2], explain:'Entidades de servicio e identidades administradas son ambas identidades de aplicación (carga de trabajo); el invitado es humano y el dispositivo es otro tipo distinto.'},
+{domain:2, type:'single', text:'Una empresa quiere que sus empleados sigan iniciando sesión en Microsoft 365 aunque su Active Directory local esté temporalmente caído. ¿Qué método de autenticación híbrida lo permite?',
+ options:['Autenticación de paso a través (PTA)','Federación con AD FS','Sincronización de hash de contraseña (Password Hash Sync)','Ninguno, siempre depende del AD local'], answer:2,
+ explain:'Con Password Hash Sync, Entra ID valida el inicio de sesión con el hash ya sincronizado, sin depender de que el AD local esté disponible.'},
+{domain:2, type:'truefalse', text:'Un usuario invitado (guest) tiene una cuenta de empleado completa, igual que un usuario miembro.',
+ answer:false, explain:'El invitado tiene acceso limitado a recursos concretos; su identidad "real" sigue viviendo en su propia organización o cuenta personal.'},
+{domain:2, type:'dropdown', text:'Un empleado olvida su contraseña un fin de semana y la restablece él mismo usando un teléfono que había registrado antes, sin llamar a soporte técnico. Esto es un ejemplo de [_____].',
+ options:['MFA','SSPR','Acceso condicional'], answer:'SSPR',
+ explain:'SSPR (Self-Service Password Reset) permite al usuario restablecer su propia contraseña usando un método de verificación ya registrado.'},
+{domain:2, type:'single', text:'Una empresa quiere que, si un inicio de sesión viene de un país donde el empleado nunca ha estado, se le exija automáticamente un segundo factor, aunque normalmente no haga falta. ¿Qué funcionalidad de Entra permite esto?',
+ options:['SSPR','Acceso condicional','Identidad administrada','Grupo de seguridad'], answer:1,
+ explain:'El acceso condicional evalúa señales de contexto (como la ubicación) en cada inicio de sesión y decide si exigir más verificación.'},
+{domain:2, type:'multi', text:'¿Cuáles de las siguientes combinaciones cuentan como MFA real (factores de tipos distintos)? (elige 2)',
+ options:['Contraseña + pregunta de seguridad','Contraseña + código enviado al móvil','Huella dactilar + reconocimiento facial','Contraseña + aprobación en la app Authenticator'],
+ answer:[1,3], explain:'Ambas combinan "algo que sabes" con "algo que tienes". Las otras dos combinan dos veces el mismo tipo de factor.'},
+{domain:2, type:'single', text:'Una empresa no quiere que el rol de Administrador global esté activo permanentemente, sino que cada administrador lo active solo cuando lo necesite, con aprobación previa. ¿Qué funcionalidad de Entra permite esto?',
+ options:['Acceso condicional','Privileged Identity Management (PIM)','Entitlement management','Identity Protection'], answer:1,
+ explain:'PIM da acceso Just-In-Time a roles con privilegios, activables temporalmente y con aprobación, en vez de dejarlos siempre activos.'},
+{domain:2, type:'truefalse', text:'Los roles de Entra ID y el RBAC de Azure son exactamente el mismo sistema de permisos, solo con nombres distintos.',
+ answer:false, explain:'Los roles de Entra ID administran identidades y la plataforma; el RBAC de Azure da acceso a recursos concretos como máquinas virtuales o bases de datos. Son sistemas distintos.'},
+{domain:2, type:'single', text:'Una empresa quiere dar de una vez un conjunto predefinido de permisos (una app de CRM, una carpeta compartida y un grupo de Teams) a cada nuevo comercial que se une. ¿Qué funcionalidad de Entra ID Governance usa?',
+ options:['Revisiones de acceso','Entitlement management (paquetes de acceso)','Acceso condicional','PIM'], answer:1,
+ explain:'Los paquetes de acceso de entitlement management agrupan varios permisos para asignarlos de una vez al solicitarlos.'},
+{domain:2, type:'dropdown', text:'Una tienda online quiere que sus clientes se registren e inicien sesión con su cuenta de Google. Este escenario de identidades externas se llama [_____].',
+ options:['B2B','B2C'], answer:'B2C',
+ explain:'B2C está pensado para dar identidad a consumidores finales de una aplicación pública, normalmente con cuentas sociales o personales.'},
+{domain:2, type:'single', text:'Un inicio de sesión ocurre desde Madrid y, 10 minutos después, desde Tokio — algo físicamente imposible. ¿Qué tipo de riesgo detecta Identity Protection aquí?',
+ options:['Riesgo de usuario','Riesgo de inicio de sesión','Riesgo de cumplimiento','Riesgo de dispositivo'], answer:1,
+ explain:'Un patrón de "viaje imposible" en un intento concreto de acceso es riesgo de inicio de sesión, no necesariamente indica que la cuenta esté comprometida en sí.'},
+{domain:2, type:'dragdrop', text:'Relaciona cada descripción con la funcionalidad de Entra a la que corresponde.',
+ items:[['i1','Confirma periódicamente si un acceso sigue haciendo falta'],['i2','Activa un rol de administrador solo temporalmente, con aprobación'],['i3','Detecta riesgo de usuario y de inicio de sesión']],
+ zones:[['z1','Revisiones de acceso'],['z2','PIM'],['z3','Identity Protection']],
+ answer:{i1:'z1', i2:'z2', i3:'z3'},
+ explain:'Cada funcionalidad de gobernanza/protección de Entra responde a una necesidad distinta y complementaria.'},
+{domain:2, type:'single', text:'¿Cuál es el propósito principal de una revisión de acceso (access review) en Entra ID Governance?',
+ options:['Dar acceso rápido a nuevos empleados','Confirmar periódicamente si un acceso ya concedido sigue siendo necesario','Bloquear inicios de sesión sospechosos en tiempo real','Sincronizar cuentas entre AD local y la nube'], answer:1,
+ explain:'Las revisiones de acceso permiten que alguien (el usuario, su jefe o un administrador) confirme si un acceso concreto sigue haciendo falta, retirándolo si nadie lo confirma.'},
+
+// ===== DOMINIO 3 — Seguridad (19) =====
+{domain:3, type:'single', text:'¿Qué servicio de Azure detecta y mitiga ataques de denegación de servicio distribuido (tráfico masivo falso)?',
+ options:['Azure Bastion','Azure DDoS Protection','Azure Key Vault','Azure Firewall'], answer:1,
+ explain:'Azure DDoS Protection tiene un nivel Basic gratuito automático y un nivel Standard de pago con mitigación avanzada.'},
+{domain:3, type:'single', text:'Una empresa necesita administrar sus máquinas virtuales por RDP sin exponer ninguna IP pública en ellas. ¿Qué servicio usa?',
+ options:['NSG','Azure Firewall','Azure Bastion','Web Application Firewall'], answer:2,
+ explain:'Azure Bastion da acceso RDP/SSH seguro desde el portal de Azure sin necesitar una IP pública en la máquina virtual.'},
+{domain:3, type:'truefalse', text:'Un Web Application Firewall (WAF) protege específicamente contra ataques como inyección SQL o Cross-Site Scripting.',
+ answer:true, explain:'El WAF está diseñado para ataques de capa de aplicación web, a diferencia de NSG o Azure Firewall que operan a nivel de red.'},
+{domain:3, type:'dropdown', text:'Un atacante supera el firewall perimetral, pero la red interna está dividida en zonas separadas. La capa que limita que se mueva libremente hacia otros recursos es la de [_____].',
+ options:['Perímetro','Red','Aplicación'], answer:'Red',
+ explain:'La segmentación de red (subredes, NSGs) es la que impide el movimiento lateral una vez superado el perímetro.'},
+{domain:3, type:'single', text:'Varias aplicaciones necesitan la misma cadena de conexión a una base de datos, sin que cada desarrollador la guarde copiada en su propio código. ¿Qué servicio de Azure resuelve esto?',
+ options:['Azure Key Vault','Azure Disk Encryption','Azure Bastion','Microsoft Defender for Cloud'], answer:0,
+ explain:'Azure Key Vault centraliza el almacenamiento seguro de secretos, claves y certificados.'},
+{domain:3, type:'single', text:'Una empresa quiere saber, sin coste adicional, qué tan bien configurada está la seguridad de sus recursos de Azure. ¿Qué funcionalidad de Defender for Cloud usa?',
+ options:['Un plan de Defender for Servers','Secure Score (CSPM)','Microsoft Sentinel','Azure Bastion'], answer:1,
+ explain:'El Secure Score (CSPM) es gratuito y da recomendaciones de configuración; la detección activa de amenazas requiere un plan de pago.'},
+{domain:3, type:'truefalse', text:'Defender for Cloud puede mostrar qué recomendaciones de seguridad corresponden a los controles concretos de una norma como PCI-DSS.',
+ answer:true, explain:'El panel de cumplimiento normativo de Defender for Cloud mapea tus recomendaciones contra los controles concretos de normas específicas.'},
+{domain:3, type:'single', text:'¿Qué sigla describe la capacidad de recopilar y correlacionar registros de seguridad de muchas fuentes distintas para detectar patrones sospechosos?',
+ options:['SOAR','SIEM','CASB','CSPM'], answer:1,
+ explain:'SIEM (Security Information and Event Management) es la parte de detección; SOAR es la parte de respuesta automatizada.'},
+{domain:3, type:'single', text:'Sentinel detecta una cuenta comprometida y la deshabilita automáticamente mediante un playbook, sin intervención humana. Esta capacidad se llama:',
+ options:['SIEM','SOAR','CSPM','CASB'], answer:1,
+ explain:'SOAR (Security Orchestration, Automated Response) es la automatización de la respuesta, como deshabilitar una cuenta sin intervención manual.'},
+{domain:3, type:'multi', text:'¿Cuáles de las siguientes piezas de Sentinel están relacionadas con la detección de amenazas, más que con la respuesta automática? (elige 2)',
+ options:['Conectores de datos','Reglas de análisis (analytics rules)','Búsqueda (hunting)','Playbooks'],
+ answer:[1,2], explain:'Las reglas de análisis detectan patrones y generan incidentes; la búsqueda es investigación proactiva. Los playbooks son la parte de respuesta (SOAR).'},
+{domain:3, type:'single', text:'¿Qué significa la "X" en Microsoft Defender XDR?',
+ options:['Extended (extendida): correlaciona señales de varios productos','External (externa): solo protege fuera de la empresa','eXchange: está centrado solo en el correo','eXtra: versión de pago de Defender for Cloud'], answer:0,
+ explain:'XDR = Extended Detection and Response: correlaciona señales de varios productos de seguridad en un solo incidente.'},
+{domain:3, type:'single', text:'Un dispositivo ejecuta un proceso con comportamiento sospechoso, aunque el archivo no está identificado como ningún virus conocido. ¿Qué capacidad de Defender for Endpoint detecta esto?',
+ options:['Gestión de vulnerabilidades','EDR (Endpoint Detection and Response)','Safe Attachments','CASB'], answer:1,
+ explain:'EDR analiza comportamientos sospechosos ya en curso, más allá de comparar contra virus conocidos.'},
+{domain:3, type:'single', text:'Un enlace de correo era seguro al enviarse, pero se volvió malicioso una semana después. El empleado hace clic hoy y queda protegido. ¿Qué funcionalidad de Defender for Office 365 permite esto?',
+ options:['Safe Attachments','Safe Links','Defender for Identity','Azure Bastion'], answer:1,
+ explain:'Safe Links comprueba el enlace en el momento exacto del clic, no solo cuando llega el correo.'},
+{domain:3, type:'single', text:'Una empresa quiere detectar movimientos laterales y escalada de privilegios dentro de su Active Directory local. ¿Qué solución de Microsoft es la adecuada?',
+ options:['Microsoft Entra ID Protection','Microsoft Defender for Identity','Microsoft Defender for Cloud Apps','Azure Firewall'], answer:1,
+ explain:'Defender for Identity vigila específicamente el Active Directory local; Entra ID Protection analiza riesgo de identidades en la nube.'},
+{domain:3, type:'single', text:'Una empresa sospecha que sus empleados usan servicios de almacenamiento en la nube no autorizados. ¿Qué solución ayuda a detectarlo?',
+ options:['Microsoft Defender for Cloud','Microsoft Sentinel','Microsoft Defender for Cloud Apps','Azure Key Vault'], answer:2,
+ explain:'Defender for Cloud Apps (CASB) descubre aplicaciones en la nube no autorizadas (Shadow IT).'},
+{domain:3, type:'single', text:'Un equipo de seguridad necesita priorizar qué vulnerabilidades corregir primero, según el riesgo real para su organización, no solo una lista de fallos. ¿Qué solución usa?',
+ options:['Microsoft Defender Vulnerability Management','Microsoft Defender Threat Intelligence','Azure Bastion','Microsoft Sentinel'], answer:0,
+ explain:'Defender Vulnerability Management no solo detecta vulnerabilidades, sino que las prioriza según el riesgo real para la organización.'},
+{domain:3, type:'single', text:'Un analista quiere saber si una IP sospechosa detectada en sus registros está asociada a un grupo de atacantes ya conocido externamente. ¿Qué herramienta le ayuda?',
+ options:['Microsoft Defender Vulnerability Management','Microsoft Defender Threat Intelligence','Azure Key Vault','Azure Bastion'], answer:1,
+ explain:'Defender TI reúne inteligencia sobre infraestructura de atacantes externos conocidos (dominios, IPs maliciosas).'},
+{domain:3, type:'dragdrop', text:'Relaciona cada descripción con el servicio de Azure al que corresponde.',
+ items:[['i1','Filtra tráfico a nivel de subred o tarjeta de red'],['i2','Centraliza la protección de toda la red virtual'],['i3','Protege contra inyección SQL en una app web']],
+ zones:[['z1','NSG'],['z2','Azure Firewall'],['z3','WAF']],
+ answer:{i1:'z1', i2:'z2', i3:'z3'},
+ explain:'Cada herramienta de red de Azure opera a un nivel distinto de la infraestructura.'},
+{domain:3, type:'truefalse', text:'Dividir una red virtual de Azure en varias subredes, y controlar qué tráfico pasa entre ellas, es un ejemplo de segmentación de red.',
+ answer:true, explain:'Separar recursos en subredes distintas y controlar el tráfico entre ellas limita el movimiento lateral de un atacante — eso es segmentación de red.'},
+
+// ===== DOMINIO 4 — Cumplimiento (11) =====
+{domain:4, type:'single', text:'Una empresa necesita un informe de auditoría oficial de Microsoft sobre el cumplimiento de Azure con ISO 27001, para su propio auditor externo. ¿Dónde lo encuentra?',
+ options:['Service Trust Portal','Compliance Manager','Content Explorer','Microsoft Priva'], answer:0,
+ explain:'El Service Trust Portal ofrece documentación pública de Microsoft sobre el cumplimiento de sus propios servicios.'},
+{domain:4, type:'truefalse', text:'Microsoft Priva puede ayudar a automatizar una solicitud de un cliente para eliminar todos sus datos personales (derecho al olvido).',
+ answer:true, explain:'Las Subject Rights Requests de Priva automatizan encontrar, exportar o eliminar los datos personales de alguien que ejerce sus derechos.'},
+{domain:4, type:'single', text:'Una empresa quiere gestionar DLP, eDiscovery y retención desde un único sitio centralizado. ¿Dónde debe entrar?',
+ options:['Azure Portal','El portal de Microsoft Purview','Service Trust Portal','Microsoft Defender portal'], answer:1,
+ explain:'El portal de Purview es el punto de entrada centralizado a todas las herramientas de cumplimiento de Microsoft.'},
+{domain:4, type:'dropdown', text:'La puntuación que mide cumplimiento normativo (RGPD, ISO, HIPAA) dentro de Compliance Manager se llama [_____], distinta del Secure Score de Defender for Cloud.',
+ options:['compliance score','Secure Score'], answer:'compliance score',
+ explain:'El compliance score mide cumplimiento normativo; el Secure Score mide postura de seguridad técnica de Azure — son puntuaciones distintas.'},
+{domain:4, type:'single', text:'Un administrador quiere saber qué empleado descargó un documento etiquetado como "Confidencial" la semana pasada. ¿Qué herramienta debe usar?',
+ options:['Content Explorer','Activity Explorer','Compliance Manager','Service Trust Portal'], answer:1,
+ explain:'Activity Explorer muestra el historial de acciones sobre contenido etiquetado (quién lo descargó, cuándo); Content Explorer muestra solo dónde está ahora.'},
+{domain:4, type:'truefalse', text:'Aplicar la etiqueta "Altamente confidencial" a un documento puede cifrarlo automáticamente, no solo mostrar una marca visual.',
+ answer:true, explain:'Las etiquetas de confidencialidad pueden llevar cifrado real aplicado, no son solo una marca decorativa.'},
+{domain:4, type:'single', text:'Un empleado intenta enviar por correo un archivo con números de tarjetas de crédito a una dirección externa, y el sistema bloquea el envío automáticamente. ¿Qué solución hizo esto?',
+ options:['Retention label','Data Loss Prevention (DLP)','Content Explorer','eDiscovery'], answer:1,
+ explain:'DLP detecta y bloquea en tiempo real el intento de compartir información sensible de forma inapropiada.'},
+{domain:4, type:'truefalse', text:'Cuando un documento se marca como registro (record), normalmente queda bloqueado contra ediciones para preservar su validez como prueba.',
+ answer:true, explain:'Un registro queda protegido contra modificación, precisamente porque su valor legal depende de que no se manipule.'},
+{domain:4, type:'dropdown', text:'Conservar todos los buzones de correo de la empresa durante 5 años, de forma amplia y automática, es un ejemplo de [_____].',
+ options:['política de retención','etiqueta de retención'], answer:'política de retención',
+ explain:'Las políticas de retención se aplican a todo un contenedor de forma amplia; las etiquetas se aplican a elementos individuales concretos.'},
+{domain:4, type:'single', text:'Una empresa quiere detectar si un empleado que ha presentado su renuncia está descargando archivos confidenciales de forma inusual antes de irse. ¿Qué solución de Purview es la más adecuada?',
+ options:['Data Loss Prevention (DLP)','Gestión de riesgos internos','eDiscovery','Content Explorer'], answer:1,
+ explain:'La gestión de riesgos internos detecta patrones de comportamiento potencialmente arriesgado por parte de empleados, combinando señales con aprendizaje automático.'},
+{domain:4, type:'single', text:'La empresa recibe una demanda legal y necesita encontrar y exportar todos los correos relacionados con el caso entre dos fechas concretas. ¿Qué solución de Purview usa?',
+ options:['Audit','eDiscovery','Records management','Insider risk management'], answer:1,
+ explain:'eDiscovery encuentra, preserva, recopila y exporta contenido relevante para un litigio o investigación legal concreta.'}
+];
+
+let order = [];
+let userAnswers = {};
+let selectedDDItem = null;
+let timerInterval = null;
+let secondsLeft = 60*60;
+let examStarted = false;
+
+const PREFIX = 'sc900exam:';
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+async function loadHistory(){
+  const h = await loadKey('history');
+  if(h && h.length){
+    document.getElementById('historyBox').style.display='block';
+    const list = document.getElementById('historyList');
+    list.innerHTML = h.slice(-5).reverse().map(item=>{
+      const cls = item.score>=700 ? 'pass' : 'fail';
+      const label = item.score>=700 ? 'Aprobado' : 'Suspenso';
+      return `<div class="history-item"><span>${item.date}</span><span>${item.score}/1000</span><span class="${cls}">${label}</span></div>`;
+    }).join('');
+  }
+}
+loadHistory();
+
+function startExam(){
+  order = shuffle(QUESTIONS_RAW.map((q,i)=>i));
+  userAnswers = {};
+  secondsLeft = 60*60;
+  examStarted = true;
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('resultsScreen').style.display='none';
+  document.getElementById('examScreen').style.display='block';
+  document.getElementById('timer').style.display='inline-block';
+  buildQNav();
+  renderQuestion(0);
+  timerInterval = setInterval(tick, 1000);
+}
+
+function tick(){
+  secondsLeft--;
+  const m = Math.floor(secondsLeft/60), s = secondsLeft%60;
+  const el = document.getElementById('timer');
+  el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  if(secondsLeft <= 300) el.classList.add('warn');
+  if(secondsLeft <= 0){
+    clearInterval(timerInterval);
+    finishExam();
+  }
+}
+
+let currentIndex = 0;
+
+function buildQNav(){
+  const nav = document.getElementById('qnav');
+  nav.innerHTML = '';
+  order.forEach((qi, idx)=>{
+    const btn = document.createElement('button');
+    btn.textContent = idx+1;
+    btn.onclick = ()=> renderQuestion(idx);
+    btn.id = 'navbtn-'+idx;
+    nav.appendChild(btn);
+  });
+}
+
+function updateQNav(){
+  order.forEach((qi, idx)=>{
+    const btn = document.getElementById('navbtn-'+idx);
+    btn.classList.toggle('answered', userAnswers.hasOwnProperty(idx));
+    btn.classList.toggle('current', idx===currentIndex);
+  });
+  document.getElementById('progressText').textContent = `Pregunta ${currentIndex+1} de ${order.length}`;
+  document.getElementById('answeredText').textContent = `${Object.keys(userAnswers).length} respondidas`;
+}
+
+function renderQuestion(idx){
+  currentIndex = idx;
+  selectedDDItem = null;
+  const qi = order[idx];
+  const q = QUESTIONS_RAW[qi];
+  const domainNames = {1:'Módulo 1 · Conceptos', 2:'Módulo 2 · Entra', 3:'Módulo 3 · Seguridad', 4:'Módulo 4 · Cumplimiento'};
+  document.getElementById('domainTag').textContent = domainNames[q.domain];
+  document.getElementById('qText').textContent = q.text;
+  const body = document.getElementById('qBody');
+  const saved = userAnswers[idx];
+  body.innerHTML = '';
+
+  if(q.type === 'single'){
+    q.options.forEach((opt, i)=>{
+      const div = document.createElement('label');
+      div.className = 'opt' + (saved===i ? ' selected':'');
+      div.innerHTML = `<input type="radio" name="cur" ${saved===i?'checked':''}> ${opt}`;
+      div.onclick = ()=>{ userAnswers[idx]=i; renderQuestion(idx); updateQNav(); };
+      body.appendChild(div);
+    });
+  } else if(q.type === 'multi'){
+    const savedArr = saved || [];
+    q.options.forEach((opt, i)=>{
+      const div = document.createElement('label');
+      const isSel = savedArr.includes(i);
+      div.className = 'opt' + (isSel ? ' selected':'');
+      div.innerHTML = `<input type="checkbox" ${isSel?'checked':''}> ${opt}`;
+      div.onclick = (e)=>{
+        e.preventDefault();
+        let arr = userAnswers[idx] ? userAnswers[idx].slice() : [];
+        if(arr.includes(i)) arr = arr.filter(x=>x!==i); else arr.push(i);
+        userAnswers[idx] = arr;
+        renderQuestion(idx); updateQNav();
+      };
+      body.appendChild(div);
+    });
+  } else if(q.type === 'truefalse'){
+    const row = document.createElement('div');
+    row.className = 'tf-row';
+    ['Verdadero','Falso'].forEach((lbl, i)=>{
+      const val = (i===0);
+      const btn = document.createElement('div');
+      btn.className = 'tf-btn' + (saved===val ? ' selected':'');
+      btn.textContent = lbl;
+      btn.onclick = ()=>{ userAnswers[idx]=val; renderQuestion(idx); updateQNav(); };
+      row.appendChild(btn);
+    });
+    body.appendChild(row);
+  } else if(q.type === 'dropdown'){
+    const sel = document.createElement('select');
+    sel.className = 'dd';
+    sel.innerHTML = '<option value="">-- elige --</option>' + q.options.map(o=>`<option value="${o}" ${saved===o?'selected':''}>${o}</option>`).join('');
+    sel.onchange = ()=>{ userAnswers[idx]=sel.value; updateQNav(); };
+    body.appendChild(sel);
+  } else if(q.type === 'dragdrop'){
+    const wrap = document.createElement('div');
+    wrap.className = 'dd-wrap';
+    const pool = document.createElement('div');
+    pool.className = 'dd-pool';
+    const zones = document.createElement('div');
+    zones.className = 'dd-zones';
+    const mapping = saved || {};
+
+    q.zones.forEach(([zid, zlabel])=>{
+      const z = document.createElement('div');
+      z.className = 'dd-zone';
+      z.dataset.zone = zid;
+      z.innerHTML = `<div class="dd-zone-label">${zlabel}</div>`;
+      z.onclick = ()=> placeDDItem(z, idx);
+      zones.appendChild(z);
+    });
+
+    q.items.forEach(([iid, ilabel])=>{
+      const item = document.createElement('div');
+      item.className = 'dd-item';
+      item.dataset.id = iid;
+      item.textContent = ilabel;
+      item.onclick = ()=> selectDDItemFn(item, idx);
+      const placedZone = mapping[iid];
+      if(placedZone){
+        item.classList.add('placed');
+        pool.appendChild(item); // temp, will move below
+      } else {
+        pool.appendChild(item);
+      }
+    });
+
+    wrap.appendChild(pool);
+    wrap.appendChild(zones);
+    body.appendChild(wrap);
+
+    // move placed items into their zones after DOM insert
+    Object.keys(mapping).forEach(iid=>{
+      const item = body.querySelector(`.dd-item[data-id="${iid}"]`);
+      const zone = body.querySelector(`.dd-zone[data-zone="${mapping[iid]}"]`);
+      if(item && zone) zone.appendChild(item);
+    });
+  }
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Última pregunta' : 'Siguiente →';
+  updateQNav();
+}
+
+function selectDDItemFn(el, idx){
+  if(el.classList.contains('placed')){
+    const mapping = Object.assign({}, userAnswers[idx]||{});
+    delete mapping[el.dataset.id];
+    userAnswers[idx] = mapping;
+    renderQuestion(idx); updateQNav();
+    return;
+  }
+  el.parentElement.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone, idx){
+  if(!selectedDDItem) return;
+  const mapping = Object.assign({}, userAnswers[idx]||{});
+  // if another item already occupies this zone, unassign it
+  Object.keys(mapping).forEach(k=>{ if(mapping[k]===zone.dataset.zone) delete mapping[k]; });
+  mapping[selectedDDItem.dataset.id] = zone.dataset.zone;
+  userAnswers[idx] = mapping;
+  selectedDDItem = null;
+  renderQuestion(idx); updateQNav();
+}
+
+function goPrev(){ if(currentIndex>0) renderQuestion(currentIndex-1); }
+function goNext(){ if(currentIndex<order.length-1) renderQuestion(currentIndex+1); else confirmFinish(); }
+
+function confirmFinish(){
+  const unanswered = order.length - Object.keys(userAnswers).length;
+  let msg = '¿Finalizar el examen ahora?';
+  if(unanswered>0) msg = `Todavía tienes ${unanswered} pregunta(s) sin responder. ` + msg;
+  if(confirm(msg)) finishExam();
+}
+
+function isCorrect(q, ans){
+  if(ans === undefined || ans === null) return false;
+  if(q.type === 'single') return ans === q.answer;
+  if(q.type === 'truefalse') return ans === q.answer;
+  if(q.type === 'dropdown') return ans === q.answer;
+  if(q.type === 'multi'){
+    const a = ans.slice().sort();
+    const b = q.answer.slice().sort();
+    return JSON.stringify(a)===JSON.stringify(b);
+  }
+  if(q.type === 'dragdrop'){
+    const keys = Object.keys(q.answer);
+    if(Object.keys(ans).length !== keys.length) return false;
+    return keys.every(k => ans[k] === q.answer[k]);
+  }
+  return false;
+}
+
+function formatUserAnswer(q, ans){
+  if(ans===undefined || ans===null) return '(sin responder)';
+  if(q.type==='single') return q.options[ans];
+  if(q.type==='truefalse') return ans ? 'Verdadero' : 'Falso';
+  if(q.type==='dropdown') return ans;
+  if(q.type==='multi') return ans.map(i=>q.options[i]).join(', ');
+  if(q.type==='dragdrop') return Object.entries(ans).map(([k,v])=>{
+    const item = q.items.find(i=>i[0]===k);
+    const zone = q.zones.find(z=>z[0]===v);
+    return `${item?item[1]:k} → ${zone?zone[1]:v}`;
+  }).join(' | ');
+  return String(ans);
+}
+function formatCorrectAnswer(q){
+  if(q.type==='single') return q.options[q.answer];
+  if(q.type==='truefalse') return q.answer ? 'Verdadero' : 'Falso';
+  if(q.type==='dropdown') return q.answer;
+  if(q.type==='multi') return q.answer.map(i=>q.options[i]).join(', ');
+  if(q.type==='dragdrop') return Object.entries(q.answer).map(([k,v])=>{
+    const item = q.items.find(i=>i[0]===k);
+    const zone = q.zones.find(z=>z[0]===v);
+    return `${item?item[1]:k} → ${zone?zone[1]:v}`;
+  }).join(' | ');
+  return String(q.answer);
+}
+
+async function finishExam(){
+  clearInterval(timerInterval);
+  document.getElementById('examScreen').style.display='none';
+  document.getElementById('timer').style.display='none';
+
+  let correctCount = 0;
+  const domainStats = {1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0},4:{c:0,t:0}};
+  const reviewItems = [];
+
+  order.forEach((qi, idx)=>{
+    const q = QUESTIONS_RAW[qi];
+    const ans = userAnswers[idx];
+    const ok = isCorrect(q, ans);
+    if(ok) correctCount++;
+    domainStats[q.domain].t++;
+    if(ok) domainStats[q.domain].c++;
+    reviewItems.push({idx, q, ans, ok});
+  });
+
+  const score = Math.round((correctCount / order.length) * 1000);
+  const passed = score >= 700;
+
+  const history = (await loadKey('history')) || [];
+  history.push({date: new Date().toLocaleDateString('es-ES'), score});
+  await saveKey('history', history);
+
+  const domainNames = {1:'Módulo 1 · Conceptos (10-15%)', 2:'Módulo 2 · Entra (25-30%)', 3:'Módulo 3 · Seguridad (35-40%)', 4:'Módulo 4 · Cumplimiento (20-25%)'};
+
+  let html = `
+    <div class="score-banner ${passed?'pass':'fail'}">
+      <div class="score-num">${score}<span style="font-size:1.2rem;">/1000</span></div>
+      <div class="score-label">${passed ? '✅ Aprobado' : '❌ Suspenso'} (se necesitan 700/1000)</div>
+      <div style="margin-top:6px; font-size:0.9rem;">${correctCount} de ${order.length} correctas</div>
+    </div>
+    <table class="domain-table">
+      <tr><th>Módulo</th><th>Aciertos</th><th>%</th></tr>
+      ${[1,2,3,4].map(d=>{
+        const s = domainStats[d];
+        const pct = s.t ? Math.round(s.c/s.t*100) : 0;
+        return `<tr><td>${domainNames[d]}</td><td>${s.c} / ${s.t}</td><td>${pct}%</td></tr>`;
+      }).join('')}
+    </table>
+    <h3 style="color:var(--navy); font-family:Georgia,serif;">Revisión completa</h3>
+  `;
+
+  reviewItems.forEach((item, i)=>{
+    html += `
+      <div class="review-item ${item.ok?'correct':'incorrect'}">
+        <span class="review-mark ${item.ok?'correct':'incorrect'}">${item.ok?'✓ Correcta':'✗ Incorrecta'}</span> — Pregunta ${i+1}
+        <div style="font-weight:600; margin-top:6px;">${item.q.text}</div>
+        <div class="review-answer">Tu respuesta: ${formatUserAnswer(item.q, item.ans)}</div>
+        ${!item.ok ? `<div class="review-answer">Respuesta correcta: ${formatCorrectAnswer(item.q)}</div>` : ''}
+        <div class="review-explain">${item.q.explain}</div>
+      </div>
+    `;
+  });
+
+  html += `<div style="text-align:center; margin-top:24px;"><button class="big-btn" onclick="location.reload()">Hacer otro intento</button></div>`;
+
+  const results = document.getElementById('resultsScreen');
+  results.innerHTML = html;
+  results.style.display = 'block';
+  window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>

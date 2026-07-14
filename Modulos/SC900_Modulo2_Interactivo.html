@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC-900 · Módulo 2 · Guía interactiva</title>
+<style>
+  :root{
+    --navy:#14213D;
+    --teal:#2A9D8F;
+    --amber:#E9C46A;
+    --coral:#E76F51;
+    --cream:#F8F6F1;
+    --ink:#22262E;
+    --line:#DCD6C8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family: ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:40px 24px 32px;
+  }
+  header h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    margin:0 0 6px; font-size:2rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#C9D2E0; font-size:0.95rem;}
+  nav{
+    background:#0F1A30; padding:10px 24px; display:flex; flex-wrap:wrap; gap:6px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  nav a{color:#C9D2E0; text-decoration:none; font-size:0.82rem; padding:4px 2px;}
+  nav a:hover{color:var(--amber);}
+  main{max-width:820px; margin:0 auto; padding:32px 24px 80px;}
+  section{margin-bottom:56px; scroll-margin-top:70px;}
+  h2{
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:8px;
+    font-size:1.5rem;
+  }
+  h3{color:var(--navy); font-size:1.05rem; margin-top:28px;}
+  .eyebrow{
+    display:inline-block; font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--teal); font-weight:700; margin-bottom:4px;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even){background:#F1EEE4;}
+  .callout{
+    background:#fff; border-left:4px solid var(--teal); padding:14px 18px; margin:18px 0;
+    border-radius:0 8px 8px 0; font-style:italic;
+  }
+  .tip{
+    background:#FBF1DD; border-left:4px solid var(--amber); padding:12px 18px; margin:16px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  .tip strong{color:#8a6d16;}
+  .analogy{
+    background:#F0F7F5; border-left:4px solid var(--teal); padding:12px 18px; margin:14px 0;
+    border-radius:0 8px 8px 0; font-size:0.92rem;
+  }
+  code{background:#EDE9DC; padding:2px 5px; border-radius:4px; font-size:0.85em;}
+  svg{width:100%; height:auto; display:block; margin:20px 0;}
+  .layer-label{font-size:14px; font-weight:600; fill:#fff;}
+  .layer-sub{font-size:11.5px; fill:#EDEBE3;}
+
+  /* Exercises */
+  .exercise{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0;
+  }
+  .exercise p.q{font-weight:600; margin-top:0;}
+  .options label{
+    display:block; padding:7px 10px; margin:4px 0; border-radius:6px; cursor:pointer;
+    border:1px solid var(--line); background:#FAF9F5;
+  }
+  .options label:hover{border-color:var(--teal);}
+  .check-btn{
+    background:var(--navy); color:#fff; border:none; padding:8px 18px; border-radius:6px;
+    cursor:pointer; font-size:0.9rem; margin-top:8px;
+  }
+  .check-btn:hover{background:var(--teal);}
+  .feedback{margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.9rem; display:none;}
+  .feedback.correct{background:#E4F4E9; color:#1F6B3A; display:block;}
+  .feedback.incorrect{background:#FBE7E3; color:#B23A22; display:block;}
+  select{padding:6px 8px; border-radius:6px; border:1px solid var(--line); font-size:0.92rem;}
+  .yn-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .yn-row:last-of-type{border-bottom:none;}
+  .yn-row span{flex:1;}
+  .yn-btns button{
+    border:1px solid var(--line); background:#FAF9F5; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .yn-btns button.selected{background:var(--navy); color:#fff; border-color:var(--navy);}
+  footer{text-align:center; padding:24px; color:#8a8578; font-size:0.85rem;}
+
+  /* Drag & drop (toca para colocar) */
+  .dd-wrap{display:flex; gap:20px; flex-wrap:wrap; margin:14px 0;}
+  .dd-pool{flex:1; min-width:160px; display:flex; flex-direction:column; gap:8px;}
+  .dd-item{background:#fff; border:2px solid var(--teal); border-radius:6px; padding:8px 10px; cursor:pointer; font-size:0.88rem; user-select:none;}
+  .dd-item.selected{background:var(--teal); color:#fff;}
+  .dd-item.placed{border-style:dashed; opacity:0.9;}
+  .dd-zones{flex:2; min-width:220px; display:flex; flex-direction:column; gap:10px;}
+  .dd-zone{border:2px dashed var(--line); border-radius:8px; padding:10px; min-height:44px; cursor:pointer;}
+  .dd-zone-label{font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:6px;}
+  .dd-hint{font-size:0.8rem; color:#8a8578; margin:-6px 0 10px;}
+  .difficulty{font-size:0.7rem; padding:2px 9px; border-radius:10px; margin-left:8px; font-weight:700; vertical-align:middle;}
+  .diff-easy{background:#E4F4E9; color:#1F6B3A;}
+  .diff-med{background:#FBF1DD; color:#8a6d16;}
+  .diff-hard{background:#FBE7E3; color:#B23A22;}
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>SC-900 · Módulo 2</h1>
+  <p>Microsoft Entra — con diagramas y ejercicios interactivos</p>
+  <button class="check-btn" style="margin-top:14px; background:var(--coral);" onclick="clearAllAnswers()">🗑️ Borrar todas mis respuestas</button>
+</header>
+
+<nav>
+  <a href="#intro">2.1 Qué es Entra ID</a>
+  <a href="#idtypes">2.2 Tipos de identidad</a>
+  <a href="#idtypes-dd">↳ Práctica</a>
+  <a href="#hybrid">2.2b Identidad híbrida</a>
+  <a href="#usersgroups">2.3 Usuarios y grupos</a>
+  <a href="#authmethods2">2.4 Métodos de autenticación</a>
+  <a href="#idconcepts2">2.5 Proveedor de identidad y tokens</a>
+  <a href="#condaccess">2.6 Acceso condicional</a>
+  <a href="#rbac">2.7 Roles y RBAC</a>
+  <a href="#rbac-dd">↳ Práctica</a>
+  <a href="#extid">2.8 Identidades externas</a>
+  <a href="#governance">2.9 Gobernanza (Entitlement/Access Reviews)</a>
+  <a href="#pim">2.10 PIM</a>
+  <a href="#gov-dd">↳ Práctica</a>
+  <a href="#idprotection">2.11 Identity Protection</a>
+  <a href="#verifiedid">2.12 Verified ID</a>
+  <a href="#copilotintegration">2.13 Global Secure Access / Copilot</a>
+  <a href="#mix2">🔀 Repaso mixto</a>
+</nav>
+
+<main>
+
+<section id="intro">
+  <span class="eyebrow">Punto 2.1</span>
+  <h2>Qué es Microsoft Entra ID</h2>
+  <p><strong>Microsoft Entra ID</strong> (antes llamado Azure Active Directory / Azure AD) es el servicio de Microsoft en la nube que gestiona identidades y accesos. Es el corazón de todo este módulo: cualquier cosa que hagas en Microsoft 365 o Azure — iniciar sesión, que te bloqueen un acceso sospechoso, que un administrador te asigne un rol — pasa por Entra ID en algún momento.</p>
+
+  <div class="analogy">
+    Piensa en Entra ID como el "portero + recepcionista + libro de registro" de todos los servicios de Microsoft en la nube: comprueba quién eres (autenticación), decide a qué puedes entrar (autorización), y lleva un registro de todo (auditoría).
+  </div>
+
+  <div class="tip"><strong>Nota sobre el nombre:</strong> Microsoft renombró "Azure Active Directory" a "Microsoft Entra ID" en 2023. Es habitual ver ambos nombres en documentación, cursos o exámenes — son lo mismo. "Entra" es en realidad el nombre de toda una familia de productos de identidad de Microsoft (Entra ID es solo uno de ellos, aunque el más importante para este examen).</div>
+
+  <div class="exercise" data-answer="Microsoft Entra ID" data-explain="Microsoft renombró Azure Active Directory a Microsoft Entra ID en 2023, aunque siguen siendo el mismo servicio bajo un nombre nuevo.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Microsoft renombró "Azure Active Directory" a:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Microsoft Entra ID">Microsoft Entra ID</option>
+      <option value="Microsoft Defender">Microsoft Defender</option>
+      <option value="Microsoft Purview">Microsoft Purview</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="idtypes">
+  <span class="eyebrow">Punto 2.2</span>
+  <h2>Tipos de identidades que gestiona Entra ID</h2>
+  <p>Ya vimos en el Módulo 1 los tipos de identidad en general (humanas, de carga de trabajo, de dispositivo). Ahora los vemos tal como se llaman <strong>dentro de Entra ID específicamente</strong>:</p>
+
+  <svg viewBox="0 0 700 300" role="img" aria-label="Tipos de identidades en Microsoft Entra ID">
+    <rect x="20" y="20" width="660" height="260" rx="20" fill="#fff" stroke="var(--line)"/>
+    <text x="40" y="45" font-size="14" font-weight="700" fill="var(--navy)">Microsoft Entra ID</text>
+    <g><rect x="45" y="65" width="130" height="90" rx="12" fill="var(--navy)"/>
+      <text x="110" y="105" text-anchor="middle" class="layer-label">Usuario</text>
+      <text x="110" y="125" text-anchor="middle" class="layer-sub">Persona</text></g>
+    <g><rect x="190" y="65" width="130" height="90" rx="12" fill="var(--teal)"/>
+      <text x="255" y="105" text-anchor="middle" class="layer-label">Grupo</text>
+      <text x="255" y="125" text-anchor="middle" class="layer-sub">Conjunto de usuarios</text></g>
+    <g><rect x="335" y="65" width="130" height="90" rx="12" fill="#B5892F"/>
+      <text x="400" y="105" text-anchor="middle" class="layer-label">Dispositivo</text>
+      <text x="400" y="125" text-anchor="middle" class="layer-sub">Portátil, móvil</text></g>
+    <g><rect x="480" y="65" width="180" height="90" rx="12" fill="var(--coral)"/>
+      <text x="570" y="97" text-anchor="middle" class="layer-label">Entidad de servicio</text>
+      <text x="570" y="118" text-anchor="middle" class="layer-sub">Identidad de una app</text>
+      <text x="570" y="135" text-anchor="middle" class="layer-sub">(credenciales manuales)</text></g>
+    <g><rect x="190" y="185" width="280" height="80" rx="12" fill="#5B4B8A"/>
+      <text x="330" y="215" text-anchor="middle" class="layer-label">Identidad administrada</text>
+      <text x="330" y="238" text-anchor="middle" class="layer-sub">Gestionada automáticamente</text>
+      <text x="330" y="255" text-anchor="middle" class="layer-sub">por Azure</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Tipo</th><th>Qué es</th><th>Ejemplo</th></tr>
+    <tr><td><strong>Usuario</strong></td><td>Una identidad humana individual</td><td>Un empleado con su cuenta de correo corporativa</td></tr>
+    <tr><td><strong>Grupo</strong></td><td>Un conjunto de usuarios (u otros grupos) agrupados para gestionar permisos de golpe</td><td>El grupo "Ventas" con 30 empleados dentro</td></tr>
+    <tr><td><strong>Dispositivo</strong></td><td>Un ordenador, móvil o tablet registrado en Entra ID</td><td>El portátil de la empresa que usas cada día</td></tr>
+    <tr><td><strong>Entidad de servicio</strong></td><td>La identidad que usa una aplicación para autenticarse ante Entra ID</td><td>Una app interna que necesita leer datos de Microsoft Graph</td></tr>
+    <tr><td><strong>Identidad administrada</strong></td><td>Identidad de aplicación gestionada automáticamente por Azure, sin credenciales manuales</td><td>Una función en Azure que accede a una base de datos sin que nadie escriba una contraseña en el código</td></tr>
+  </table>
+
+  <div class="tip"><strong>Truco de examen:</strong> tanto la entidad de servicio como la identidad administrada son identidades de <em>aplicación</em>, pero con una identidad administrada, Azure crea, rota y protege las credenciales automáticamente — el desarrollador no gestiona ningún secreto.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="D" data-explain="Una identidad administrada es justo para esto: Azure gestiona las credenciales automáticamente, sin que ningún desarrollador tenga que escribir ni guardar una contraseña.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa tiene una función en Azure que necesita leer datos de una base de datos, sin que ningún desarrollador tenga que escribir ni guardar una contraseña en el código. ¿Qué tipo de identidad es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="q1idt" value="A"> A) Usuario</label>
+      <label><input type="radio" name="q1idt" value="B"> B) Grupo</label>
+      <label><input type="radio" name="q1idt" value="C"> C) Entidad de servicio con credenciales manuales</label>
+      <label><input type="radio" name="q1idt" value="D"> D) Identidad administrada</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Los grupos pueden anidarse: un grupo puede contener otros grupos, no solo usuarios individuales.">
+      <span>Un grupo en Entra ID puede contener a su vez otros grupos, no solo usuarios individuales.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Un dispositivo registrado también es un tipo de identidad gestionada por Entra ID, igual que un usuario.">
+      <span>Un dispositivo registrado en Entra ID se considera un tipo de identidad, igual que un usuario.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Justo la ventaja de una identidad administrada es que Azure rota las credenciales automáticamente, sin intervención manual.">
+      <span>Con una identidad administrada, el desarrollador sigue siendo responsable de rotar manualmente las credenciales.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Próximo bloque: usuarios y grupos en detalle (tipos de usuario externo/invitado, tipos de grupo de seguridad vs Microsoft 365, membresía dinámica vs asignada).
+  </div>
+</section>
+
+<section id="idtypes-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada ejemplo con su tipo de identidad</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"usuario","i2":"grupo","i3":"dispositivo","i4":"managed"}' data-explain="Un empleado con cuenta de correo es un usuario. El grupo 'Ventas' con 30 personas es un grupo. El portátil registrado es un dispositivo. Una función de Azure que accede sola a una base de datos es una identidad administrada.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Toca cada ejemplo y luego el tipo de identidad al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Un empleado con cuenta de correo corporativa</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">El grupo "Ventas" con 30 personas</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">El portátil de la empresa, registrado en Entra ID</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Una función de Azure que accede sola a una base de datos</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="usuario" onclick="placeDDItem(this)"><div class="dd-zone-label">Usuario</div></div>
+        <div class="dd-zone" data-zone="grupo" onclick="placeDDItem(this)"><div class="dd-zone-label">Grupo</div></div>
+        <div class="dd-zone" data-zone="dispositivo" onclick="placeDDItem(this)"><div class="dd-zone-label">Dispositivo</div></div>
+        <div class="dd-zone" data-zone="managed" onclick="placeDDItem(this)"><div class="dd-zone-label">Identidad administrada</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="hybrid">
+  <span class="eyebrow">Punto 2.2b</span>
+  <h2>Identidad híbrida</h2>
+  <p>Ya vimos en el Módulo 1 que muchas empresas usan Active Directory local y Entra ID a la vez, sincronizados con Entra Connect. A esta situación se le llama <strong>identidad híbrida</strong>: la misma cuenta de usuario "vive" en los dos sitios a la vez, sincronizada, en vez de tener que mantener dos cuentas separadas.</p>
+
+  <h3>Formas de autenticar una identidad híbrida</h3>
+  <p>Cuando un usuario con identidad híbrida inicia sesión en Entra ID, hay tres formas distintas de comprobar su contraseña, según cómo la empresa haya configurado Entra Connect:</p>
+  <table>
+    <tr><th>Método</th><th>Cómo funciona</th></tr>
+    <tr><td><strong>Sincronización de hash de contraseña (Password Hash Sync)</strong></td><td>Entra Connect sincroniza una versión cifrada (hash) de la contraseña hacia la nube. Entra ID puede validar el inicio de sesión por sí solo, sin consultar al Active Directory local en cada intento.</td></tr>
+    <tr><td><strong>Autenticación de paso a través (Pass-through Authentication)</strong></td><td>La contraseña nunca se sincroniza a la nube. Cada vez que alguien inicia sesión, Entra ID valida la contraseña consultando directamente al Active Directory local en tiempo real.</td></tr>
+    <tr><td><strong>Federación (con AD FS)</strong></td><td>Entra ID ni siquiera valida la contraseña — delega por completo esa comprobación al Active Directory local mediante una relación de confianza, tal como vimos en el punto 1.10.</td></tr>
+  </table>
+
+  <h3>PTA vs. Federación: la diferencia que de verdad importa</h3>
+  <p>PTA y Federación se parecen mucho a primera vista, porque las dos consultan al Active Directory local en tiempo real en vez de sincronizar nada por adelantado. La diferencia real no está en "si consultan al AD local", sino en <strong>dónde escribes tu contraseña</strong>:</p>
+
+  <div class="analogy">
+    <strong>Con PTA</strong>, es como pagar en una tienda con tarjeta: pasas la tarjeta por el datáfono de la tienda (la pantalla normal de inicio de sesión de Microsoft), y ese datáfono llama al banco (tu Active Directory local) para preguntar "¿esta tarjeta es válida?". Tú nunca hablas directamente con el banco, pero el banco sí participa en la comprobación, en tiempo real.
+    <br><br>
+    <strong>Con Federación</strong>, en vez de pagar en la tienda, te mandan directamente al mostrador del banco a identificarte. Entra ID ni siquiera te muestra su propio formulario de inicio de sesión: te redirige por completo a una página de tu propia empresa (el servidor AD FS), donde escribes tu contraseña. AD FS te entrega un token firmado que certifica quién eres, y ese token es lo único que Entra ID llega a ver — nunca tu contraseña.
+  </div>
+
+  <table>
+    <tr><th></th><th>Pass-through Authentication</th><th>Federación</th></tr>
+    <tr><td>¿Dónde escribes la contraseña?</td><td>En la pantalla normal de inicio de sesión de Microsoft</td><td>En la pantalla de tu propia empresa (AD FS), a la que Entra ID te redirige</td></tr>
+    <tr><td>¿Qué recibe Entra ID de vuelta?</td><td>Un simple "sí, es correcta" / "no, es incorrecta"</td><td>Un token firmado digitalmente con más información</td></tr>
+    <tr><td>¿Ve Microsoft la contraseña en algún momento?</td><td>Sí, brevemente, antes de descartarla</td><td>Nunca, ni un instante</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta dice "el usuario nunca ve ninguna pantalla de Microsoft, se le redirige a un sitio propio de su empresa" → Federación. Si dice "el usuario usa la pantalla normal de Microsoft, pero la contraseña se valida contra el AD local" → PTA. Además, con Password Hash Sync, Entra ID puede seguir validando inicios de sesión aunque el Active Directory local esté caído (porque ya tiene el hash sincronizado). Con PTA y con Federación, si el Active Directory local no está disponible, los usuarios no pueden iniciar sesión — porque la validación depende de consultarlo en el momento.</div>
+
+  <div class="exercise" data-answer="A" data-explain="Password Hash Sync permite que Entra ID valide inicios de sesión por sí solo, porque ya tiene sincronizado el hash de la contraseña — no depende de consultar al Active Directory local en cada intento.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa quiere que sus empleados puedan seguir iniciando sesión en Microsoft 365 aunque su Active Directory local esté temporalmente caído. ¿Qué método de autenticación híbrida permite esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1hyb" value="A"> A) Sincronización de hash de contraseña (Password Hash Sync)</label>
+      <label><input type="radio" name="q1hyb" value="B"> B) Autenticación de paso a través (Pass-through Authentication)</label>
+      <label><input type="radio" name="q1hyb" value="C"> C) Federación con AD FS</label>
+      <label><input type="radio" name="q1hyb" value="D"> D) Ninguno, siempre depende de AD local</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"phs","i2":"pta","i3":"fed"}' data-explain="Sincronizar el hash de la contraseña a la nube es Password Hash Sync. Validar contra AD local en cada intento, sin sincronizar nada, es Pass-through Authentication. Delegar toda la validación mediante una relación de confianza es Federación.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el método de autenticación híbrida al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el método correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Sincroniza el hash de la contraseña hacia la nube</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Valida contra el AD local en cada intento, sin sincronizar nada</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Delega toda la validación mediante una relación de confianza</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="phs" onclick="placeDDItem(this)"><div class="dd-zone-label">Password Hash Sync</div></div>
+        <div class="dd-zone" data-zone="pta" onclick="placeDDItem(this)"><div class="dd-zone-label">Pass-through Auth</div></div>
+        <div class="dd-zone" data-zone="fed" onclick="placeDDItem(this)"><div class="dd-zone-label">Federación</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="usersgroups">
+  <span class="eyebrow">Punto 2.3</span>
+  <h2>Usuarios y grupos en detalle</h2>
+
+  <h3>Tipos de usuario en Entra ID</h3>
+  <ul>
+    <li><strong>Usuario miembro (Member):</strong> un empleado normal de la organización, con una cuenta creada dentro de ese mismo tenant.</li>
+    <li><strong>Usuario invitado (Guest):</strong> alguien externo a la organización (un proveedor, un cliente, un colaborador puntual) al que se le da acceso limitado a ciertos recursos, sin crearle una cuenta completa de empleado. Su identidad "real" sigue viviendo en su propia organización o cuenta personal — Entra ID solo le da un acceso controlado a lo que necesita.</li>
+  </ul>
+
+  <h3>Tipos de grupo en Entra ID</h3>
+  <p>Hay dos ejes distintos que se combinan:</p>
+
+  <svg viewBox="0 0 700 320" role="img" aria-label="Usuarios y grupos en Entra ID">
+    <g><rect x="40" y="30" width="280" height="90" rx="12" fill="var(--navy)"/>
+      <text x="180" y="65" text-anchor="middle" class="layer-label">Usuario miembro</text>
+      <text x="180" y="90" text-anchor="middle" class="layer-sub">Empleado del tenant</text></g>
+    <g><rect x="360" y="30" width="280" height="90" rx="12" fill="var(--teal)"/>
+      <text x="500" y="65" text-anchor="middle" class="layer-label">Usuario invitado</text>
+      <text x="500" y="90" text-anchor="middle" class="layer-sub">Externo, acceso limitado</text></g>
+
+    <g><rect x="40" y="150" width="280" height="70" fill="#B5892F" rx="12"/>
+      <text x="180" y="178" text-anchor="middle" class="layer-label">Grupo de seguridad</text>
+      <text x="180" y="200" text-anchor="middle" class="layer-sub">Da permisos de acceso</text></g>
+    <g><rect x="360" y="150" width="280" height="70" fill="var(--coral)" rx="12"/>
+      <text x="500" y="178" text-anchor="middle" class="layer-label">Grupo Microsoft 365</text>
+      <text x="500" y="200" text-anchor="middle" class="layer-sub">Colaboración de equipo</text></g>
+
+    <g><rect x="40" y="250" width="280" height="60" fill="#5B4B8A" rx="12"/>
+      <text x="180" y="275" text-anchor="middle" class="layer-label">Membresía asignada</text>
+      <text x="180" y="295" text-anchor="middle" class="layer-sub">Manual, uno a uno</text></g>
+    <g><rect x="360" y="250" width="280" height="60" fill="#5B4B8A" rx="12"/>
+      <text x="500" y="275" text-anchor="middle" class="layer-label">Membresía dinámica</text>
+      <text x="500" y="295" text-anchor="middle" class="layer-sub">Regla automática</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Eje</th><th>Tipo</th><th>Qué hace</th></tr>
+    <tr><td rowspan="2">Función</td><td><strong>Grupo de seguridad</strong></td><td>Da o quita permisos de acceso a recursos (archivos, aplicaciones, roles)</td></tr>
+    <tr><td><strong>Grupo Microsoft 365</strong></td><td>Pensado principalmente para colaboración: buzón de correo, calendario, archivos compartidos. Pero <strong>también puede usarse para dar acceso a recursos</strong> (por ejemplo, asignarle permisos sobre un sitio de SharePoint o una aplicación), igual que un grupo de seguridad — solo que además trae de serie las herramientas de colaboración.</td></tr>
+    <tr><td rowspan="2">Membresía</td><td><strong>Asignada</strong></td><td>Un administrador añade y quita miembros manualmente, uno a uno</td></tr>
+    <tr><td><strong>Dinámica</strong></td><td>Se define una regla (ej. "departamento = Ventas") y Entra ID añade/quita miembros automáticamente</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> un grupo de seguridad <em>solo</em> sirve para dar permisos. Un grupo de Microsoft 365 puede hacer las dos cosas a la vez: dar permisos <em>y</em> traer consigo herramientas de colaboración. Por eso, si la pregunta dice "puede usarse tanto para colaborar como para dar acceso a recursos", se refiere al grupo de Microsoft 365.</div>
+
+  <div class="tip"><strong>Por qué importa la membresía dinámica:</strong> si contratan a alguien nuevo en Ventas y su perfil dice "departamento: Ventas", entra automáticamente en el grupo "Ventas" y hereda sus permisos, sin que un administrador tenga que acordarse de añadirlo a mano.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Es justo la definición de membresía dinámica: la regla decide, y Entra ID actualiza la lista de miembros solo.">
+      <span>Un grupo con membresía dinámica se actualiza automáticamente según una regla, sin intervención manual de un administrador.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="El invitado no tiene una cuenta de empleado completa: su identidad principal sigue en su propia organización, y solo recibe acceso limitado a recursos concretos.">
+      <span>Un usuario invitado tiene una cuenta de empleado completa igual que un usuario miembro.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Un grupo de Microsoft 365 sirve para colaborar (correo, calendario compartido) y también puede usarse para dar acceso a recursos.">
+      <span>Un grupo de Microsoft 365 puede usarse tanto para colaborar como para dar acceso a recursos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Dar acceso a alguien externo sin crearle una cuenta de empleado completa es exactamente el propósito de un usuario invitado.">
+    <p class="q">2. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere dar acceso a un proveedor externo a un solo documento compartido, sin crearle una cuenta de empleado completa. ¿Qué tipo de usuario es el adecuado?</p>
+    <div class="options">
+      <label><input type="radio" name="q2ug" value="A"> A) Usuario miembro</label>
+      <label><input type="radio" name="q2ug" value="B"> B) Usuario invitado</label>
+      <label><input type="radio" name="q2ug" value="C"> C) Identidad administrada</label>
+      <label><input type="radio" name="q2ug" value="D"> D) Entidad de servicio</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="authmethods2">
+  <span class="eyebrow">Punto 2.4</span>
+  <h2>Métodos de autenticación en Entra</h2>
+  <p>Ya vimos en el Módulo 1 la teoría general de MFA, biometría y passwordless. Ahora vemos cómo se llaman y para qué sirven específicamente dentro de Entra ID.</p>
+
+  <h3>SSPR (Self-Service Password Reset)</h3>
+  <p>Permite que un usuario que ha olvidado su contraseña <strong>la restablezca él mismo</strong>, sin llamar al departamento de IT. Para poder hacerlo, el usuario tiene que haberse registrado antes con métodos de verificación (un teléfono, un correo alternativo, preguntas de seguridad); cuando olvida la contraseña, usa uno de esos métodos para demostrar que es él y crear una nueva.</p>
+  <div class="tip"><strong>Por qué importa para la empresa:</strong> reduce muchísimo la carga del equipo de soporte técnico — "se me olvidó la contraseña" es una de las llamadas más frecuentes a IT.</div>
+
+  <h3>Métodos de MFA disponibles en Entra</h3>
+  <p>Es importante fijarse en que los tres primeros métodos son un <strong>segundo factor</strong> que se añade a la contraseña — la contraseña sigue haciendo falta igualmente. Los dos últimos son <strong>passwordless</strong>: sustituyen la contraseña por completo, no la complementan.</p>
+  <table>
+    <tr><th>Método</th><th>Cómo funciona</th><th>¿Necesita contraseña además?</th></tr>
+    <tr><td>Notificación push (Microsoft Authenticator)</td><td>Apruebas o rechazas con un toque en la app del móvil</td><td>Sí — es el segundo factor, tras la contraseña</td></tr>
+    <tr><td>Código de un solo uso (OTP)</td><td>Generado por la app o enviado por SMS</td><td>Sí — es el segundo factor, tras la contraseña</td></tr>
+    <tr><td>Llamada de teléfono automática</td><td>Confirmas la identidad respondiendo la llamada</td><td>Sí — es el segundo factor, tras la contraseña</td></tr>
+    <tr><td>Llave de seguridad FIDO2</td><td>Dispositivo físico</td><td><strong>No — passwordless</strong>, sustituye la contraseña</td></tr>
+    <tr><td>Windows Hello for Business</td><td>Biometría o PIN del propio dispositivo</td><td><strong>No — passwordless</strong>, sustituye la contraseña</td></tr>
+  </table>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "passwordless" no significa "sin ningún factor" — significa que ninguno de los factores usados es una contraseña. FIDO2 y Windows Hello combinan "algo que tienes/eres" sin necesitar nunca escribir una contraseña; los otros tres siguen exigiendo la contraseña como primer factor, y añaden un segundo encima.</div>
+
+  <h3>Ejercicios</h3>
+
+
+  <div class="exercise" data-answer="B" data-explain="Restablecer la propia contraseña sin ayuda de soporte técnico, usando un método de verificación ya registrado, es exactamente SSPR.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Un empleado ha olvidado su contraseña un viernes por la tarde y no hay soporte técnico disponible. Gracias a que se había registrado antes con su teléfono, puede restablecerla él mismo desde la pantalla de inicio de sesión. ¿Qué funcionalidad de Entra está usando?</p>
+    <div class="options">
+      <label><input type="radio" name="q1am2" value="A"> A) MFA</label>
+      <label><input type="radio" name="q1am2" value="B"> B) SSPR</label>
+      <label><input type="radio" name="q1am2" value="C"> C) Acceso condicional</label>
+      <label><input type="radio" name="q1am2" value="D"> D) Identidad administrada</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,D" data-explain="Windows Hello (A) y las llaves FIDO2 (D) son passwordless: no usan contraseña en absoluto. El SMS (B) y la llamada (C) siguen exigiendo primero la contraseña como uno de los factores.">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de los siguientes métodos son passwordless (no requieren escribir ninguna contraseña)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q2am2" value="A"> A) Windows Hello for Business</label>
+      <label><input type="checkbox" name="q2am2" value="B"> B) Código SMS junto con contraseña</label>
+      <label><input type="checkbox" name="q2am2" value="C"> C) Llamada de teléfono junto con contraseña</label>
+      <label><input type="checkbox" name="q2am2" value="D"> D) Llave de seguridad FIDO2</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <h3>Protección de contraseñas en Entra</h3>
+  <p>Además de MFA y SSPR, Entra ID protege las contraseñas de dos formas más:</p>
+  <table>
+    <tr><th>Función</th><th>Qué hace</th></tr>
+    <tr><td><strong>Lista de contraseñas prohibidas (banned password list)</strong></td><td>Entra ID mantiene una lista global de contraseñas comunes y fáciles de adivinar (como "Password1" o "Qwerty123"), y no deja que ningún usuario las use, ni siquiera con pequeñas variaciones. Las empresas también pueden añadir sus propias palabras prohibidas (por ejemplo, el nombre de la empresa).</td></tr>
+    <tr><td><strong>Bloqueo inteligente (smart lockout)</strong></td><td>Si alguien falla varias veces seguidas al escribir la contraseña, Entra ID bloquea temporalmente esa cuenta para frenar ataques de fuerza bruta — pero es lo bastante "inteligente" como para distinguir los intentos del usuario real (que suele fallar de forma distinta) de los de un atacante automatizado, para no bloquear a la gente real sin necesidad.</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta menciona "impedir contraseñas fáciles de adivinar" → lista de contraseñas prohibidas. Si menciona "frenar intentos repetidos de adivinar una contraseña" → smart lockout.</div>
+</section>
+
+<section id="idconcepts2">
+  <span class="eyebrow">Punto 2.5</span>
+  <h2>Proveedor de identidad, tokens y SSO</h2>
+  <p>Antes de entrar en acceso condicional y roles, conviene cerrar unos conceptos que Microsoft agrupa bajo "conceptos de identidad" y que se preguntan con frecuencia.</p>
+
+  <h3>¿Qué es un proveedor de identidad (Identity Provider / IdP)?</h3>
+  <p>Es el sistema que se encarga de verificar quién eres y de emitir una "prueba" de esa verificación que otras aplicaciones pueden aceptar. Entra ID actúa como proveedor de identidad para Microsoft 365, Azure y miles de aplicaciones externas conectadas.</p>
+
+  <h3>¿Qué es un token?</h3>
+  <p>Cuando te autenticas correctamente, el proveedor de identidad no te da tu contraseña de vuelta a cada aplicación — te da un <strong>token</strong>: una especie de "pase temporal" digital que demuestra que ya te verificaron, sin tener que enviar tus credenciales una y otra vez. Las aplicaciones confían en ese token en vez de pedirte la contraseña cada vez.</p>
+
+  <div class="analogy">
+    Es como la pulsera de un festival de música: la enseñas una vez en la entrada (te autenticas), te dan una pulsera (el token), y durante el resto del día solo enseñas la pulsera para entrar a cualquier zona — nadie vuelve a pedirte el DNI en cada puesto.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la autenticación moderna (OAuth 2.0, OpenID Connect) se basa en tokens, no en reenviar la contraseña. Si una pregunta habla de "un pase temporal que demuestra que ya te autenticaste", es un token.</div>
+
+  <h3>SSO (repaso y ampliación)</h3>
+  <p>Ya vimos en el Módulo 1 que el SSO permite iniciar sesión una vez y acceder a varias aplicaciones sin repetir el proceso. Técnicamente, esto funciona porque el proveedor de identidad emite un token que las demás aplicaciones federadas con él aceptan como válido.</p>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="C" data-explain="Un token es exactamente eso: una prueba temporal de que ya te autenticaste, que las aplicaciones aceptan sin pedirte la contraseña de nuevo.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Después de iniciar sesión correctamente, una aplicación recibe una especie de "pase temporal" que demuestra que el usuario ya fue verificado, sin necesidad de reenviar la contraseña. ¿Cómo se llama ese pase?</p>
+    <div class="options">
+      <label><input type="radio" name="q1idc2" value="A"> A) Hash</label>
+      <label><input type="radio" name="q1idc2" value="B"> B) Certificado raíz</label>
+      <label><input type="radio" name="q1idc2" value="C"> C) Token</label>
+      <label><input type="radio" name="q1idc2" value="D"> D) Rol RBAC</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Entra ID actúa precisamente como proveedor de identidad para Microsoft 365, Azure y miles de apps conectadas.">
+      <span>Entra ID puede actuar como proveedor de identidad para aplicaciones externas conectadas.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="El SSO evita justo eso: una vez autenticado, no vuelves a introducir tus credenciales en cada aplicación conectada.">
+      <span>Con SSO, el usuario tiene que volver a escribir su contraseña en cada aplicación a la que accede.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="condaccess">
+  <span class="eyebrow">Punto 2.6</span>
+  <h2>Acceso condicional (Conditional Access)</h2>
+  <p>Es una de las funcionalidades más preguntadas del examen. Es la forma en que Entra ID pone en práctica el principio de Zero Trust "verificar explícitamente" que vimos en el Módulo 1: en vez de una regla fija ("siempre pide MFA" o "nunca pide nada"), el acceso condicional evalúa el <strong>contexto de cada inicio de sesión en tiempo real</strong> y decide qué hacer.</p>
+
+  <h3>Cómo funciona: señales → decisión → aplicación</h3>
+  <p>Una política de acceso condicional siempre tiene esta estructura:</p>
+  <ol>
+    <li><strong>Señales (condiciones):</strong> quién es el usuario, desde qué ubicación se conecta, qué dispositivo usa, a qué aplicación quiere acceder, qué nivel de riesgo tiene ese inicio de sesión.</li>
+    <li><strong>Decisión:</strong> según esas señales, ¿se permite el acceso, se bloquea, o se pide algo más?</li>
+    <li><strong>Aplicación (control de acceso):</strong> lo que se exige o hace — pedir MFA, exigir que el dispositivo esté registrado y cumpla ciertas normas, bloquear directamente, o forzar un cambio de contraseña.</li>
+  </ol>
+
+  <svg viewBox="0 0 700 260" role="img" aria-label="Flujo de acceso condicional">
+    <g><rect x="20" y="90" width="180" height="90" rx="12" fill="var(--navy)"/>
+      <text x="110" y="120" text-anchor="middle" class="layer-label">Señales</text>
+      <text x="110" y="145" text-anchor="middle" class="layer-sub">Usuario, ubicación,</text>
+      <text x="110" y="160" text-anchor="middle" class="layer-sub">dispositivo, riesgo</text></g>
+    <path d="M200 135 L238 135" stroke="#999" stroke-width="2" marker-end="url(#a4)"/>
+    <g><rect x="240" y="90" width="180" height="90" rx="12" fill="var(--teal)"/>
+      <text x="330" y="130" text-anchor="middle" class="layer-label">Motor de</text>
+      <text x="330" y="150" text-anchor="middle" class="layer-label">decisión</text></g>
+    <path d="M420 135 L458 135" stroke="#999" stroke-width="2" marker-end="url(#a4)"/>
+    <g><rect x="460" y="30" width="200" height="50" rx="10" fill="#2E7D32"/>
+      <text x="560" y="60" text-anchor="middle" class="layer-label">Permitir acceso</text></g>
+    <g><rect x="460" y="90" width="200" height="50" rx="10" fill="#B5892F"/>
+      <text x="560" y="120" text-anchor="middle" class="layer-label">Exigir MFA / dispositivo</text></g>
+    <g><rect x="460" y="150" width="200" height="50" rx="10" fill="var(--coral)"/>
+      <text x="560" y="180" text-anchor="middle" class="layer-label">Bloquear acceso</text></g>
+    <defs><marker id="a4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker></defs>
+    <text x="350" y="230" text-anchor="middle" font-size="12" fill="#666">La misma app puede pedir cosas distintas según el contexto del inicio de sesión</text>
+  </svg>
+
+  <div class="analogy">
+    Piensa en un portero de discoteca con reglas flexibles: si vienes con tu DNI y ya te conoce, te deja pasar directo. Si no le suena tu cara, te pide el DNI otra vez. Si llegas a una hora rarísima o pareces sospechoso, no te deja entrar sin más comprobaciones. El "acceso condicional" es exactamente ese portero, aplicado a inicios de sesión.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el acceso condicional actúa <em>después</em> de la autenticación básica (usuario/contraseña) pero <em>antes</em> de conceder el acceso final — es una capa de decisión adicional basada en contexto, no un método de autenticación en sí mismo.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Exigir MFA solo cuando el inicio de sesión viene de fuera del país habitual, y no cuando viene de la oficina, es exactamente el tipo de decisión basada en contexto que hace el acceso condicional.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere que, si un empleado inicia sesión desde un país donde nunca ha estado antes, se le pida automáticamente un segundo factor de autenticación, aunque normalmente no haga falta. ¿Qué funcionalidad de Entra permite esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1ca" value="A"> A) SSPR</label>
+      <label><input type="radio" name="q1ca" value="B"> B) Acceso condicional</label>
+      <label><input type="radio" name="q1ca" value="C"> C) Identidad administrada</label>
+      <label><input type="radio" name="q1ca" value="D"> D) Grupo de seguridad</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="El acceso condicional evalúa el contexto de cada inicio de sesión; no aplica siempre la misma regla fija a todo el mundo por igual.">
+      <span>Una política de acceso condicional aplica siempre la misma regla, sin tener en cuenta el contexto del inicio de sesión.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="El estado del dispositivo (si está registrado, si cumple normas de seguridad) es una de las señales que el acceso condicional puede evaluar.">
+      <span>El acceso condicional puede tener en cuenta si el dispositivo desde el que se conecta el usuario está registrado y cumple ciertas normas de seguridad.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Bloquear el acceso es una de las posibles acciones (controles de acceso) que puede aplicar una política de acceso condicional.">
+      <span>El acceso condicional puede bloquear completamente un inicio de sesión si el riesgo detectado es demasiado alto.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="rbac">
+  <span class="eyebrow">Punto 2.7</span>
+  <h2>Roles de Entra ID y RBAC</h2>
+  <p>Ya vimos en el Módulo 1 qué es RBAC (control de acceso basado en roles) a nivel de concepto. Ahora vemos cómo se aplica concretamente dentro de Entra ID.</p>
+
+  <h3>Roles de Entra ID (roles de administrador)</h3>
+  <p>Son roles pensados para <strong>administrar el propio Entra ID y Microsoft 365</strong> — no para acceder a recursos de negocio, sino para gestionar la plataforma. Algunos ejemplos:</p>
+  <table>
+    <tr><th>Rol</th><th>Qué puede hacer</th></tr>
+    <tr><td><strong>Administrador global (Global Administrator)</strong></td><td>Acceso completo a todo Entra ID y los servicios conectados — el rol con más poder, debe asignarse con muchísimo cuidado</td></tr>
+    <tr><td><strong>Administrador de usuarios (User Administrator)</strong></td><td>Puede crear, modificar y eliminar cuentas de usuario y restablecer contraseñas, pero no tiene acceso a todo lo demás</td></tr>
+    <tr><td><strong>Lector global (Global Reader)</strong></td><td>Puede ver la configuración de todo, pero no puede modificar nada — útil para auditoría</td></tr>
+  </table>
+
+  <h3>RBAC de Azure (roles de recursos)</h3>
+  <p>Son roles distintos, pensados para dar acceso a <strong>recursos de Azure</strong> (máquinas virtuales, bases de datos, cuentas de almacenamiento), no a la administración de identidades. Ejemplos: "Lector" (solo puede ver recursos), "Colaborador" (puede crear y modificar recursos, pero no dar permisos a otros), "Propietario" (control total, incluido dar permisos a otros).</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas los <strong>roles de Entra ID</strong> (administran identidades y la propia plataforma: usuarios, licencias, políticas) con el <strong>RBAC de Azure</strong> (da acceso a recursos concretos de Azure: máquinas virtuales, bases de datos, etc.). Son dos sistemas de roles distintos y separados.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Restablecer contraseñas y gestionar cuentas de usuario es justo la función del rol Administrador de usuarios — no hace falta darle el control total del Administrador global.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere que una persona del equipo de soporte pueda restablecer contraseñas de empleados, pero sin darle acceso a toda la configuración de seguridad de la empresa. ¿Qué rol es el más adecuado?</p>
+    <div class="options">
+      <label><input type="radio" name="q1rbac" value="A"> A) Administrador global</label>
+      <label><input type="radio" name="q1rbac" value="B"> B) Administrador de usuarios</label>
+      <label><input type="radio" name="q1rbac" value="C"> C) Lector global</label>
+      <label><input type="radio" name="q1rbac" value="D"> D) Propietario (RBAC de Azure)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="No" data-explain="Son dos sistemas distintos: los roles de Entra ID administran identidades y la plataforma; el RBAC de Azure da acceso a recursos concretos como máquinas virtuales o bases de datos.">
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Los roles de Entra ID y el RBAC de Azure son exactamente el mismo sistema de permisos, solo con nombres distintos.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="rbac-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada capacidad con el rol correcto</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"userAdmin","i2":"globalAdmin","i3":"globalReader","i4":"contributor"}' data-explain="Crear/eliminar cuentas sin ver toda la configuración es el Administrador de usuarios. Acceso completo a todo es el Administrador global. Ver todo sin poder modificar nada es el Lector global. Crear y modificar recursos de Azure sin dar permisos a otros es el rol Colaborador (RBAC de Azure).">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Toca cada capacidad y luego el rol al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el rol correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Crear y eliminar cuentas de usuario, sin ver toda la configuración</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Acceso completo a todo Entra ID</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Ver toda la configuración, sin poder modificar nada</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Crear y modificar recursos de Azure, sin poder dar permisos a otros</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="userAdmin" onclick="placeDDItem(this)"><div class="dd-zone-label">Administrador de usuarios</div></div>
+        <div class="dd-zone" data-zone="globalAdmin" onclick="placeDDItem(this)"><div class="dd-zone-label">Administrador global</div></div>
+        <div class="dd-zone" data-zone="globalReader" onclick="placeDDItem(this)"><div class="dd-zone-label">Lector global</div></div>
+        <div class="dd-zone" data-zone="contributor" onclick="placeDDItem(this)"><div class="dd-zone-label">Colaborador (RBAC de Azure)</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="extid">
+  <span class="eyebrow">Punto 2.8</span>
+  <h2>Identidades externas (B2B y B2C)</h2>
+  <p>Ya vimos el concepto de "usuario invitado". Ahora veamos los dos escenarios concretos en los que Entra ID gestiona identidades externas a la organización.</p>
+
+  <table>
+    <tr><th>Escenario</th><th>Para qué sirve</th><th>Ejemplo</th></tr>
+    <tr><td><strong>B2B (Business to Business)</strong></td><td>Colaborar con usuarios de <em>otras organizaciones</em>, dándoles acceso como invitados a recursos concretos, sin crearles una cuenta completa</td><td>Un proveedor externo necesita acceso a un documento compartido en SharePoint</td></tr>
+    <tr><td><strong>B2C (Business to Consumer)</strong></td><td>Dar identidad a <em>clientes finales</em> (consumidores) para que inicien sesión en una aplicación de cara al público, normalmente usando sus propias cuentas (Google, Facebook, correo personal)</td><td>Los clientes de una tienda online se registran e inician sesión en la web de la tienda con su cuenta de Google</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> B2B es para colaborar con <em>otras empresas</em> (invitados profesionales); B2C es para dar acceso a <em>consumidores finales</em> de una aplicación pública. Si la pregunta menciona "socios" o "proveedores" → B2B. Si menciona "clientes" o "consumidores" de una app → B2C.</div>
+
+  <div class="exercise" data-answer="B2C" data-explain="B2C está pensado exactamente para esto: dar identidad a clientes finales que inician sesión en una aplicación de cara al público, normalmente con cuentas sociales o personales.">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una tienda online quiere que sus clientes puedan registrarse e iniciar sesión en su web usando su cuenta de Google o Facebook. ¿Qué escenario de identidades externas de Entra es el adecuado?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="B2B">B2B</option>
+      <option value="B2C">B2C</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="governance">
+  <span class="eyebrow">Punto 2.9</span>
+  <h2>Gobernanza de identidad (Microsoft Entra ID Governance)</h2>
+  <p>La gobernanza de identidad responde a una pregunta incómoda pero muy real en cualquier empresa: <strong>con el tiempo, la gente acumula permisos que ya no necesita</strong> (cambia de puesto, termina un proyecto, se va de la empresa) y nadie se acuerda de quitárselos. Entra ID Governance da herramientas para controlar esto de forma organizada.</p>
+
+  <h3>Entitlement Management (gestión de derechos)</h3>
+  <p>Permite crear <strong>"paquetes de acceso"</strong>: un conjunto predefinido de recursos y permisos que alguien recibe automáticamente al solicitarlo (por ejemplo, "paquete de acceso para nuevo comercial", que da acceso a un CRM, una carpeta compartida y un grupo de Teams, todo de una vez), en vez de pedir cada permiso suelto por separado.</p>
+
+  <h3>Revisiones de acceso (Access Reviews)</h3>
+  <p>Permiten programar revisiones periódicas donde alguien (el propio usuario, su jefe, o un administrador) confirma si un acceso concreto <strong>sigue siendo necesario</strong>. Si nadie confirma que sigue haciendo falta, el acceso se puede retirar automáticamente.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta habla de "dar de una vez un conjunto de permisos predefinido" → entitlement management (paquetes de acceso). Si habla de "comprobar periódicamente si un acceso sigue haciendo falta" → revisiones de acceso.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="A,C" data-explain="Los paquetes de acceso (A) agrupan varios permisos para que se soliciten de una vez, y las revisiones de acceso (C) confirman periódicamente si un acceso sigue haciendo falta. El acceso condicional (B) es una decisión en tiempo real según contexto, y el RBAC (D) es la asignación de roles en sí, no la revisión periódica de si siguen haciendo falta.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes son funcionalidades de Entra ID Governance? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="q1gov" value="A"> A) Paquetes de acceso (entitlement management)</label>
+      <label><input type="checkbox" name="q1gov" value="B"> B) Acceso condicional</label>
+      <label><input type="checkbox" name="q1gov" value="C"> C) Revisiones de acceso periódicas</label>
+      <label><input type="checkbox" name="q1gov" value="D"> D) RBAC de Azure</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="pim">
+  <span class="eyebrow">Punto 2.10</span>
+  <h2>Privileged Identity Management (PIM)</h2>
+  <p>PIM aplica el principio de "privilegios mínimos" (Zero Trust, Módulo 1) a los roles con más poder, como Administrador global. En vez de que alguien tenga ese rol activado permanentemente (lo cual es un riesgo enorme si le roban la cuenta), PIM permite que el rol esté <strong>desactivado por defecto</strong>, y la persona lo "active" temporalmente solo cuando lo necesita, por un tiempo limitado.</p>
+
+  <h3>Cómo funciona en la práctica</h3>
+  <ol>
+    <li>Un administrador es <strong>elegible</strong> para un rol (puede activarlo), pero no lo tiene activo todo el tiempo.</li>
+    <li>Cuando necesita hacer una tarea que requiere ese rol, lo <strong>activa</strong> — a veces requiriendo justificación, aprobación de otra persona, o MFA adicional.</li>
+    <li>El rol queda activo solo durante un tiempo limitado (por ejemplo, 4 horas), y después se desactiva automáticamente solo.</li>
+  </ol>
+
+  <div class="analogy">
+    Es como una llave maestra de un hotel que normalmente está guardada en la caja fuerte de recepción: el personal de limpieza no la lleva encima todo el día "por si acaso" — la pide cuando la necesita, la usa un rato, y la devuelve. Así, si alguien roba la identidad de un empleado, no consigue automáticamente la llave maestra activa.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> PIM = acceso Just-In-Time (justo a tiempo) a roles con privilegios. Si la pregunta menciona "activar un rol de administrador solo temporalmente, con aprobación" → PIM.</div>
+
+  <div class="exercise" data-answer="B" data-explain="Activar un rol de administrador solo por tiempo limitado y con aprobación previa es exactamente el funcionamiento de PIM (Privileged Identity Management).">
+    <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere que nadie tenga el rol de Administrador global activo permanentemente, sino que cada administrador lo active solo cuando lo necesite, por un tiempo limitado y con aprobación previa. ¿Qué funcionalidad de Entra permite esto?</p>
+    <div class="options">
+      <label><input type="radio" name="q1pim" value="A"> A) Acceso condicional</label>
+      <label><input type="radio" name="q1pim" value="B"> B) Privileged Identity Management (PIM)</label>
+      <label><input type="radio" name="q1pim" value="C"> C) SSPR</label>
+      <label><input type="radio" name="q1pim" value="D"> D) Entitlement management</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="gov-dd">
+  <span class="eyebrow">Práctica · Arrastrar y soltar</span>
+  <h2>Relaciona cada funcionalidad de gobernanza con lo que hace</h2>
+  <div class="exercise dragdrop" data-answer='{"i1":"entitlement","i2":"reviews","i3":"pim"}' data-explain="Dar un conjunto de permisos predefinido de una vez es entitlement management (paquetes de acceso). Confirmar periódicamente si un acceso sigue haciendo falta son las revisiones de acceso. Activar un rol de administrador solo temporalmente con aprobación es PIM.">
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego la funcionalidad a la que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la funcionalidad correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Da un conjunto de permisos predefinido de una vez, al solicitarlo</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Confirma periódicamente si un acceso sigue haciendo falta</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Activa un rol de administrador solo temporalmente, con aprobación</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="entitlement" onclick="placeDDItem(this)"><div class="dd-zone-label">Entitlement management</div></div>
+        <div class="dd-zone" data-zone="reviews" onclick="placeDDItem(this)"><div class="dd-zone-label">Revisiones de acceso</div></div>
+        <div class="dd-zone" data-zone="pim" onclick="placeDDItem(this)"><div class="dd-zone-label">PIM</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="idprotection">
+  <span class="eyebrow">Punto 2.11</span>
+  <h2>Microsoft Entra ID Protection</h2>
+  <p>Es la funcionalidad que detecta comportamientos sospechosos relacionados con identidades, usando señales e inteligencia de amenazas de Microsoft, y calcula un <strong>nivel de riesgo</strong> para reaccionar automáticamente.</p>
+
+  <h3>Dos tipos de riesgo que detecta</h3>
+  <table>
+    <tr><th>Tipo</th><th>Qué detecta</th><th>Ejemplo</th></tr>
+    <tr><td><strong>Riesgo de usuario (User risk)</strong></td><td>Indicios de que las credenciales de un usuario están comprometidas</td><td>La contraseña de un empleado aparece filtrada en una base de datos robada conocida</td></tr>
+    <tr><td><strong>Riesgo de inicio de sesión (Sign-in risk)</strong></td><td>Indicios de que un inicio de sesión concreto es sospechoso, aunque la cuenta en sí no esté comprometida</td><td>Alguien intenta iniciar sesión desde un país donde el usuario nunca ha estado, minutos después de haberlo hecho desde otro país al otro lado del mundo (viaje "imposible")</td></tr>
+  </table>
+
+  <p>Según el nivel de riesgo (bajo, medio, alto), Identity Protection puede combinarse con acceso condicional para reaccionar automáticamente: exigir MFA adicional, forzar un cambio de contraseña, o bloquear el acceso directamente.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "riesgo de usuario" = la cuenta en sí parece comprometida (credenciales filtradas). "Riesgo de inicio de sesión" = este intento concreto de acceso parece sospechoso, aunque la cuenta esté bien. Identity Protection normalmente actúa en conjunto con acceso condicional, no por separado.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="Un inicio de sesión geográficamente imposible en tan poco tiempo es un riesgo del intento de acceso concreto (sign-in risk), no necesariamente una señal de que la cuenta en sí esté comprometida.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un sistema detecta que un usuario inició sesión desde Madrid y, 10 minutos después, desde Tokio — algo físicamente imposible de hacer en ese tiempo. ¿Qué tipo de riesgo está detectando Identity Protection?</p>
+    <div class="options">
+      <label><input type="radio" name="q1idp" value="A"> A) Riesgo de usuario</label>
+      <label><input type="radio" name="q1idp" value="B"> B) Riesgo de inicio de sesión</label>
+      <label><input type="radio" name="q1idp" value="C"> C) Riesgo de dispositivo</label>
+      <label><input type="radio" name="q1idp" value="D"> D) Riesgo de cumplimiento</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Que la contraseña de un empleado aparezca en una filtración de datos conocida es justo un ejemplo de riesgo de usuario: indica que las credenciales podrían estar comprometidas.">
+    <p class="q">2. <span class="difficulty diff-easy">🟢 Fácil</span> ¿Verdadero o falso? Que la contraseña de un empleado aparezca en una base de datos de contraseñas filtradas conocida es un ejemplo de "riesgo de usuario".</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="verifiedid">
+  <span class="eyebrow">Punto 2.12</span>
+  <h2>Microsoft Entra Verified ID</h2>
+  <p>Es un servicio para emitir y verificar <strong>credenciales digitales verificables</strong> — como un título universitario, un carné profesional, o la prueba de que trabajas en una empresa — en formato digital, que la propia persona controla y puede presentar cuando se le pida, sin que quien lo verifica tenga que llamar a la institución que lo emitió cada vez.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> Verified ID no es para empleados de tu empresa iniciando sesión (eso es Entra ID normal) — es para emitir y comprobar credenciales digitales de cosas como titulaciones o certificaciones, de forma descentralizada.</div>
+</section>
+
+<section id="copilotintegration">
+  <span class="eyebrow">Punto 2.13</span>
+  <h2>Global Secure Access e integración con Security Copilot</h2>
+
+  <h3>Global Secure Access</h3>
+  <p>Es la solución de Microsoft de <strong>Security Service Edge (SSE)</strong> integrada con Entra: en vez de proteger solo "quién entra", protege también <strong>el tráfico de red</strong> del usuario hacia internet, aplicaciones y recursos privados, aplicando las mismas políticas de identidad y acceso condicional a nivel de red.</p>
+
+  <h3>Integración con Microsoft Security Copilot</h3>
+  <p>Security Copilot es el asistente de IA de Microsoft para equipos de seguridad. Integrado con Entra, permite a los administradores hacer preguntas en lenguaje natural sobre identidades, riesgos y configuración (por ejemplo, "¿qué usuarios tienen el rol de Administrador global?") y obtener respuestas o sugerencias sin tener que navegar manualmente por varios paneles.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> estos dos son los conceptos más nuevos del temario de Entra — basta con reconocer qué son (SSE aplicado a identidad, y asistente de IA para consultas de seguridad), sin necesitar detalle técnico profundo.</div>
+</section>
+
+<section id="mix2">
+  <span class="eyebrow">Repaso final</span>
+  <h2>Repaso mixto — todo el Módulo 2</h2>
+  <p>12 preguntas que combinan todos los subpuntos del módulo (2.1 a 2.13), mezclados y en formatos variados — trátalo como un simulacro del bloque de Entra del examen real, no como otro ejercicio suelto más.</p>
+
+  <div class="exercise" data-answer="D" data-explain="Una identidad administrada es para esto exactamente: Azure gestiona las credenciales automáticamente, sin que nadie escriba ni guarde una contraseña en el código.">
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una función en Azure necesita leer datos de una base de datos sin que ningún desarrollador tenga que guardar una contraseña en el código. ¿Qué tipo de identidad es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="qm2_1" value="A"> A) Usuario invitado</label>
+      <label><input type="radio" name="qm2_1" value="B"> B) Grupo de seguridad</label>
+      <label><input type="radio" name="qm2_1" value="C"> C) Entidad de servicio con credenciales manuales</label>
+      <label><input type="radio" name="qm2_1" value="D"> D) Identidad administrada</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Es exactamente la ventaja de la membresía dinámica: la regla decide, y Entra ID actualiza la lista de miembros sola.">
+      <span>Un grupo con membresía dinámica se actualiza automáticamente según una regla, sin que un administrador añada miembros a mano.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="El acceso condicional evalúa el contexto de cada inicio de sesión; no aplica siempre la misma regla fija a todo el mundo por igual.">
+      <span>Una política de acceso condicional aplica siempre la misma regla, sin tener en cuenta el contexto del inicio de sesión.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Son dos sistemas distintos: los roles de Entra ID administran identidades y la plataforma; el RBAC de Azure da acceso a recursos como máquinas virtuales o bases de datos.">
+      <span>Los roles de Entra ID y el RBAC de Azure son exactamente el mismo sistema de permisos, solo con nombres distintos.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Asignar solo el rol necesario para la tarea concreta (gestionar dispositivos) en vez del rol con más poder (Administrador global) es aplicar privilegios mínimos: así, si esa cuenta se ve comprometida, el daño posible es mucho menor.">
+    <p class="q">3. <span class="difficulty diff-med">🟡 Medio</span> Una empresa necesita que alguien administre únicamente los dispositivos registrados en Entra ID. Siguiendo el principio de privilegios mínimos, ¿qué rol debería asignarle?</p>
+    <div class="options">
+      <label><input type="radio" name="qm2_3" value="A"> A) Administrador global</label>
+      <label><input type="radio" name="qm2_3" value="B"> B) Un rol específico de administración de dispositivos</label>
+      <label><input type="radio" name="qm2_3" value="C"> C) Lector global</label>
+      <label><input type="radio" name="qm2_3" value="D"> D) Propietario (RBAC de Azure)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B2B" data-explain="B2B está pensado exactamente para colaborar con otras organizaciones (proveedores, socios) dándoles acceso limitado sin crearles una cuenta completa.">
+    <p class="q">4. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa necesita compartir un documento con un proveedor externo, sin darle una cuenta de empleado completa. ¿Qué escenario de identidades externas es el adecuado?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="B2B">B2B</option>
+      <option value="B2C">B2C</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Activar un rol de administrador solo por tiempo limitado y con aprobación previa es exactamente el funcionamiento de PIM — elimina el acceso permanente e innecesario.">
+    <p class="q">5. <span class="difficulty diff-med">🟡 Medio</span> Un miembro del soporte técnico solo debería poder restablecer contraseñas durante 60 minutos, y únicamente tras la aprobación de un administrador autorizado. ¿Qué funcionalidad de Entra permite configurar esto?</p>
+    <div class="options">
+      <label><input type="radio" name="qm2_5" value="A"> A) Acceso condicional</label>
+      <label><input type="radio" name="qm2_5" value="B"> B) Privileged Identity Management (PIM)</label>
+      <label><input type="radio" name="qm2_5" value="C"> C) Entitlement management</label>
+      <label><input type="radio" name="qm2_5" value="D"> D) SSPR</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">6. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="Si" data-explain="Que la contraseña de un empleado aparezca en una filtración conocida es un ejemplo de riesgo de usuario: indica que las credenciales podrían estar comprometidas.">
+      <span>Que la contraseña de un empleado aparezca en una base de datos de contraseñas filtradas es un ejemplo de "riesgo de usuario" en Identity Protection.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="Entra Connect sincroniza identidades entre AD local y Entra ID; la detección de amenazas es trabajo de Microsoft Defender.">
+      <span>Microsoft Entra Connect es una herramienta de seguridad para detectar amenazas.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Los paquetes de acceso (entitlement management) agrupan varios permisos predefinidos para que se soliciten y concedan de una vez.">
+      <span>Un paquete de acceso (entitlement management) puede agrupar varios permisos distintos para asignarlos de una sola vez.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,C" data-explain="Las revisiones de acceso (A) confirman periódicamente si un acceso sigue haciendo falta, y son especialmente útiles para invitados B2B (C) que no pasan por el proceso habitual de altas y bajas de empleados. El acceso condicional (B) es una decisión en tiempo real, no una revisión periódica; y PIM (D) es activación temporal de roles, no revisión de membresías.">
+    <p class="q">7. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Cuáles de las siguientes son razones típicas para usar revisiones de acceso (access reviews)? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm2_7" value="A"> A) Comprobar periódicamente si un permiso sigue siendo necesario</label>
+      <label><input type="checkbox" name="qm2_7" value="B"> B) Decidir en tiempo real si permitir un inicio de sesión según el contexto</label>
+      <label><input type="checkbox" name="qm2_7" value="C"> C) Revisar el acceso de usuarios invitados B2B que no siguen el proceso habitual de bajas de empleados</label>
+      <label><input type="checkbox" name="qm2_7" value="D"> D) Activar temporalmente un rol de administrador</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Token" data-explain="Un token es la prueba temporal de que ya te autenticaste, que las aplicaciones aceptan sin pedirte la contraseña de nuevo — es la base técnica del SSO.">
+    <p class="q">8. <span class="difficulty diff-easy">🟢 Fácil</span> Después de autenticarte, el proveedor de identidad emite un "pase temporal" que las aplicaciones aceptan sin pedir tu contraseña de nuevo. Ese pase se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Token">Token</option>
+      <option value="Hash">Hash</option>
+      <option value="Rol RBAC">Rol RBAC</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Que el disco de un portátil robado no estuviera cifrado permitió leer los documentos sin necesitar ninguna credencial: es un fallo de confidencialidad de datos, no de una funcionalidad concreta de Entra — pero conectando con la teoría de gestión de dispositivos, un dispositivo no compatible ni registrado tampoco habría podido cumplir una política de acceso condicional que exigiera cifrado y cumplimiento.">
+    <p class="q">9. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa exige, mediante acceso condicional, que solo los dispositivos "compatibles" (con disco cifrado y actualizaciones al día) puedan acceder a datos corporativos. ¿Qué principio de Zero Trust está reforzando principalmente?</p>
+    <div class="options">
+      <label><input type="radio" name="qm2_9" value="A"> A) Asumir la brecha</label>
+      <label><input type="radio" name="qm2_9" value="B"> B) Verificar explícitamente</label>
+      <label><input type="radio" name="qm2_9" value="C"> C) Privilegios mínimos</label>
+      <label><input type="radio" name="qm2_9" value="D"> D) Defensa en profundidad</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B2C" data-explain="B2C está pensado para dar identidad a clientes finales de una aplicación pública, normalmente usando cuentas sociales o personales — justo lo que describe este escenario.">
+    <p class="q">10. <span class="difficulty diff-easy">🟢 Fácil</span> Una aplicación de streaming quiere que sus suscriptores se registren e inicien sesión con su cuenta de correo personal o de Google. ¿Qué escenario de identidades externas es el adecuado?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="B2B">B2B</option>
+      <option value="B2C">B2C</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="A,C" data-explain="La lista de contraseñas prohibidas (A) impide usar contraseñas obvias, y el smart lockout (C) frena intentos repetidos de adivinar una contraseña. El SSPR (B) permite restablecer una contraseña ya olvidada, no impedir que se elija una débil ni frenar ataques de fuerza bruta; y el acceso condicional (D) actúa según contexto, no sobre la calidad de la contraseña en sí.">
+    <p class="q">11. <span class="difficulty diff-med">🟡 Medio</span> ¿Cuáles de las siguientes funcionalidades de Entra ayudan específicamente a que los usuarios no puedan elegir contraseñas fáciles de adivinar ni sufrir ataques de fuerza bruta? (elige 2)</p>
+    <div class="options">
+      <label><input type="checkbox" name="qm2_11" value="A"> A) Lista de contraseñas prohibidas</label>
+      <label><input type="checkbox" name="qm2_11" value="B"> B) SSPR</label>
+      <label><input type="checkbox" name="qm2_11" value="C"> C) Smart lockout</label>
+      <label><input type="checkbox" name="qm2_11" value="D"> D) Acceso condicional</label>
+    </div>
+    <button class="check-btn" onclick="checkMulti(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Verified ID emite y comprueba credenciales digitales verificables (como una titulación), controladas por la propia persona, sin depender de Entra ID normal ni de acceso condicional.">
+    <p class="q">12. <span class="difficulty diff-med">🟡 Medio</span> Una universidad quiere emitir títulos digitales que los antiguos alumnos puedan presentar a futuros empleadores, sin que el empleador tenga que llamar a la universidad para verificarlos. ¿Qué solución de Entra es la adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="qm2_12" value="A"> A) Acceso condicional</label>
+      <label><input type="radio" name="qm2_12" value="B"> B) Microsoft Entra Verified ID</label>
+      <label><input type="radio" name="qm2_12" value="C"> C) PIM</label>
+      <label><input type="radio" name="qm2_12" value="D"> D) Entitlement management</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"ca","i2":"connect","i3":"idp","i4":"pim"}' data-explain="Verificar contexto de cada inicio de sesión es acceso condicional. Sincronizar AD local con la nube es Entra Connect. Detectar riesgo de usuario y de inicio de sesión es Identity Protection. Acceso Just-In-Time a roles con privilegios es PIM.">
+    <p class="q">13. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego la funcionalidad de Entra a la que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la funcionalidad correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Verificar el contexto de cada inicio de sesión (ubicación, dispositivo, riesgo)</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Sincronizar cuentas entre Active Directory local y la nube</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Detectar riesgo de usuario y riesgo de inicio de sesión</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Dar acceso Just-In-Time a roles con privilegios</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="ca" onclick="placeDDItem(this)"><div class="dd-zone-label">Acceso condicional</div></div>
+        <div class="dd-zone" data-zone="connect" onclick="placeDDItem(this)"><div class="dd-zone-label">Entra Connect</div></div>
+        <div class="dd-zone" data-zone="idp" onclick="placeDDItem(this)"><div class="dd-zone-label">Identity Protection</div></div>
+        <div class="dd-zone" data-zone="pim" onclick="placeDDItem(this)"><div class="dd-zone-label">PIM</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    <strong>🎓 Para ir más allá:</strong> Microsoft ofrece una <a href="https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/practice/assessment" target="_blank" rel="noopener">evaluación de práctica oficial y gratuita para el SC-900</a> en Microsoft Learn (necesitas iniciar sesión con una cuenta Microsoft). No es idéntica al examen real ni en formato ni en dificultad, pero te da una idea fiable de cómo se redactan las preguntas oficiales.
+    <br><br>
+    También puedes repasar la <a href="https://learn.microsoft.com/es-es/training/paths/describe-capabilities-of-microsoft-identity-access/" target="_blank" rel="noopener">ruta de aprendizaje oficial de este módulo en Microsoft Learn</a> (en español) — incluye ejercicios de comprobación al final de cada unidad, y algunos módulos (como el de acceso condicional) enlazan a un sandbox guiado para practicar en un tenant de prueba de Microsoft, sin necesidad de crear el tuyo propio.
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto queda completo el Módulo 2 (Microsoft Entra, 25-30% del examen). Próximo módulo: Soluciones de seguridad de Microsoft (35-40% del examen) — el bloque con más peso, que cubre Defender, Sentinel y seguridad de Azure.
+  </div>
+</section>
+
+</main>
+<footer>SC-900 · Guía de estudio personal · Irene</footer>
+
+<script>
+/* --- Almacenamiento: usa window.storage si está disponible (vista previa en Claude),
+   y si no, localStorage (cuando abres el archivo .html directamente en tu navegador) --- */
+const PREFIX = 'sc900m2:';
+
+function hashKey(str){
+  let hash = 5381;
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return 'q' + Math.abs(hash);
+}
+async function saveKey(key, value){
+  try{ if(window.storage){ await window.storage.set(PREFIX+key, JSON.stringify(value), false); return; } }catch(e){}
+  try{ localStorage.setItem(PREFIX+key, JSON.stringify(value)); }catch(e){}
+}
+async function loadKey(key){
+  try{ if(window.storage){ const r = await window.storage.get(PREFIX+key, false); return r ? JSON.parse(r.value) : null; } }catch(e){}
+  try{ const v = localStorage.getItem(PREFIX+key); return v ? JSON.parse(v) : null; }catch(e){}
+  return null;
+}
+async function deleteKey(key){
+  try{ if(window.storage){ await window.storage.delete(PREFIX+key, false); return; } }catch(e){}
+  try{ localStorage.removeItem(PREFIX+key); }catch(e){}
+}
+
+function checkRadio(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const selected = ex.querySelector('input[type=radio]:checked');
+  const fb = ex.querySelector('.feedback');
+  if(!selected){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(selected.value === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'radio', value:selected.value, fbClass:cls, fbText:text});
+}
+function checkSelect(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer;
+  const explain = ex.dataset.explain || '';
+  const sel = ex.querySelector('select').value;
+  const fb = ex.querySelector('.feedback');
+  if(!sel){ fb.className='feedback incorrect'; fb.textContent='Elige una opción antes de comprobar.'; return; }
+  let cls, text;
+  if(sel === answer){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. La respuesta correcta es ' + answer + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'select', value:sel, fbClass:cls, fbText:text});
+}
+function checkMulti(btn){
+  const ex = btn.closest('.exercise');
+  const answer = ex.dataset.answer.split(',').sort();
+  const explain = ex.dataset.explain || '';
+  const checked = Array.from(ex.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value).sort();
+  const fb = ex.querySelector('.feedback');
+  if(checked.length===0){ fb.className='feedback incorrect'; fb.textContent='Selecciona al menos una opción.'; return; }
+  let cls, text;
+  if(JSON.stringify(checked)===JSON.stringify(answer)){
+    cls='feedback correct'; text='¡Correcto! ' + explain;
+  } else {
+    cls='feedback incorrect'; text='No es correcto. Las respuestas correctas son: ' + answer.join(' y ') + '. ' + explain;
+  }
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'multi', values:checked, fbClass:cls, fbText:text});
+}
+function selectYN(btn, value){
+  const row = btn.closest('.yn-row');
+  row.dataset.selected = value;
+  row.querySelectorAll('.yn-btns button').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveKey(row.dataset.key, {selected:value});
+}
+function checkYNGroup(btn){
+  const ex = btn.closest('.exercise');
+  const rows = ex.querySelectorAll('.yn-row');
+  const fb = ex.querySelector('.feedback');
+  let correct=0, total=rows.length, missing=false;
+  let lines=[];
+  rows.forEach((r,i)=>{
+    if(!r.dataset.selected){ missing=true; return; }
+    const ok = r.dataset.selected === r.dataset.answer;
+    if(ok) correct++;
+    const mark = ok ? '✓' : '✗ (correcto: ' + r.dataset.answer + ')';
+    lines.push((i+1) + '. ' + mark + ' — ' + (r.dataset.explain || ''));
+  });
+  if(missing){ fb.className='feedback incorrect'; fb.textContent='Responde todas las afirmaciones antes de comprobar.'; return; }
+  const cls = (correct===total) ? 'feedback correct' : 'feedback incorrect';
+  const html = '<strong>' + (correct===total ? '¡Las ' + total + ' correctas!' : 'Aciertos: ' + correct + ' de ' + total + '.') + '</strong><br>' + lines.join('<br>');
+  fb.className = cls;
+  fb.innerHTML = html;
+  saveKey(ex.dataset.key + '-fb', {fbClass:cls, fbHTML:html});
+}
+
+/* --- Asignar claves únicas y restaurar respuestas guardadas al cargar la página --- */
+async function restoreAll(){
+  const exercises = document.querySelectorAll('.exercise');
+  exercises.forEach((ex,i)=>{
+    const qEl = ex.querySelector('.q');
+    const qText = qEl ? qEl.textContent.trim() : (ex.dataset.answer || ('ex'+i));
+    ex.dataset.key = hashKey(qText);
+  });
+
+  for(const ex of exercises){
+    const ynRows = ex.querySelectorAll('.yn-row');
+    if(ynRows.length){
+      ynRows.forEach((row,j)=>{
+        const span = row.querySelector('span');
+        const rowText = span ? span.textContent.trim() : ('row'+j);
+        row.dataset.key = ex.dataset.key + '-' + hashKey(rowText);
+      });
+      for(const row of ynRows){
+        const saved = await loadKey(row.dataset.key);
+        if(saved && saved.selected){
+          row.dataset.selected = saved.selected;
+          row.querySelectorAll('.yn-btns button').forEach(b=>{
+            if(b.textContent.trim() === saved.selected) b.classList.add('selected');
+          });
+        }
+      }
+      const fbSaved = await loadKey(ex.dataset.key + '-fb');
+      if(fbSaved){
+        const fb = ex.querySelector('.feedback');
+        fb.className = fbSaved.fbClass; fb.innerHTML = fbSaved.fbHTML;
+      }
+      continue;
+    }
+    const saved = await loadKey(ex.dataset.key);
+    if(!saved) continue;
+    const fb = ex.querySelector('.feedback');
+    if(saved.type === 'radio'){
+      const input = ex.querySelector('input[type=radio][value="'+CSS.escape(saved.value)+'"]');
+      if(input) input.checked = true;
+    } else if(saved.type === 'select'){
+      const sel = ex.querySelector('select');
+      if(sel) sel.value = saved.value;
+    } else if(saved.type === 'dragdrop'){
+      for(const id in saved.mapping){
+        const item = ex.querySelector('.dd-item[data-id="'+CSS.escape(id)+'"]');
+        const zone = ex.querySelector('.dd-zone[data-zone="'+CSS.escape(saved.mapping[id])+'"]');
+        if(item && zone){ zone.appendChild(item); item.classList.add('placed'); }
+      }
+    } else if(saved.type === 'multi'){
+      saved.values.forEach(v=>{
+        const input = ex.querySelector('input[type=checkbox][value="'+CSS.escape(v)+'"]');
+        if(input) input.checked = true;
+      });
+    }
+    if(saved.fbClass){ fb.className = saved.fbClass; fb.textContent = saved.fbText; }
+  }
+}
+
+async function clearAllAnswers(){
+  if(!confirm('¿Borrar todas tus respuestas guardadas? Esto no se puede deshacer.')) return;
+  const exercises = document.querySelectorAll('.exercise');
+  for(const ex of exercises){
+    await deleteKey(ex.dataset.key);
+    await deleteKey(ex.dataset.key + '-fb');
+    ex.querySelectorAll('.yn-row').forEach(row=> deleteKey(row.dataset.key));
+  }
+  location.reload();
+}
+
+
+/* --- Drag & drop (toca para colocar) --- */
+let selectedDDItem = null;
+function selectDDItem(el){
+  if(el.classList.contains('placed')){
+    const ex = el.closest('.exercise');
+    ex.querySelector('.dd-pool').appendChild(el);
+    el.classList.remove('placed','selected');
+    if(selectedDDItem === el) selectedDDItem = null;
+    return;
+  }
+  const ex = el.closest('.exercise');
+  ex.querySelectorAll('.dd-item.selected').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDDItem = el;
+}
+function placeDDItem(zone){
+  if(!selectedDDItem) return;
+  const ex = zone.closest('.exercise');
+  if(selectedDDItem.closest('.exercise') !== ex) return;
+  const existing = zone.querySelector('.dd-item');
+  if(existing){ ex.querySelector('.dd-pool').appendChild(existing); existing.classList.remove('placed'); }
+  zone.appendChild(selectedDDItem);
+  selectedDDItem.classList.remove('selected');
+  selectedDDItem.classList.add('placed');
+  selectedDDItem = null;
+}
+function checkDragDrop(btn){
+  const ex = btn.closest('.exercise');
+  const answer = JSON.parse(ex.dataset.answer);
+  const explain = ex.dataset.explain || '';
+  const zones = ex.querySelectorAll('.dd-zone');
+  const totalItems = ex.querySelectorAll('.dd-item').length;
+  let mapping = {};
+  zones.forEach(zone=>{
+    const item = zone.querySelector('.dd-item');
+    if(item) mapping[item.dataset.id] = zone.dataset.zone;
+  });
+  const fb = ex.querySelector('.feedback');
+  if(Object.keys(mapping).length < totalItems){
+    fb.className='feedback incorrect'; fb.textContent='Coloca todos los elementos antes de comprobar.'; return;
+  }
+  let correct = true;
+  for(const id in answer){ if(mapping[id] !== answer[id]) correct = false; }
+  const cls = correct ? 'feedback correct' : 'feedback incorrect';
+  const text = (correct ? '¡Correcto! ' : 'No del todo correcto. ') + explain;
+  fb.className = cls; fb.textContent = text;
+  saveKey(ex.dataset.key, {type:'dragdrop', mapping, fbClass:cls, fbText:text});
+}
+
+document.addEventListener('DOMContentLoaded', restoreAll);
+</script>
+
+</body>
+</html>
