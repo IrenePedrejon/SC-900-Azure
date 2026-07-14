@@ -122,9 +122,11 @@
 </header>
 
 <nav>
+  <a href="#entrafamily">2.0 Familia Entra y licencias</a>
   <a href="#intro">2.1 Qué es Entra ID</a>
   <a href="#idtypes">2.2 Tipos de identidad</a>
   <a href="#idtypes-dd">↳ Práctica</a>
+  <a href="#agentid">2.2c Microsoft Entra Agent ID</a>
   <a href="#hybrid">2.2b Identidad híbrida</a>
   <a href="#usersgroups">2.3 Usuarios y grupos</a>
   <a href="#authmethods2">2.4 Métodos de autenticación</a>
@@ -144,6 +146,47 @@
 
 <main>
 
+<section id="entrafamily">
+  <span class="eyebrow">Punto 2.0</span>
+  <h2>Descripción general de la familia Microsoft Entra</h2>
+  <p>Antes de entrar en Entra ID en detalle, conviene ver el panorama completo: <strong>"Entra"</strong> no es un único producto, sino una <strong>familia de productos de identidad y acceso</strong> de Microsoft. Microsoft Entra ID (que veremos a continuación) es el más importante para el examen, pero conviene saber que existen otros, organizados según el tipo de acceso que resuelven.</p>
+
+  <table>
+    <tr><th>Categoría de acceso</th><th>Productos incluidos</th></tr>
+    <tr><td><strong>Establecer controles de acceso Zero Trust</strong> (Confianza Cero, ver Módulo 1)</td><td>Microsoft Entra ID; Microsoft Entra Domain Services (DS)</td></tr>
+    <tr><td><strong>Proteger el acceso de empleados</strong></td><td>Entra Private Access, Entra Internet Access, Entra ID Governance, Entra ID Protection, Entra Verified ID</td></tr>
+    <tr><td><strong>Proteger el acceso de clientes y socios</strong></td><td>Microsoft Entra External ID (B2B + CIAM — Customer Identity and Access Management, gestión de identidad y acceso de clientes)</td></tr>
+    <tr><td><strong>Proteger el acceso en cualquier nube</strong></td><td>Microsoft Entra Workload ID (identidades de carga de trabajo)</td></tr>
+    <tr><td><strong>Proteger el acceso de agentes de IA</strong></td><td>Microsoft Entra Agent ID (lo veremos en detalle en el punto 2.2c)</td></tr>
+  </table>
+
+  <h3>Niveles de licencia de Entra ID</h3>
+  <p>Entra ID no es "todo o nada" — según la licencia contratada, se activan más o menos funcionalidades. Esto explica por qué en varios puntos de este módulo verás avisos como "necesita licencia P1" o "P2".</p>
+
+  <svg viewBox="0 0 700 260" role="img" aria-label="Niveles de licencia de Entra ID">
+    <g><rect x="40" y="190" width="620" height="50" rx="8" fill="var(--navy)"/>
+      <text x="350" y="220" text-anchor="middle" class="layer-label">Entra ID Free — gestión básica de usuarios/grupos, SSPR</text></g>
+    <g><rect x="80" y="135" width="540" height="50" rx="8" fill="var(--teal)"/>
+      <text x="350" y="165" text-anchor="middle" class="layer-label">Entra ID P1 — + Acceso condicional, identidad híbrida</text></g>
+    <g><rect x="120" y="80" width="460" height="50" rx="8" fill="#B5892F"/>
+      <text x="350" y="110" text-anchor="middle" class="layer-label">Entra ID P2 — + Identity Protection, PIM</text></g>
+    <g><rect x="160" y="25" width="380" height="50" rx="8" fill="var(--coral)"/>
+      <text x="350" y="55" text-anchor="middle" class="layer-label">Microsoft Entra Suite — todo lo anterior + más</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Nivel</th><th>Qué incluye</th><th>Incluido en</th></tr>
+    <tr><td><strong>Entra ID Free</strong></td><td>Gestión de usuarios y grupos, informes básicos, SSPR (Self-Service Password Reset, restablecimiento de contraseña autoservicio)</td><td>Viene incluido con Azure y Microsoft 365</td></tr>
+    <tr><td><strong>Entra ID P1 (Plan 1)</strong></td><td>Acceso condicional, identidad híbrida, funciones avanzadas de grupos</td><td>Microsoft 365 E3, F1, F3; EMS E3 (Enterprise Mobility + Security); Microsoft 365 Business Premium</td></tr>
+    <tr><td><strong>Entra ID P2 (Plan 2)</strong></td><td>Acceso condicional basado en riesgo, Identity Protection, PIM (Privileged Identity Management)</td><td>Microsoft 365 E5; EMS E5</td></tr>
+    <tr><td><strong>Microsoft Entra Suite</strong></td><td>Agrupa Entra Private Access, Entra Internet Access, Entra ID Governance, Entra ID Protection, y Verified ID en su versión premium</td><td>Requiere tener ya una suscripción de Entra ID P1 como base</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si una pregunta menciona una funcionalidad concreta (acceso condicional, PIM, Identity Protection), piensa en qué nivel de licencia la incluye — es una forma habitual de comprobar si conoces bien la jerarquía P1/P2.</div>
+
+  <p style="font-size:0.85rem; color:#8a8578;">La administración de todo esto se hace desde el <strong>centro de administración de Microsoft Entra</strong> (entra.microsoft.com).</p>
+</section>
+
 <section id="intro">
   <span class="eyebrow">Punto 2.1</span>
   <h2>Qué es Microsoft Entra ID</h2>
@@ -154,6 +197,51 @@
   </div>
 
   <div class="tip"><strong>Nota sobre el nombre:</strong> Microsoft renombró "Azure Active Directory" a "Microsoft Entra ID" en 2023. Es habitual ver ambos nombres en documentación, cursos o exámenes — son lo mismo. "Entra" es en realidad el nombre de toda una familia de productos de identidad de Microsoft (Entra ID es solo uno de ellos, aunque el más importante para este examen).</div>
+
+  <h3>Terminología básica: inquilino, directorio y multiinquilino</h3>
+  <table>
+    <tr><th>Término</th><th>Qué significa</th></tr>
+    <tr><td><strong>Inquilino (Tenant)</strong></td><td>Una instancia de Microsoft Entra ID donde reside la información de una sola organización: usuarios, grupos, dispositivos, registros de aplicaciones, y las políticas de acceso y cumplimiento. Cada inquilino tiene un identificador único (ID de inquilino) y un nombre de dominio propio (por ejemplo, <code>contoso.onmicrosoft.com</code>), y actúa como <strong>límite de seguridad y administrativo</strong> — todo lo que pasa dentro de un inquilino está separado de otros inquilinos.</td></tr>
+    <tr><td><strong>Directorio (Directory)</strong></td><td>Un contenedor lógico dentro de un inquilino que organiza los recursos de identidad (usuarios, grupos, aplicaciones, dispositivos). En la práctica, "inquilino" y "directorio" se usan como sinónimos — pero, técnicamente, <strong>un inquilino de Entra ID contiene exactamente un directorio</strong>, no varios.</td></tr>
+    <tr><td><strong>Multiinquilino (Multi-tenant)</strong></td><td>Una organización que tiene <strong>más de una</strong> instancia de Entra ID. Ocurre, por ejemplo, cuando hay varias filiales que operan de forma independiente, tras una fusión o adquisición de empresas, o por límites geográficos con regulaciones de residencia de datos distintas.</td></tr>
+  </table>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "inquilino" y "directorio" se usan indistintamente en el lenguaje habitual, pero si te preguntan la relación exacta entre ambos: un inquilino = un directorio, siempre.</div>
+
+  <h3>Puntuación de seguridad de identidad (identity secure score)</h3>
+  <p>Entra ID incluye una <strong>puntuación de seguridad de identidad</strong>: un porcentaje que indica cómo de alineada está tu configuración con las recomendaciones de buenas prácticas de seguridad de Microsoft. Cada acción de mejora que te sugiere está adaptada a tu configuración concreta. Está disponible en <strong>todas las ediciones</strong> de Entra ID (incluida la gratuita), y te ayuda a: medir objetivamente tu postura de seguridad de identidad, planear mejoras, y revisar si esas mejoras han funcionado.</p>
+  <p>El panel muestra: tu puntuación en porcentaje, una <strong>puntuación comparativa</strong> frente a empresas de tamaño similar, el historial de tu puntuación a lo largo del tiempo, y las acciones de mejora pendientes.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas estas tres puntuaciones parecidas, cada una en un producto distinto: <strong>puntuación de seguridad de identidad</strong> (solo identidad, en Entra ID) vs. <strong>Secure Score</strong> de Microsoft Defender (postura de seguridad general de Microsoft 365 — identidad, dispositivos, apps, datos, nube — Módulo 3) vs. <strong>compliance score</strong> de Compliance Manager (cumplimiento normativo — RGPD, ISO... — Módulo 4).</div>
+
+  <h3>¿Quién usa Microsoft Entra ID?</h3>
+  <ul>
+    <li><strong>Administradores de TI</strong>: controlan el acceso a recursos y aplicaciones corporativas, por ejemplo exigiendo MFA (Multi-Factor Authentication, autenticación multifactor) para acceder a recursos importantes, y usan las herramientas de gobernanza que veremos más adelante.</li>
+    <li><strong>Desarrolladores</strong>: usan Entra ID como un enfoque basado en estándares para añadir SSO (Single Sign-On, inicio de sesión único) a sus propias aplicaciones, y usan sus API (Application Programming Interface, interfaz de programación de aplicaciones) para crear experiencias personalizadas con los datos de la organización.</li>
+    <li><strong>Suscriptores de Azure, Microsoft 365 o Dynamics 365</strong>: tienen acceso automático a Entra ID en su nivel gratuito, y pueden mejorar su implementación actualizando a licencias premium (P1/P2, vistas en el punto 2.0).</li>
+  </ul>
+
+  <div class="exercise" data-answer="No" data-explain="Aunque en el lenguaje habitual se usan indistintamente, técnicamente un inquilino de Entra ID contiene exactamente un directorio, no varios — nunca al revés." >
+    <p class="q">A. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Un directorio de Entra ID puede contener varios inquilinos distintos dentro de él.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="La puntuación de seguridad de identidad mide específicamente la postura de identidad dentro de Entra ID, comparándola con buenas prácticas de Microsoft — el Secure Score de Defender mide la postura de seguridad general de Microsoft 365, no solo identidad." >
+    <p class="q">B. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere saber, sin ningún coste adicional aunque tenga la licencia gratuita, qué tan bien configurada está específicamente su seguridad de identidad en Entra ID. ¿Qué debe consultar?</p>
+    <div class="options">
+      <label><input type="radio" name="qsecscore" value="A"> A) El Secure Score de Microsoft Defender</label>
+      <label><input type="radio" name="qsecscore" value="B"> B) La puntuación de seguridad de identidad de Entra ID</label>
+      <label><input type="radio" name="qsecscore" value="C"> C) El compliance score de Compliance Manager</label>
+      <label><input type="radio" name="qsecscore" value="D"> D) Microsoft Entra Agent ID</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
 
   <div class="exercise" data-answer="Microsoft Entra ID" data-explain="Microsoft renombró Azure Active Directory a Microsoft Entra ID en 2023, aunque siguen siendo el mismo servicio bajo un nombre nuevo.">
     <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Microsoft renombró "Azure Active Directory" a:</p>
@@ -205,6 +293,19 @@
   </table>
 
   <div class="tip"><strong>Truco de examen:</strong> tanto la entidad de servicio como la identidad administrada son identidades de <em>aplicación</em>, pero con una identidad administrada, Azure crea, rota y protege las credenciales automáticamente — el desarrollador no gestiona ningún secreto.</div>
+
+  <h3>Precisión importante: la identidad administrada es un subtipo</h3>
+  <p>Para el examen conviene tener clara la jerarquía exacta: una <strong>identidad administrada es, técnicamente, un tipo especial de entidad de servicio</strong> (no una categoría totalmente aparte) — la diferencia es que Azure gestiona sus credenciales por ti. Dentro de las identidades administradas hay dos variantes:</p>
+  <ul>
+    <li><strong>Asignada por el sistema (system-assigned)</strong>: está ligada al ciclo de vida de un recurso concreto (por ejemplo, una máquina virtual). Si se elimina el recurso, la identidad se elimina automáticamente con él.</li>
+    <li><strong>Asignada por el usuario (user-assigned)</strong>: existe de forma independiente, no ligada a ningún recurso concreto, y hay que eliminarla explícitamente cuando ya no se necesite.</li>
+  </ul>
+
+  <h3>Identidades de agente: la categoría más nueva</h3>
+  <p>Además de humanas, de dispositivo y de carga de trabajo, Entra ID reconoce ahora una categoría propia: las <strong>identidades de agente</strong>, para agentes de IA (Inteligencia Artificial) que actúan de forma autónoma o en nombre de una persona. Son <strong>distintas de las identidades de carga de trabajo tradicionales</strong> — la vemos en detalle en el punto 2.2c, justo después de esta sección.</p>
+
+  <h3>Grupos: quién puede formar parte</h3>
+  <p>Un dato que se pasa por alto: un grupo de seguridad puede contener no solo usuarios, sino también dispositivos, otros grupos, entidades de servicio, <strong>y también identidades de agente</strong>. Un grupo de Microsoft 365, en cambio, solo admite usuarios.</p>
 
   <h3>Ejercicios</h3>
 
@@ -261,6 +362,138 @@
         <div class="dd-zone" data-zone="grupo" onclick="placeDDItem(this)"><div class="dd-zone-label">Grupo</div></div>
         <div class="dd-zone" data-zone="dispositivo" onclick="placeDDItem(this)"><div class="dd-zone-label">Dispositivo</div></div>
         <div class="dd-zone" data-zone="managed" onclick="placeDDItem(this)"><div class="dd-zone-label">Identidad administrada</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="agentid">
+  <span class="eyebrow">Punto 2.2c</span>
+  <h2>Microsoft Entra Agent ID</h2>
+  <p>Es el desarrollo más reciente dentro de Entra ID: un marco de identidad y seguridad diseñado específicamente para agentes de IA — programas que actúan de forma autónoma, no solo cuando un humano les da una orden puntual.</p>
+
+  <h3>Por qué un agente de IA necesita una identidad propia</h3>
+  <p>Tratar a un agente de IA como "una aplicación más" no basta, por tres riesgos concretos:</p>
+  <ul>
+    <li><strong>Superficie de ataque ampliada</strong>: un agente interactúa con sistemas externos y puede ser vulnerable a inyección de instrucciones maliciosas (prompt injection).</li>
+    <li><strong>Riesgo de permisos excesivos</strong>: es fácil darle a un agente más permisos de los que realmente necesita, sin darse cuenta.</li>
+    <li><strong>Expansión descontrolada de agentes (agent sprawl)</strong>: sin control de ciclo de vida, se acumulan agentes temporales olvidados, con permisos que nadie revisa.</li>
+  </ul>
+
+  <h3>Cómo funciona: de la plantilla a la instancia</h3>
+  <p>Entra Agent ID separa dos conceptos que conviene no confundir:</p>
+
+  <svg viewBox="0 0 700 280" role="img" aria-label="Modelo de plantilla e instancia de Microsoft Entra Agent ID">
+    <g><rect x="240" y="20" width="220" height="90" rx="12" fill="var(--navy)"/>
+      <text x="350" y="55" text-anchor="middle" class="layer-label">Plantilla de agente</text>
+      <text x="350" y="75" text-anchor="middle" class="layer-sub">(Agent identity blueprint)</text>
+      <text x="350" y="93" text-anchor="middle" class="layer-sub">Define un tipo de agente</text></g>
+    <path d="M330 110 L200 180" stroke="#999" stroke-width="2" marker-end="url(#a5)"/>
+    <path d="M350 110 L350 180" stroke="#999" stroke-width="2" marker-end="url(#a5)"/>
+    <path d="M370 110 L500 180" stroke="#999" stroke-width="2" marker-end="url(#a5)"/>
+    <defs><marker id="a5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker></defs>
+    <g><rect x="100" y="185" width="200" height="80" rx="12" fill="var(--teal)"/>
+      <text x="200" y="215" text-anchor="middle" class="layer-label">Instancia de agente 1</text>
+      <text x="200" y="235" text-anchor="middle" class="layer-sub">Patrocinador: María</text>
+      <text x="200" y="253" text-anchor="middle" class="layer-sub">Sin credenciales propias</text></g>
+    <g><rect x="300" y="185" width="200" height="80" rx="12" fill="var(--teal)"/>
+      <text x="400" y="215" text-anchor="middle" class="layer-label">Instancia de agente 2</text>
+      <text x="400" y="235" text-anchor="middle" class="layer-sub">Patrocinador: Luis</text>
+      <text x="400" y="253" text-anchor="middle" class="layer-sub">Sin credenciales propias</text></g>
+  </svg>
+
+  <table>
+    <tr><th>Concepto</th><th>Qué es</th></tr>
+    <tr><td><strong>Plantilla de identidad de agente (agent identity blueprint)</strong></td><td>Una plantilla reutilizable que define un tipo o clase de agente (por ejemplo, "Agente asistente de ventas"). Establece la clasificación, guarda las credenciales que se usarán para crear instancias, y permite aplicar una política a todos los agentes de ese tipo de golpe.</td></tr>
+    <tr><td><strong>Identidad de agente (agent identity)</strong></td><td>Una instancia individual creada a partir de una plantilla. Tiene un identificador único y un nombre visible, y siempre tiene un <strong>patrocinador (sponsor)</strong>: la persona humana responsable de esa identidad. <strong>No tiene credenciales propias</strong> — depende de la plantilla para obtener sus tokens de acceso.</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta habla de "una plantilla que define un tipo de agente y sus políticas" → blueprint. Si habla de "un agente concreto en funcionamiento, con un responsable humano asignado" → identidad de agente (instancia).</div>
+
+  <h3>Patrones de autenticación</h3>
+  <table>
+    <tr><th>Patrón</th><th>Cómo funciona</th></tr>
+    <tr><td><strong>Atendido (on-behalf-of, en nombre de un usuario)</strong></td><td>El agente actúa bajo la autoridad de un usuario concreto, con permisos delegados. El token identifica al usuario como responsable último, con el agente como actor.</td></tr>
+    <tr><td><strong>Desatendido (unattended)</strong></td><td>El agente actúa de forma autónoma, bajo su propia autoridad, usando un flujo de credenciales de cliente (client credentials).</td></tr>
+  </table>
+
+  <h3>Integración con gobernanza y seguridad</h3>
+  <table>
+    <tr><th>Funcionalidad</th><th>Cómo se aplica a agentes</th><th>Licencia necesaria</th></tr>
+    <tr><td><strong>Acceso condicional</strong></td><td>Las políticas pueden dirigirse específicamente a identidades de agente y activarse según su nivel de riesgo. Existe una política gestionada por Microsoft: "Bloquear todos los agentes de riesgo alto en todos los recursos".</td><td>Entra ID P1</td></tr>
+    <tr><td><strong>Identity Protection</strong></td><td>Vigila el comportamiento de los agentes y detecta actividad anómala (acceso a recursos inusuales, picos de inicio de sesión, intentos de acceso fallidos), mostrando un informe de "Agentes de riesgo". Un administrador puede confirmar que está comprometido (lo que activa automáticamente el bloqueo por acceso condicional), confirmarlo como seguro, descartar el riesgo, o deshabilitar el agente directamente.</td><td>Entra ID P2</td></tr>
+    <tr><td><strong>Entra ID Governance</strong></td><td>Gestiona el ciclo de vida del agente y exige un patrocinador humano obligatorio. Si el patrocinador deja la empresa, la responsabilidad se transfiere automáticamente a su jefe.</td><td>Entra ID P1</td></tr>
+    <tr><td><strong>Controles de red</strong></td><td>Filtrado de contenido web e inteligencia de amenazas para agentes creados en Copilot Studio.</td><td>Entra Internet Access</td></tr>
+  </table>
+
+  <h3>Privilegio mínimo por diseño</h3>
+  <p>A una identidad de agente <strong>nunca</strong> se le puede asignar un rol de alto privilegio como Administrador global, Administrador de roles con privilegios, o Administrador de usuarios — solo roles de bajo privilegio (como un rol de solo lectura), y tampoco puede pertenecer a grupos con roles asignables. Para gestionar agentes existen dos roles nuevos: <strong>Administrador de Agent ID</strong> y <strong>Desarrollador de Agent ID</strong>.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> esta restricción de privilegio mínimo es una de las salvaguardas de diseño más preguntables — un agente jamás puede terminar con el control total de un tenant, por diseño, independientemente de lo que le pida quien lo configuró.</div>
+
+  <h3>Auditoría y disponibilidad</h3>
+  <p>Toda la actividad de autenticación de un agente queda registrada. Microsoft Entra Agent ID está disponible (en versión preliminar) para todos los clientes de Entra ID; llevar la seguridad completa a los agentes requiere licencias adicionales según el nivel visto en el punto 2.0 (P1/P2/Entra Internet Access), o los paquetes empresariales que las incluyen.</p>
+
+  <div class="tip"><strong>💡 Nota:</strong> Microsoft Entra Agent ID es distinto de <strong>Microsoft Agent 365</strong>, un producto más amplio de registro y control de agentes que se apoya en Entra Agent ID como base de identidad.</div>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="La plantilla (blueprint) es la que define el tipo de agente y sus políticas; la identidad de agente es la instancia concreta creada a partir de esa plantilla, con un patrocinador humano asignado." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa crea una plantilla llamada "Agente de soporte al cliente" y, a partir de ella, activa 5 agentes distintos para 5 equipos diferentes. ¿Cómo se llama cada uno de esos 5 agentes activados?</p>
+    <div class="options">
+      <label><input type="radio" name="q1agent" value="A"> A) Plantillas de identidad de agente (blueprints)</label>
+      <label><input type="radio" name="q1agent" value="B"> B) Identidades de agente (instancias)</label>
+      <label><input type="radio" name="q1agent" value="C"> C) Identidades administradas</label>
+      <label><input type="radio" name="q1agent" value="D"> D) Entidades de servicio clásicas</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Para cada afirmación, indica si es verdadera o falsa:</p>
+    <div class="yn-row" data-answer="No" data-explain="A una identidad de agente nunca se le puede asignar el rol de Administrador global, ni ningún otro rol de alto privilegio — es una restricción de diseño, no una recomendación." >
+      <span>A una identidad de agente se le puede asignar el rol de Administrador global si la empresa lo considera necesario.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="Si" data-explain="Si el patrocinador de un agente deja la organización, Entra ID Governance reasigna automáticamente la responsabilidad a su jefe, sin dejar al agente sin responsable." >
+      <span>Si el patrocinador de un agente abandona la organización, la responsabilidad se transfiere automáticamente a su jefe.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <div class="yn-row" data-answer="No" data-explain="La identidad de agente no tiene credenciales propias; depende de la plantilla (blueprint) para obtener sus tokens de acceso." >
+      <span>Una identidad de agente gestiona y guarda sus propias credenciales, de forma independiente a la plantilla.</span>
+      <span class="yn-btns"><button onclick="selectYN(this,'Si')">Sí</button><button onclick="selectYN(this,'No')">No</button></span>
+    </div>
+    <button class="check-btn" onclick="checkYNGroup(this)">Comprobar todas</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Desatendido" data-explain="Cuando el agente actúa bajo su propia autoridad, sin representar a ningún usuario concreto en ese momento, se trata del patrón desatendido (unattended), usando un flujo de credenciales de cliente." >
+    <p class="q">3. <span class="difficulty diff-med">🟡 Medio</span> Un agente de IA revisa automáticamente facturas cada noche y las clasifica, sin que ningún usuario esté "detrás" de esa acción en ese momento. Este patrón de autenticación se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Atendido">Atendido (on-behalf-of)</option>
+      <option value="Desatendido">Desatendido (unattended)</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"ca","i2":"idp","i3":"gov"}' data-explain="El acceso condicional puede bloquear agentes de riesgo alto según política. Identity Protection detecta comportamiento anómalo y genera el informe de Agentes de riesgo. Entra ID Governance exige un patrocinador humano y gestiona el ciclo de vida del agente.">
+    <p class="q">4. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada capacidad y luego la funcionalidad de Entra a la que corresponde, aplicada a agentes de IA.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después la funcionalidad correcta.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Bloquea automáticamente los agentes marcados como de riesgo alto</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Detecta comportamiento anómalo y genera el informe de "Agentes de riesgo"</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Exige un patrocinador humano y gestiona el ciclo de vida del agente</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="ca" onclick="placeDDItem(this)"><div class="dd-zone-label">Acceso condicional</div></div>
+        <div class="dd-zone" data-zone="idp" onclick="placeDDItem(this)"><div class="dd-zone-label">Identity Protection</div></div>
+        <div class="dd-zone" data-zone="gov" onclick="placeDDItem(this)"><div class="dd-zone-label">Entra ID Governance</div></div>
       </div>
     </div>
     <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
@@ -824,13 +1057,27 @@
   <span class="eyebrow">Punto 2.13</span>
   <h2>Global Secure Access e integración con Security Copilot</h2>
 
-  <h3>Global Secure Access</h3>
-  <p>Es la solución de Microsoft de <strong>Security Service Edge (SSE)</strong> integrada con Entra: en vez de proteger solo "quién entra", protege también <strong>el tráfico de red</strong> del usuario hacia internet, aplicaciones y recursos privados, aplicando las mismas políticas de identidad y acceso condicional a nivel de red.</p>
+  <h3>Global Secure Access (GSA)</h3>
+  <p><strong>Global Secure Access (GSA, acceso seguro global)</strong> es el término general de Microsoft para su solución de <strong>SSE (Security Service Edge, borde de servicio de seguridad)</strong>: en vez de proteger solo "quién entra", protege también <strong>el tráfico de red</strong> del usuario hacia internet, aplicaciones y recursos privados, aplicando las mismas políticas de identidad y acceso condicional a nivel de red. GSA agrupa dos productos:</p>
+  <ul>
+    <li><strong>Entra Internet Access</strong>: una puerta de enlace web segura (Secure Web Gateway) basada en identidad, que filtra el tráfico general hacia internet.</li>
+    <li><strong>Entra Private Access</strong>: acceso de red de confianza cero (ZTNA — Zero Trust Network Access), pensado como sustituto de una VPN tradicional para acceder a recursos privados de la empresa.</li>
+  </ul>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> GSA es el paraguas; Internet Access (tráfico general a internet) y Private Access (sustituto de VPN hacia recursos privados) son los dos productos concretos que lo componen.</div>
 
   <h3>Integración con Microsoft Security Copilot</h3>
-  <p>Security Copilot es el asistente de IA de Microsoft para equipos de seguridad. Integrado con Entra, permite a los administradores hacer preguntas en lenguaje natural sobre identidades, riesgos y configuración (por ejemplo, "¿qué usuarios tienen el rol de Administrador global?") y obtener respuestas o sugerencias sin tener que navegar manualmente por varios paneles.</p>
+  <p>Security Copilot es el asistente de IA de Microsoft para equipos de seguridad. Integrado con Entra, permite a los administradores hacer preguntas en lenguaje natural sobre identidades, riesgos y configuración (por ejemplo, "¿qué usuarios tienen el rol de Administrador global?") y obtener respuestas o sugerencias sin tener que navegar manualmente por varios paneles. Esta integración tiene dos formas de uso: <strong>independiente (standalone)</strong>, desde el propio Security Copilot, o <strong>incrustada (embedded)</strong>, directamente dentro del centro de administración de Entra.</p>
 
-  <div class="tip"><strong>🎯 Truco de examen:</strong> estos dos son los conceptos más nuevos del temario de Entra — basta con reconocer qué son (SSE aplicado a identidad, y asistente de IA para consultas de seguridad), sin necesitar detalle técnico profundo.</div>
+  <p>Dentro de Entra, Security Copilot se concreta en tres <strong>agentes</strong> específicos (cada uno con su propia identidad de agente, como las que vimos en el punto 2.2c):</p>
+  <table>
+    <tr><th>Agente</th><th>Qué hace</th></tr>
+    <tr><td><strong>Access Review Agent</strong> (agente de revisión de acceso)</td><td>Ayuda a generar recomendaciones para las revisiones de acceso (Módulo 2.9), sugiriendo si un acceso concreto debería mantenerse o retirarse.</td></tr>
+    <tr><td><strong>Conditional Access Optimization Agent</strong> (agente de optimización de acceso condicional)</td><td>Analiza tus políticas de acceso condicional y sugiere mejoras o ajustes.</td></tr>
+    <tr><td><strong>Identity Risk Management Agent</strong> (agente de gestión de riesgo de identidad, en versión preliminar)</td><td>Ayuda a investigar usuarios de riesgo detectados por Identity Protection.</td></tr>
+  </table>
+  <p>Estos agentes se descubren y activan desde la <strong>Security Store</strong> (tienda de seguridad), incrustada dentro del propio centro de administración de Entra.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no hace falta memorizar cada detalle técnico de estos tres agentes — basta con reconocer sus nombres y saber a qué funcionalidad de Entra apoya cada uno (revisiones de acceso, acceso condicional, o gestión de riesgo de identidad).</div>
 </section>
 
 <section id="mix2">

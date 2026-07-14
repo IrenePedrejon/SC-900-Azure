@@ -133,6 +133,8 @@
   <a href="#defvm">3.9b Defender Vulnerability Management</a>
   <a href="#defti">3.9c Defender Threat Intelligence</a>
   <a href="#seccopilot">3.10 Security Copilot</a>
+  <a href="#exposuremgmt">3.10b Security Exposure Management</a>
+  <a href="#copilotxdr">3.10c Copilot en Defender XDR</a>
   <a href="#mix3">🔀 Repaso mixto</a>
 </nav>
 
@@ -553,12 +555,131 @@
 <section id="seccopilot">
   <span class="eyebrow">Punto 3.10</span>
   <h2>Microsoft Security Copilot</h2>
-  <p>Es el asistente de inteligencia artificial de Microsoft para equipos de seguridad. Se integra con Defender, Sentinel y Entra, y permite a los analistas hacer preguntas en lenguaje natural (por ejemplo, "resume este incidente" o "¿qué dispositivos tienen esta vulnerabilidad?") y obtener respuestas o resúmenes automáticos, en vez de investigar manualmente panel por panel.</p>
+  <p>Es el asistente de inteligencia artificial <strong>generativa y agéntica</strong> de Microsoft para equipos de seguridad. Se integra con Defender, Sentinel y Entra, y permite a los analistas hacer preguntas en lenguaje natural (por ejemplo, "resume este incidente" o "¿qué dispositivos tienen esta vulnerabilidad?") y obtener respuestas o resúmenes automáticos, en vez de investigar manualmente panel por panel.</p>
+
+  <h3>Terminología básica</h3>
+  <table>
+    <tr><th>Término</th><th>Qué significa</th></tr>
+    <tr><td><strong>Indicación (prompt)</strong></td><td>La pregunta o instrucción que le escribes a Copilot en lenguaje natural</td></tr>
+    <tr><td><strong>Complementos (plugins)</strong></td><td>Conectores que le dan a Copilot acceso a datos de un producto concreto (Defender, Sentinel, Entra...)</td></tr>
+    <tr><td><strong>Promptbooks</strong></td><td>Secuencias predefinidas de indicaciones, guardadas para repetir una investigación habitual sin tener que escribirla desde cero cada vez</td></tr>
+    <tr><td><strong>SCU (Security Compute Units)</strong></td><td>La unidad con la que se factura el uso de Security Copilot — cuanto más lo usas, más SCU consumes</td></tr>
+  </table>
+
+  <p><strong>Novedad 2026:</strong> Security Copilot ha pasado a un enfoque <strong>"agents-first"</strong> (centrado en agentes), donde en vez de solo responder preguntas puntuales, despliega agentes especializados que trabajan de forma más autónoma en tareas concretas de seguridad. Viene <strong>incluido automáticamente</strong> para clientes con licencia <strong>Microsoft 365 E5 y E7</strong>.</p>
+
+  <p>Algunos de los agentes destacados de Security Copilot: <strong>Security/Alert Triage Agent</strong> (prioriza alertas), <strong>Conditional Access Optimization Agent</strong> (ya visto en el Módulo 2), <strong>Threat Intelligence Briefing Agent</strong> (resume inteligencia de amenazas), y <strong>Data Security Triage Agent</strong> (prioriza riesgos de seguridad de datos).</p>
 
   <div class="tip"><strong>🎯 Truco de examen:</strong> Security Copilot no sustituye a Sentinel ni a Defender — se apoya en los datos que ya recogen esas herramientas, y añade una capa de asistencia por IA encima para acelerar la investigación y la respuesta.</div>
 
+  <div class="exercise" data-answer="Promptbooks" data-explain="Un promptbook es exactamente una secuencia predefinida de indicaciones guardada para repetir una investigación habitual, sin escribirla de cero cada vez." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un analista guarda una secuencia de preguntas que repite cada semana para investigar accesos sospechosos, y la reutiliza con un solo clic en vez de escribirla de nuevo. ¿Cómo se llama esa secuencia guardada?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Complementos">Complementos (plugins)</option>
+      <option value="Promptbooks">Promptbooks</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="exposuremgmt">
+  <span class="eyebrow">Punto 3.10b</span>
+  <h2>Microsoft Security Exposure Management</h2>
+  <p>Es una solución dentro del portal de Defender que da una <strong>vista unificada de toda tu postura de seguridad</strong>, mirando "desde arriba" en vez de producto por producto.</p>
+
+  <h3>Conceptos clave</h3>
+  <table>
+    <tr><th>Concepto</th><th>Qué es</th></tr>
+    <tr><td><strong>Superficie expuesta a ataques (attack surface)</strong></td><td>Todo lo que un atacante podría intentar aprovechar: dispositivos, identidades, aplicaciones, configuraciones — en Azure, en otras nubes (multinube), y on-premises</td></tr>
+    <tr><td><strong>Gráfico de exposición empresarial (enterprise exposure graph)</strong></td><td>Un mapa completo que conecta todos tus recursos, usuarios y cargas de trabajo entre sí</td></tr>
+    <tr><td><strong>Rutas de ataque (attack paths)</strong></td><td>Los caminos concretos que un atacante podría seguir para llegar desde un punto de entrada hasta un recurso crítico</td></tr>
+    <tr><td><strong>Puntos de estrangulamiento (chokepoints)</strong></td><td>Nodos donde convergen varias rutas de ataque distintas — proteger un solo punto de estrangulamiento puede cortar muchas rutas de ataque a la vez</td></tr>
+    <tr><td><strong>Recursos críticos (critical assets)</strong></td><td>Activos de alto valor que se clasifican aparte (controladores de dominio, bases de datos confidenciales, cuentas de administradores con privilegios)</td></tr>
+  </table>
+
+  <div class="analogy">
+    Imagina un mapa de todas las carreteras que llevan al centro de una ciudad (tus recursos críticos). Las "rutas de ataque" son los caminos posibles. Un "punto de estrangulamiento" sería un puente por el que pasan varias de esas carreteras a la vez — vigilar ese puente es más eficiente que vigilar cada calle suelta.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas Security Exposure Management con Defender Vulnerability Management (Módulo 3.9b). Vulnerability Management trabaja a nivel de <strong>un dispositivo o CVE concreto</strong> (¿qué vulnerabilidad tiene este equipo?). Security Exposure Management trabaja a nivel <strong>global y de varias cargas a la vez</strong> (¿cuál es toda mi superficie expuesta, y qué ruta completa tomaría un atacante?). De hecho, Vulnerability Management es <em>una de las fuentes</em> que alimentan a Exposure Management, no su competidor.</div>
+
+  <p>Exposure Management también organiza el trabajo en <strong>iniciativas de seguridad</strong> (por ejemplo, una iniciativa dedicada a Zero Trust, u otra a amenazas concretas), y puede recibir datos incluso de herramientas que no son de Microsoft (como ServiceNow, Tenable o Qualys).</p>
+
+  <div class="exercise" data-answer="B" data-explain="Security Exposure Management da la vista global de toda la superficie de ataque y las rutas posibles entre varios recursos; Defender Vulnerability Management se centra en las vulnerabilidades de un dispositivo o software concreto." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Un analista quiere ver el camino completo que un atacante podría seguir desde un portátil comprometido hasta la base de datos más sensible de la empresa, cruzando varios sistemas. ¿Qué solución le ayuda a visualizar esa ruta completa?</p>
+    <div class="options">
+      <label><input type="radio" name="qexp" value="A"> A) Defender Vulnerability Management</label>
+      <label><input type="radio" name="qexp" value="B"> B) Microsoft Security Exposure Management</label>
+      <label><input type="radio" name="qexp" value="C"> C) Azure Key Vault</label>
+      <label><input type="radio" name="qexp" value="D"> D) Defender for Cloud Apps</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="copilotxdr">
+  <span class="eyebrow">Punto 3.10c</span>
+  <h2>Integración de Copilot con Microsoft Defender XDR</h2>
+  <p>Es la forma más completa en que Security Copilot se conecta con Defender XDR (Módulo 3.5). Tiene dos formas de uso: <strong>independiente (standalone)</strong>, desde el propio portal de Security Copilot, o <strong>integrada (embedded)</strong>, directamente dentro del portal de Defender XDR.</p>
+
+  <h3>Qué puede hacer</h3>
+  <ul>
+    <li>Resumir un incidente completo, incluso con hasta 100 alertas relacionadas</li>
+    <li>Dar <strong>respuestas guiadas</strong>: evaluación de prioridad, contención, investigación y corrección paso a paso</li>
+    <li>Analizar scripts sospechosos</li>
+    <li>Traducir <strong>lenguaje natural a KQL (Kusto Query Language)</strong> — el lenguaje de consulta que usa Sentinel y Defender por debajo, para que no haga falta saber escribirlo a mano</li>
+    <li>Generar informes de incidentes y resúmenes de dispositivos e identidades</li>
+  </ul>
+
+  <h3>Los cuatro agentes de IA en Defender XDR</h3>
+  <table>
+    <tr><th>Agente</th><th>Qué hace</th></tr>
+    <tr><td><strong>Phishing Triage Agent</strong> (agente de evaluación de prioridades de phishing)</td><td>Prioriza y ayuda a investigar correos de phishing reportados. Requiere Defender for Office 365 Plan 2 además de Security Copilot.</td></tr>
+    <tr><td><strong>Threat Intelligence Briefing Agent</strong> (agente de resumen de inteligencia contra amenazas)</td><td>Genera resúmenes sobre amenazas relevantes para tu organización</td></tr>
+    <tr><td><strong>Threat Hunting Agent</strong> (agente de búsqueda de amenazas)</td><td>Permite hacer "hunting" (Módulo 3.4) usando lenguaje natural en vez de escribir consultas manuales</td></tr>
+    <tr><td><strong>Dynamic Threat Detection Agent</strong> (agente de detección dinámica de amenazas)</td><td>Un servicio de fondo, siempre activo, que usa el marco <strong>MITRE ATT&CK</strong> (una base de conocimiento pública de tácticas y técnicas de atacantes) para detectar patrones</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> estos cuatro agentes son específicos de la integración con Defender XDR — no los confundas con los agentes generales de Security Copilot (punto 3.10) ni con los tres agentes de Entra que viste en el Módulo 2 (Access Review, Conditional Access Optimization, Identity Risk Management).</div>
+
+  <div class="exercise" data-answer="A" data-explain="Traducir una pregunta en lenguaje natural directamente a una consulta KQL válida es la funcionalidad específica de 'lenguaje natural a KQL' de Copilot en Defender XDR." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Un analista sin experiencia escribiendo consultas técnicas le pide a Copilot: "muéstrame todos los inicios de sesión fallidos de la última semana desde fuera de España", y Copilot genera automáticamente la consulta técnica correspondiente. ¿Qué capacidad de Copilot está usando?</p>
+    <div class="options">
+      <label><input type="radio" name="qkql" value="A"> A) Lenguaje natural a KQL</label>
+      <label><input type="radio" name="qkql" value="B"> B) Threat Intelligence Briefing Agent</label>
+      <label><input type="radio" name="qkql" value="C"> C) Dynamic Threat Detection Agent</label>
+      <label><input type="radio" name="qkql" value="D"> D) Defender Vulnerability Management</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"phish","i2":"ti","i3":"hunt","i4":"dyn"}' data-explain="El Phishing Triage Agent prioriza correos de phishing reportados. El Threat Intelligence Briefing Agent resume amenazas relevantes. El Threat Hunting Agent permite buscar en lenguaje natural. El Dynamic Threat Detection Agent vigila patrones de forma continua usando MITRE ATT&CK.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el agente de Defender XDR al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el agente correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Prioriza correos de phishing reportados por empleados</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Genera resúmenes de amenazas relevantes para tu organización</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Permite buscar amenazas escribiendo en lenguaje natural</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Vigila de forma continua usando el marco MITRE ATT&CK</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="phish" onclick="placeDDItem(this)"><div class="dd-zone-label">Phishing Triage Agent</div></div>
+        <div class="dd-zone" data-zone="ti" onclick="placeDDItem(this)"><div class="dd-zone-label">Threat Intelligence Briefing</div></div>
+        <div class="dd-zone" data-zone="hunt" onclick="placeDDItem(this)"><div class="dd-zone-label">Threat Hunting Agent</div></div>
+        <div class="dd-zone" data-zone="dyn" onclick="placeDDItem(this)"><div class="dd-zone-label">Dynamic Threat Detection</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
   <div class="callout" style="font-style:normal;">
-    Con esto queda completo el Módulo 3 (Soluciones de seguridad de Microsoft, 35-40% del examen — el bloque con más peso). Próximo módulo: Soluciones de cumplimiento de Microsoft (15-20% del examen) — Microsoft Purview, protección de la información, eDiscovery y auditoría.
+    Con esto queda completo el Módulo 3 (Soluciones de seguridad de Microsoft, 35-40% del examen — el bloque con más peso). Próximo módulo: Soluciones de cumplimiento de Microsoft (20-25% del examen) — Microsoft Purview, protección de la información, gobernanza de datos, eDiscovery y auditoría.
   </div>
 </section>
 

@@ -325,11 +325,80 @@
 
   <ol>
     <li><strong>Verificar explícitamente:</strong> autenticar y autorizar siempre según todos los datos disponibles (usuario, ubicación, dispositivo, estado del dispositivo, servicio), no solo por estar "en la oficina".</li>
-    <li><strong>Privilegios mínimos:</strong> dar a cada usuario solo el acceso justo y necesario para su tarea, ni un permiso de más, solo el tiempo necesario.</li>
-    <li><strong>Asumir la brecha:</strong> actuar como si el atacante ya estuviera dentro. Segmentar la red, cifrar de extremo a extremo, monitorizar para detectar y responder rápido.</li>
+    <li><strong>Privilegios mínimos:</strong> dar a cada usuario solo el acceso justo y necesario para su tarea, ni un permiso de más, solo el tiempo necesario. Esto se implementa técnicamente con dos mecanismos: <strong>JIT (Just-In-Time, acceso justo a tiempo)</strong> — el acceso se activa solo cuando hace falta y se desactiva después (como el PIM que veremos en el Módulo 2) — y <strong>JEA (Just-Enough-Access, acceso suficiente)</strong> — dar exactamente los permisos mínimos necesarios para una tarea, ni uno más.</li>
+    <li><strong>Asumir la brecha (Assume breach):</strong> actuar como si el atacante ya estuviera dentro. Segmentar la red, cifrar de extremo a extremo, monitorizar para detectar y responder rápido.</li>
   </ol>
 
+  <h3>Los 7 pilares de Zero Trust</h3>
+  <p>Los tres principios de arriba son la filosofía general. En la práctica, Microsoft organiza la implementación de Zero Trust en <strong>7 pilares</strong>: seis son fuentes de señal que hay que vigilar y proteger, y el séptimo es el que las integra todas.</p>
+
+  <svg viewBox="0 0 700 340" role="img" aria-label="Los siete pilares de Zero Trust">
+    <g><rect x="20" y="20" width="200" height="70" rx="10" fill="var(--navy)"/>
+      <text x="120" y="50" text-anchor="middle" class="layer-label">1. Identidades</text>
+      <text x="120" y="68" text-anchor="middle" class="layer-sub">Plano de control principal</text></g>
+    <g><rect x="240" y="20" width="200" height="70" rx="10" fill="var(--teal)"/>
+      <text x="340" y="50" text-anchor="middle" class="layer-label">2. Dispositivos</text>
+      <text x="340" y="68" text-anchor="middle" class="layer-sub">Endpoints</text></g>
+    <g><rect x="460" y="20" width="200" height="70" rx="10" fill="#B5892F"/>
+      <text x="560" y="50" text-anchor="middle" class="layer-label">3. Aplicaciones</text>
+      <text x="560" y="68" text-anchor="middle" class="layer-sub">Incluye Shadow IT</text></g>
+
+    <g><rect x="20" y="105" width="200" height="70" rx="10" fill="var(--coral)"/>
+      <text x="120" y="135" text-anchor="middle" class="layer-label">4. Datos</text>
+      <text x="120" y="153" text-anchor="middle" class="layer-sub">Clasificar, etiquetar, cifrar</text></g>
+    <g><rect x="240" y="105" width="200" height="70" rx="10" fill="#5B4B8A"/>
+      <text x="340" y="135" text-anchor="middle" class="layer-label">5. Infraestructura</text>
+      <text x="340" y="153" text-anchor="middle" class="layer-sub">Local o en la nube</text></g>
+    <g><rect x="460" y="105" width="200" height="70" rx="10" fill="#2E7D32"/>
+      <text x="560" y="135" text-anchor="middle" class="layer-label">6. Redes</text>
+      <text x="560" y="153" text-anchor="middle" class="layer-sub">Microsegmentación</text></g>
+
+    <g><rect x="140" y="215" width="420" height="90" rx="12" fill="#1D3557"/>
+      <text x="350" y="248" text-anchor="middle" class="layer-label">7. Visibilidad, automatización y orquestación</text>
+      <text x="350" y="270" text-anchor="middle" class="layer-sub">Recopila señales de los otros 6 pilares</text>
+      <text x="350" y="288" text-anchor="middle" class="layer-sub">Aquí viven SIEM y SOAR (Módulo 3)</text></g>
+    <path d="M120 175 L250 213" stroke="#999" stroke-width="1.5"/>
+    <path d="M340 175 L340 213" stroke="#999" stroke-width="1.5"/>
+    <path d="M560 175 L450 213" stroke="#999" stroke-width="1.5"/>
+  </svg>
+
+  <table>
+    <tr><th>Pilar</th><th>Qué vigila/protege</th></tr>
+    <tr><td><strong>1. Identidades</strong></td><td>Personas, dispositivos, servicios — el plano de control principal de todo Zero Trust</td></tr>
+    <tr><td><strong>2. Dispositivos (endpoints)</strong></td><td>Portátiles, móviles, servidores — su estado de seguridad antes de dar acceso</td></tr>
+    <tr><td><strong>3. Aplicaciones</strong></td><td>Incluye detectar <strong>Shadow IT</strong> (aplicaciones que se usan sin aprobación de IT, ya visto en Módulo 3)</td></tr>
+    <tr><td><strong>4. Datos</strong></td><td>Clasificar, etiquetar y cifrar la información según su sensibilidad</td></tr>
+    <tr><td><strong>5. Infraestructura</strong></td><td>Servidores y recursos, tanto locales como en la nube</td></tr>
+    <tr><td><strong>6. Redes</strong></td><td>Segmentar en piezas cada vez más pequeñas (<strong>microsegmentación</strong>) para limitar el movimiento lateral</td></tr>
+    <tr><td><strong>7. Visibilidad, automatización y orquestación</strong></td><td>El pilar "de integración": recopila señales de los otros seis para detectar y responder de forma centralizada — aquí es donde encajan <strong>SIEM</strong> (Security Information and Event Management) y <strong>SOAR</strong> (Security Orchestration, Automated Response), que veremos en detalle en el Módulo 3</td></tr>
+  </table>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> los <strong>3 principios</strong> (verificar explícitamente, privilegios mínimos, asumir la brecha) son la <em>filosofía</em>; los <strong>7 pilares</strong> son las <em>áreas concretas</em> donde se aplica esa filosofía. Si te preguntan "¿cuántos pilares tiene Zero Trust?", la respuesta es 7, no 3 — no los confundas.</div>
+
   <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="D" data-explain="El pilar de visibilidad, automatización y orquestación es el que integra las señales de los otros seis pilares (identidades, dispositivos, aplicaciones, datos, infraestructura, redes) para detectar y responder de forma centralizada — aquí viven SIEM y SOAR." >
+    <p class="q">0. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Qué pilar de Zero Trust es el que integra las señales de todos los demás para detectar y responder de forma centralizada?</p>
+    <div class="options">
+      <label><input type="radio" name="qztpil" value="A"> A) Identidades</label>
+      <label><input type="radio" name="qztpil" value="B"> B) Redes</label>
+      <label><input type="radio" name="qztpil" value="C"> C) Datos</label>
+      <label><input type="radio" name="qztpil" value="D"> D) Visibilidad, automatización y orquestación</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="JIT" data-explain="JIT (Just-In-Time) activa el acceso solo cuando hace falta y lo desactiva después; JEA (Just-Enough-Access) es dar exactamente los permisos mínimos necesarios, sin relación directa con el tiempo." >
+    <p class="q">00. <span class="difficulty diff-med">🟡 Medio</span> Un administrador activa temporalmente un rol de privilegio elevado solo durante 2 horas para completar una tarea, y después se desactiva solo. Este mecanismo se llama:</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="JIT">JIT (Just-In-Time)</option>
+      <option value="JEA">JEA (Just-Enough-Access)</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
 
   <div class="exercise" data-answer="B" data-explain="Volver a pedir verificación cuando cambia el contexto (ubicación, dispositivo, riesgo) — incluso con una sesión ya iniciada — es exactamente el principio de verificar explícitamente.">
     <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa exige que, aunque un empleado ya haya iniciado sesión desde la oficina, deba volver a verificar su identidad si intenta acceder desde un país distinto al habitual. ¿Qué principio de Zero Trust está aplicando?</p>
@@ -486,7 +555,33 @@
 
   <div class="tip"><strong>Regla mental:</strong> cuanto más "servicio gestionado" (hacia la derecha en la tabla), menos responsabilidad técnica tiene el cliente. Pero <strong>la identidad y los datos siempre son responsabilidad del cliente</strong>, en cualquiera de los cuatro modelos — eso Microsoft nunca lo asume por ti.</div>
 
+  <h3>La capa de IA del modelo de responsabilidad compartida</h3>
+  <p>Con la llegada de servicios de inteligencia artificial (IA), el modelo se extiende con tres capas adicionales, específicas para cargas de IA:</p>
+  <table>
+    <tr><th>Capa</th><th>Qué cubre</th><th>¿Quién es responsable?</th></tr>
+    <tr><td><strong>Plataforma de IA</strong></td><td>La infraestructura, el modelo en sí, y los controles de seguridad de la plataforma (filtrado de contenido integrado, medidas de seguridad, control de acceso al servicio)</td><td>El proveedor (por ejemplo, Microsoft)</td></tr>
+    <tr><td><strong>Aplicación de IA</strong></td><td>La app que se construye o implementa sobre esa plataforma: su configuración, los orígenes de datos y conectores que usa, y los complementos (plugins) que se le añaden</td><td>El cliente</td></tr>
+    <tr><td><strong>Uso de IA</strong></td><td>Cómo los usuarios finales usan realmente el sistema: qué escriben (los "avisos" o prompts), las políticas de uso aceptable, y la supervisión de ese uso</td><td>El cliente</td></tr>
+  </table>
+  <p><strong>Ejemplo:</strong> Microsoft 365 Copilot es un servicio <strong>SaaS</strong>; Azure AI Foundry (donde construyes tus propios agentes) es un servicio <strong>PaaS</strong>.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> un riesgo específico de esta capa es la <strong>inyección de mensajes (prompt injection)</strong>: un atacante inserta instrucciones maliciosas en la entrada de texto o en datos externos que el sistema de IA procesa, para manipular sus respuestas. Se mitiga con validación de entrada, controles de acceso y supervisión — las mismas ideas de siempre, aplicadas a un caso nuevo.</div>
+
+  <div class="tip"><strong>Repaso final:</strong> sea cual sea el modelo (on-premises, IaaS, PaaS, SaaS, o las capas de IA), hay cuatro cosas que <strong>nunca</strong> delegas: tus <strong>datos</strong>, tus <strong>identidades y accesos</strong>, tus <strong>dispositivos (puntos de conexión)</strong>, y tus <strong>opciones de configuración</strong>.</div>
+
   <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="La configuración de la aplicación, sus conectores de datos y sus complementos son responsabilidad de quien construye la app sobre la plataforma — la capa de 'aplicación de IA', que es del cliente. El filtrado de contenido integrado de la plataforma en sí es del proveedor." >
+    <p class="q">0. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa construye su propio asistente de IA sobre Azure AI Foundry, conectándolo a su base de datos interna mediante un conector personalizado. ¿De quién es la responsabilidad de configurar ese conector?</p>
+    <div class="options">
+      <label><input type="radio" name="qcapasia" value="A"> A) Del proveedor (Microsoft), como parte de la plataforma de IA</label>
+      <label><input type="radio" name="qcapasia" value="B"> B) Del cliente, como parte de la aplicación de IA</label>
+      <label><input type="radio" name="qcapasia" value="C"> C) De ambos por igual, sin distinción</label>
+      <label><input type="radio" name="qcapasia" value="D"> D) No es responsabilidad de nadie en este modelo</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
 
   <div class="exercise" data-answer="B" data-explain="En IaaS, Microsoft gestiona el hardware físico y la virtualización, pero el sistema operativo de la máquina virtual y sus actualizaciones son responsabilidad del cliente.">
     <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa usa Azure Virtual Machines (IaaS) para alojar su propia aplicación. ¿Quién es responsable de instalar las actualizaciones del sistema operativo de esas máquinas?</p>
@@ -558,7 +653,50 @@
     <tr><td>Cuándo se usa</td><td>Cifrar grandes volúmenes de datos ya en un canal ya establecido</td><td>Establecer la comunicación inicial de forma segura, firmas digitales</td></tr>
   </table>
 
+  <h3>Los tres estados de los datos, y cómo se protege cada uno</h3>
+  <p>El cifrado no se aplica igual en todo momento — depende de en qué "estado" están los datos:</p>
+  <table>
+    <tr><th>Estado</th><th>Qué es</th><th>Cómo se protege</th></tr>
+    <tr><td><strong>En reposo (at rest)</strong></td><td>Datos guardados en un disco, una base de datos o un archivo, sin moverse</td><td>Cifrado de disco, cifrado de base de datos</td></tr>
+    <tr><td><strong>En tránsito (in transit)</strong></td><td>Datos viajando por la red, de un sitio a otro</td><td>HTTPS, VPN, TLS</td></tr>
+    <tr><td><strong>En uso (in use)</strong></td><td>Datos que están en la memoria RAM o siendo procesados activamente por el procesador (CPU) en ese instante</td><td><strong>Computación confidencial (confidential computing)</strong></td></tr>
+  </table>
+
+  <p>La <strong>computación confidencial</strong> es la novedad menos conocida de las tres: crea un <strong>enclave seguro</strong> (una zona protegida y aislada dentro del procesador) donde los datos se procesan sin que ni siquiera el sistema operativo o el software de virtualización (el hipervisor) puedan verlos. Es especialmente relevante en entornos <strong>multiinquilino</strong> en la nube, donde varios clientes comparten el mismo hardware físico por debajo.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "en reposo" y "en tránsito" ya los conocías intuitivamente; el que suele fallar es "en uso" — si la pregunta habla de proteger datos <em>mientras se están procesando activamente en memoria</em>, la respuesta es computación confidencial, no cifrado de disco ni HTTPS.</div>
+
+  <h3>Gestión de claves y protección adicional</h3>
+  <ul>
+    <li><strong>HSM (Hardware Security Module, módulo de seguridad de hardware)</strong>: un dispositivo físico especializado en generar, guardar y proteger claves de cifrado, más seguro que guardarlas en un archivo normal. Azure Key Vault (que veremos en el Módulo 3) puede apoyarse en HSM.</li>
+    <li><strong>Rotación de claves</strong>: cambiar periódicamente las claves de cifrado, para limitar el daño si una clave se ve comprometida sin que nadie lo sepa todavía.</li>
+    <li><strong>Cifrado con sal (salting)</strong>: al calcular el hash de una contraseña, se le añade un valor aleatorio extra (la "sal") antes de aplicar el hash. Esto evita que un atacante use <strong>tablas arcoíris (rainbow tables)</strong> — listas precalculadas de hashes de contraseñas comunes — para adivinar la contraseña original a partir de su hash.</li>
+  </ul>
+
   <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="D" data-explain="Los datos que están siendo procesados activamente en la memoria RAM o en la CPU están 'en uso', y se protegen con computación confidencial mediante enclaves seguros — no con cifrado de disco (eso es para datos en reposo) ni con HTTPS (eso es para datos en tránsito)." >
+    <p class="q">0. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa quiere proteger datos sensibles mientras se procesan activamente en la memoria de un servidor compartido con otros clientes en la nube, para que ni siquiera el proveedor de la nube pueda verlos en ese instante. ¿Qué tecnología necesita?</p>
+    <div class="options">
+      <label><input type="radio" name="qestadodatos" value="A"> A) Cifrado de disco (datos en reposo)</label>
+      <label><input type="radio" name="qestadodatos" value="B"> B) HTTPS (datos en tránsito)</label>
+      <label><input type="radio" name="qestadodatos" value="C"> C) Hashing con sal</label>
+      <label><input type="radio" name="qestadodatos" value="D"> D) Computación confidencial (datos en uso)</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="Si" data-explain="Añadir un valor aleatorio (sal) antes de calcular el hash de una contraseña impide que un atacante use tablas arcoíris precalculadas para adivinar la contraseña original a partir de su hash." >
+    <p class="q">00. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Añadir una "sal" aleatoria antes de calcular el hash de una contraseña ayuda a proteger contra ataques con tablas arcoíris precalculadas.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
 
   <div class="exercise" data-answer="C" data-explain="El hashing produce una huella distinta si el contenido cambia, por lo que comparar huellas antes y después permite detectar cualquier alteración durante la transferencia.">
     <p class="q">1. <span class="difficulty diff-easy">🟢 Fácil</span> Una empresa quiere comprobar que un archivo descargado no ha sido alterado durante la transferencia. ¿Qué técnica es la más adecuada?</p>
@@ -626,13 +764,42 @@
 
   <div class="tip"><strong>🎯 Truco de examen:</strong> los tres conceptos están relacionados pero no son lo mismo — la gobernanza es <em>interna</em> (cómo decides), el riesgo es <em>evaluar</em> amenazas potenciales, y el cumplimiento es seguir reglas <em>externas</em> ya establecidas. Una empresa puede tener buena gobernanza y aun así incumplir una ley si no las conoce.</div>
 
+  <h3>El proceso de gestión de riesgos (la "R" de GRC en detalle)</h3>
+  <p>Gestionar el riesgo sigue siempre cuatro pasos, en este orden:</p>
+  <ol>
+    <li><strong>Identificar</strong>: ¿qué riesgos existen? (un ciberataque, perder datos, una multa legal...)</li>
+    <li><strong>Evaluar</strong>: ¿qué probabilidad tiene y qué impacto tendría si ocurre?</li>
+    <li><strong>Responder</strong>: decidir qué hacer con ese riesgo. Hay cuatro respuestas posibles: <strong>aceptar</strong> (asumirlo tal cual, si es pequeño), <strong>mitigar</strong> (reducirlo con medidas concretas), <strong>transferir</strong> (pasárselo a otro, como contratar un seguro), o <strong>evitar</strong> (dejar de hacer la actividad que genera el riesgo).</li>
+    <li><strong>Supervisar</strong>: vigilar que la respuesta elegida sigue funcionando con el tiempo.</li>
+  </ol>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> si una empresa contrata un seguro contra ciberataques, está <strong>transfiriendo</strong> el riesgo, no mitigándolo — no reduce la probabilidad de que ocurra, solo traslada el coste económico a otro.</div>
+
+  <h3>Residencia, soberanía y privacidad de datos</h3>
+  <p>Son tres conceptos que se confunden mucho porque los tres hablan de "dónde" y "cómo" viven tus datos, pero cada uno responde a una pregunta distinta:</p>
+  <table>
+    <tr><th>Concepto</th><th>Pregunta que responde</th><th>Qué significa</th></tr>
+    <tr><td><strong>Residencia de datos (data residency)</strong></td><td>¿En qué <em>lugar físico</em> están guardados mis datos?</td><td>Reglas sobre las ubicaciones físicas concretas donde se pueden almacenar los datos, y cómo/cuándo se pueden transferir, procesar o acceder a ellos internacionalmente. Al usar la nube, hay que comprobar dónde almacena físicamente el proveedor tus datos.</td></tr>
+    <tr><td><strong>Soberanía de datos (data sovereignty)</strong></td><td>¿Qué <em>leyes</em> aplican a mis datos?</td><td>Los datos están sujetos a las leyes y regulaciones del país o región donde se recopilan, mantienen o procesan físicamente — no las de tu propio país si tus datos viven en otro.</td></tr>
+    <tr><td><strong>Privacidad de datos (data privacy)</strong></td><td>¿Se trata correctamente la información de las personas?</td><td>El tratamiento adecuado de datos personales: información de una persona identificada o identificable, incluyendo datos que la identifican de forma indirecta (como su historial de ubicación o de navegación).</td></tr>
+  </table>
+
+  <div class="analogy">
+    Imagina que guardas una caja en un trastero alquilado en Alemania: la <strong>residencia</strong> es el hecho de que la caja está físicamente en Alemania. La <strong>soberanía</strong> es que, por estar en Alemania, se le aplican las leyes alemanas sobre qué se puede guardar y cómo — aunque tú vivas en España. Y la <strong>privacidad</strong> es una cuestión aparte: si dentro de esa caja hay datos personales de otras personas, tienes que tratarlos con cuidado independientemente de en qué país esté la caja.
+  </div>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> un mismo dato puede recopilarse en un país, almacenarse en otro, y procesarse en un tercero — y quedaría sujeto a las leyes de soberanía de los tres, a la vez. Residencia = el "dónde físico"; soberanía = "qué leyes aplican por estar ahí"; privacidad = "cómo trato los datos personales de alguien", sin importar tanto el país.</div>
+
+  <h3>Cumplimiento no es lo mismo que seguridad</h3>
+  <p>Una distinción importante que suele aparecer en el examen: <strong>el cumplimiento define los estándares mínimos legales o regulatorios</strong> que hay que alcanzar — pero la seguridad real de una organización puede (y debería) ir más allá de esos mínimos. Una empresa puede ser "técnicamente conforme" con una normativa y aun así tener agujeros de seguridad reales que esa normativa no cubre.</p>
+
   <h3>Ejemplos reales de normativas de cumplimiento</h3>
   <table>
     <tr><th>Normativa</th><th>Qué regula</th></tr>
     <tr><td>RGPD</td><td>Protección de datos personales de ciudadanos en la Unión Europea (cómo se recogen, guardan y usan tus datos)</td></tr>
-    <tr><td>HIPAA</td><td>Protección de datos de salud de pacientes en EE. UU.</td></tr>
+    <tr><td>HIPAA (Health Insurance Portability and Accountability Act, Ley de portabilidad y responsabilidad de seguros de salud)</td><td>Protección de datos de salud de pacientes en EE. UU.</td></tr>
     <tr><td>PCI-DSS</td><td>Seguridad de los datos de tarjetas de pago</td></tr>
     <tr><td>ISO 27001</td><td>Estándar internacional de gestión de la seguridad de la información (no es ley, pero muchas empresas lo adoptan como buena práctica)</td></tr>
+    <tr><td>SOC 2 (Control de Organización de Servicio 2)</td><td>Un tipo de auditoría de seguridad centrada en proveedores de servicios (comprueba cómo gestionan los datos de sus clientes)</td></tr>
   </table>
 
   <h3>¿Por qué importa cumplir?</h3>
@@ -640,7 +807,31 @@
 
   <div class="tip"><strong>El rol de Microsoft:</strong> herramientas como Microsoft Purview (que veremos en el Módulo 4) ayudan a clasificar información sensible, prevenir fugas de datos, y generar informes que demuestran que cumples. Pero <strong>la responsabilidad legal final de cumplir siempre es de la organización</strong>, nunca de Microsoft — Microsoft solo pone las herramientas a tu disposición.</div>
 
-  <h3>Ejercicios sobre GRC</h3>
+  <h3>Ejercicios sobre residencia, soberanía y riesgo</h3>
+
+  <div class="exercise" data-answer="Soberanía" data-explain="La soberanía de datos determina qué leyes se aplican a un dato según el país donde físicamente se procesa — en este caso, las leyes del país donde vive el servidor de procesamiento, no las del país del cliente." >
+    <p class="q">B. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa española procesa los datos de sus clientes en un servidor ubicado en otro país, y ese país aplica sus propias leyes de protección de datos a la información almacenada allí. ¿Qué concepto describe esta situación?</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Residencia">Residencia de datos</option>
+      <option value="Soberanía">Soberanía de datos</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="C" data-explain="Contratar un seguro no reduce la probabilidad del ciberataque ni su impacto técnico — traslada el coste económico a la aseguradora. Eso es transferir el riesgo, no mitigarlo (que sería, por ejemplo, mejorar las defensas técnicas)." >
+    <p class="q">C. <span class="difficulty diff-hard">🔴 Difícil</span> Una empresa contrata un seguro contra ciberataques en vez de invertir en mejorar sus defensas técnicas. ¿Qué respuesta al riesgo está aplicando?</p>
+    <div class="options">
+      <label><input type="radio" name="qriskresp" value="A"> A) Aceptar el riesgo</label>
+      <label><input type="radio" name="qriskresp" value="B"> B) Mitigar el riesgo</label>
+      <label><input type="radio" name="qriskresp" value="C"> C) Transferir el riesgo</label>
+      <label><input type="radio" name="qriskresp" value="D"> D) Evitar el riesgo</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
 
   <div class="exercise" data-answer="A" data-explain="Definir quién puede aprobar qué tipo de decisiones dentro de la empresa es una regla interna sobre cómo se decide — eso es gobernanza (governance), no riesgo ni cumplimiento.">
     <p class="q">A. <span class="difficulty diff-med">🟡 Medio</span> Una empresa define internamente qué personas tienen que aprobar cualquier decisión que afecte a más de 10.000€. ¿A qué parte de GRC pertenece esto principalmente?</p>

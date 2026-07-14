@@ -185,6 +185,27 @@
     <div class="side b"><h4>Compliance</h4><p>Reglas externas obligatorias: leyes y normativas (RGPD, HIPAA...).</p></div>
   </div>
   <div class="clue">🎯 Pista: "quién aprueba internamente" → Governance. "Seguir una ley" → Compliance. "Evaluar probabilidad de amenaza" → Risk.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Residencia de datos</h4><p>El lugar físico donde están guardados tus datos.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Soberanía de datos</h4><p>Qué leyes aplican a tus datos por estar en ese lugar.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: residencia = "dónde físico". Soberanía = "qué leyes por estar ahí". Un dato puede tener residencia en un país y quedar sujeto a las leyes (soberanía) de ese mismo país.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>3 principios de Zero Trust</h4><p>Verificar explícitamente, privilegios mínimos, asumir la brecha. La <em>filosofía</em>.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>7 pilares de Zero Trust</h4><p>Identidades, dispositivos, apps, datos, infraestructura, redes, y visibilidad/automatización/orquestación. Las <em>áreas</em> donde se aplica.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: si te preguntan "¿cuántos pilares tiene Zero Trust?" la respuesta es 7, no 3 — no confundas principios con pilares.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>JIT (Just-In-Time)</h4><p>El acceso se activa solo cuando hace falta y se desactiva después. Habla de <em>tiempo</em>.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>JEA (Just-Enough-Access)</h4><p>Solo los permisos mínimos necesarios, sin relación con el tiempo. Habla de <em>cantidad</em>.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: JIT = cuándo tienes acceso. JEA = cuánto acceso tienes. PIM (Módulo 2) usa ambos a la vez.</div>
 </section>
 
 <section id="m2">
@@ -238,6 +259,27 @@
     <div class="side b"><h4>B2C</h4><p>Dar identidad a consumidores finales de una app pública (con Google, Facebook...).</p></div>
   </div>
   <div class="clue">🎯 Pista: "socios/proveedores" → B2B. "Clientes/consumidores de mi app" → B2C.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Puntuación de seguridad de identidad</h4><p>Mide solo la postura de identidad en Entra ID, gratis en todas las ediciones.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Secure Score / Compliance score</h4><p>Secure Score = seguridad técnica general (Módulo 3). Compliance score = cumplimiento normativo (Módulo 4).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: tres puntuaciones parecidas en tres productos distintos — identidad (Entra), seguridad técnica (Defender), cumplimiento normativo (Compliance Manager). Nunca son la misma.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Inquilino (Tenant)</h4><p>La instancia completa: límite de seguridad y administrativo, con ID y dominio propio.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Directorio</h4><p>El contenedor lógico de recursos dentro del inquilino.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: un inquilino = un directorio, siempre. Nunca al revés.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Plantilla de agente (blueprint)</h4><p>Define un tipo de agente y sus políticas — es la plantilla reutilizable.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Identidad de agente (instancia)</h4><p>Un agente concreto activado, con un patrocinador humano, sin credenciales propias.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: la plantilla define el "tipo"; la instancia es el agente real en funcionamiento con un responsable asignado.</div>
 </section>
 
 <section id="m3">
@@ -291,6 +333,20 @@
     <div class="side b"><h4>Safe Attachments</h4><p>Analiza el archivo adjunto en un entorno aislado antes de entregarlo.</p></div>
   </div>
   <div class="clue">🎯 Pista: "el enlace se volvió malicioso después de enviarse" → Safe Links (por eso comprueba en el clic, no al llegar).</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Defender Vulnerability Management</h4><p>Nivel de un dispositivo o CVE concreto: ¿qué vulnerabilidad tiene este equipo?</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Security Exposure Management</h4><p>Nivel global y de varias cargas a la vez: ¿cuál es toda mi superficie expuesta y qué ruta tomaría un atacante?</p></div>
+  </div>
+  <div class="clue">🎯 Pista: Vulnerability Management es una de las fuentes que alimentan a Exposure Management, no su competidor — uno mira un árbol, el otro mira el bosque completo.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Datos en reposo / en tránsito</h4><p>Guardados en disco, o viajando por la red. Se protegen con cifrado de disco o HTTPS/VPN.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Datos en uso</h4><p>Siendo procesados activamente en RAM/CPU. Se protegen con computación confidencial (enclaves seguros).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "en uso" es el estado que más se olvida — si la pregunta habla de proteger datos mientras se procesan activamente, es computación confidencial, no cifrado de disco.</div>
 </section>
 
 <section id="m4">
@@ -337,6 +393,34 @@
     <div class="side b"><h4>Audit</h4><p>Registro general de "quién hizo qué" en <strong>todo</strong> el tenant.</p></div>
   </div>
   <div class="clue">🎯 Pista: "demanda legal, exportar correos de un caso" → eDiscovery. "Investigar el alcance de una brecha en general" → Audit.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>DLP</h4><p>Detecta <strong>datos sensibles</strong> compartidos indebidamente (tarjetas, historiales médicos).</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Communication Compliance</h4><p>Detecta <strong>tono y contenido</strong> inadecuado en conversaciones (acoso, lenguaje discriminatorio).</p></div>
+  </div>
+  <div class="clue">🎯 Pista: DLP mira el dato; Communication Compliance mira cómo se habla entre personas.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Data Map</h4><p>Examina orígenes y captura metadatos automáticamente.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Unified Catalog</h4><p>Organiza esos metadatos en dominios, productos de datos y glosario, para que un humano de negocio los entienda.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: sin Data Map no hay nada que catalogar — el catálogo depende del mapa, no al revés.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Etiqueta de retención estándar</h4><p>Solo define cuánto tiempo se conserva; el contenido se sigue pudiendo editar.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>Registro / Registro normativo</h4><p>Registro = bloquea edición/eliminación. Registro normativo = ni siquiera se puede desbloquear.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: "no se puede desbloquear bajo ninguna circunstancia" → registro normativo, el nivel más estricto de los tres.</div>
+
+  <div class="pair">
+    <div class="side a"><h4>Content Search → eDiscovery Standard</h4><p>Búsqueda básica → añade casos, retenciones legales y custodios.</p></div>
+    <div class="vs">VS</div>
+    <div class="side b"><h4>eDiscovery Premium</h4><p>Añade TAR (revisión asistida por tecnología), conjuntos de revisión, y análisis de duplicados.</p></div>
+  </div>
+  <div class="clue">🎯 Pista: son tres niveles crecientes, no alternativas — Premium incluye todo lo de Standard, y Standard incluye todo lo de Content Search.</div>
 
 </section>
 

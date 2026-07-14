@@ -133,8 +133,13 @@
   <a href="#recordsmgmt">4.10 Gestión de registros</a>
   <a href="#retention">4.11 Políticas de retención</a>
   <a href="#insiderrisk">4.12 Riesgos internos</a>
+  <a href="#adaptiveprotection">4.12b Protección adaptable</a>
+  <a href="#dspm">4.12c DSPM</a>
+  <a href="#datasecinvest">4.12d Data Security Investigations</a>
   <a href="#ediscovery">4.13 eDiscovery</a>
   <a href="#audit">4.14 Audit</a>
+  <a href="#commcompliance">4.14b Communication Compliance</a>
+  <a href="#datagovintro">4.15 Gobernanza de datos (Data Map/Catalog)</a>
   <a href="#mix4">🔀 Repaso mixto</a>
 </nav>
 
@@ -434,6 +439,16 @@
 
   <div class="tip"><strong>🎯 Truco de examen:</strong> si la pregunta describe una regla amplia aplicada a todo un contenedor (buzones, sitios) → política de retención. Si describe una regla específica para un tipo de documento concreto, con reglas propias → etiqueta de retención.</div>
 
+  <h3>Tres niveles de "fuerza" en las etiquetas de retención</h3>
+  <p>No todas las etiquetas de retención se comportan igual — hay tres niveles, cada uno más estricto que el anterior:</p>
+  <table>
+    <tr><th>Nivel</th><th>Qué permite</th></tr>
+    <tr><td><strong>Etiqueta de retención estándar</strong></td><td>Solo define cuánto tiempo se conserva el contenido. El documento sigue pudiéndose editar o eliminar con normalidad mientras tanto.</td></tr>
+    <tr><td><strong>Etiqueta que marca como registro (record)</strong></td><td>Además de definir el tiempo de conservación, <strong>bloquea el contenido</strong>: ya no se puede editar ni eliminar libremente, porque pasa a tener valor de prueba formal (ya lo vimos en el punto 4.10).</td></tr>
+    <tr><td><strong>Registro normativo (regulatory record)</strong></td><td>El nivel más estricto de todos: ni siquiera se puede <strong>desbloquear</strong> una vez aplicado, a diferencia de un registro normal que sí se puede "des-declarar" en circunstancias especiales.</td></tr>
+  </table>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> "registro" ya implica bloqueo; "registro normativo" añade que ese bloqueo es irreversible. Si la pregunta dice "no se puede desbloquear bajo ninguna circunstancia", es registro normativo, no un registro normal.</div>
+
   <div class="exercise dragdrop" data-answer='{"i1":"policy","i2":"label"}' data-explain="Aplicar la misma regla a todos los buzones de la empresa es una política de retención (alcance amplio). Aplicar una regla específica a un tipo de documento concreto, con su propia duración, es una etiqueta de retención (alcance granular).">
     <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada situación y luego el mecanismo de retención al que corresponde.</p>
     <p class="dd-hint">Toca un elemento de la izquierda y después la categoría correcta.</p>
@@ -474,18 +489,99 @@
   </div>
 </section>
 
+<section id="adaptiveprotection">
+  <span class="eyebrow">Punto 4.12b</span>
+  <h2>Protección adaptable (Adaptive Protection)</h2>
+  <p>Conecta la <strong>gestión de riesgos internos</strong> que acabas de ver con el resto de herramientas de Purview: usa aprendizaje automático para aplicar controles <strong>dinámicos</strong>, ajustados automáticamente al nivel de riesgo de cada usuario en cada momento — en vez de aplicar la misma política rígida a todo el mundo por igual.</p>
+
+  <p>Se integra con <strong>DLP</strong> (Módulo 4.9), la <strong>administración del ciclo de vida de los datos</strong> (retención, Módulo 4.11), y el <strong>acceso condicional de Entra</strong> (Módulo 2.6) — así, el mismo nivel de riesgo puede activar controles en varios sistemas a la vez.</p>
+
+  <h3>Tres niveles de riesgo</h3>
+  <table>
+    <tr><th>Nivel</th><th>Ejemplo de control aplicado</th></tr>
+    <tr><td><strong>Menor</strong></td><td>Vigilancia normal, sin restricciones adicionales</td></tr>
+    <tr><td><strong>Moderado</strong></td><td>Más supervisión, posibles avisos al compartir contenido</td></tr>
+    <tr><td><strong>Elevado</strong></td><td>Se puede bloquear automáticamente que el usuario guarde o comparta datos fuera de la organización, o forzar acceso condicional adicional</td></tr>
+  </table>
+
+  <p><strong>Ejemplo real:</strong> si un usuario alcanza riesgo elevado y borra un documento de SharePoint, OneDrive o Exchange, una etiqueta de retención puede conservar ese contenido oculto durante 120 días — aunque el usuario crea que lo ha eliminado, sigue disponible para investigación.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la palabra clave es <em>"dinámico"</em> — Protección Adaptable no aplica una política fija, sino que la ajusta automáticamente según cómo cambia el riesgo de cada persona con el tiempo.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Protección Adaptable ajusta automáticamente los controles según el nivel de riesgo de cada usuario, y puede bloquear compartir datos fuera de la empresa cuando el riesgo es elevado, integrándose con DLP." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Protección Adaptable puede bloquear automáticamente que un usuario de riesgo elevado comparta datos fuera de la organización, sin que un administrador tenga que intervenir manualmente en ese momento.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="dspm">
+  <span class="eyebrow">Punto 4.12c</span>
+  <h2>Administración de la posición de seguridad de los datos (DSPM)</h2>
+  <p><strong>DSPM (Data Security Posture Management)</strong> da una vista unificada de todo tu panorama de datos, respondiendo a cuatro preguntas: ¿qué datos tenemos?, ¿dónde están?, ¿quién accede a ellos?, y ¿cómo están protegidos? Consolida en un solo sitio información de DLP, gestión de riesgos internos, protección de la información, e investigaciones de seguridad de datos.</p>
+
+  <h3>DSPM para IA</h3>
+  <p>Una parte específica de DSPM está dedicada a la inteligencia artificial: mantiene un <strong>inventario de las aplicaciones y agentes de IA</strong> usados en los últimos 30 días, detecta riesgos de <strong>sobrecompartición</strong> (compartir sin querer información sensible con un asistente de IA) o de <strong>exfiltración de datos</strong> a través de esas interacciones, y ayuda específicamente a evitar exposición de datos en las conversaciones con Microsoft 365 Copilot.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> DSPM es la vista "panorámica" de todos los datos de la organización; DSPM para IA es su versión especializada, centrada solo en el riesgo que introducen las aplicaciones y agentes de IA.</div>
+
+  <div class="exercise" data-answer="B" data-explain="DSPM para IA está diseñado específicamente para detectar el riesgo de que un empleado comparta sin querer información sensible con un asistente de IA (sobrecompartición)." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere detectar si sus empleados están compartiendo sin querer información confidencial en sus conversaciones con Microsoft 365 Copilot. ¿Qué solución de Purview es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="qdspm" value="A"> A) Records Management</label>
+      <label><input type="radio" name="qdspm" value="B"> B) DSPM para IA</label>
+      <label><input type="radio" name="qdspm" value="C"> C) eDiscovery Premium</label>
+      <label><input type="radio" name="qdspm" value="D"> D) Compliance Manager</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="datasecinvest">
+  <span class="eyebrow">Punto 4.12d</span>
+  <h2>Investigaciones de seguridad de datos (Data Security Investigations)</h2>
+  <p>Es una solución que usa <strong>IA generativa</strong> para ayudar a los equipos de ciberseguridad a investigar incidentes relacionados con datos, con tres capacidades de IA:</p>
+  <ul>
+    <li><strong>Búsqueda vectorial</strong>: entiende el <em>significado</em> de lo que buscas, no solo palabras clave exactas.</li>
+    <li><strong>Categorización</strong>: organiza automáticamente los resultados por asunto y por nivel de riesgo.</li>
+    <li><strong>Examen (scan)</strong>: busca específicamente credenciales expuestas o vulnerabilidades dentro del contenido encontrado.</li>
+  </ul>
+  <p>Se integra con Insider Risk Management, Defender XDR, DSPM, y el registro de auditoría unificado (Audit). Se factura por <strong>pago por uso</strong>, no como licencia fija.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la clave que lo distingue de una búsqueda normal de Content Search es que usa IA para entender <em>significado</em> (búsqueda vectorial), no solo coincidencias de texto literal.</div>
+
+  <div class="exercise" data-answer="Si" data-explain="La búsqueda vectorial es precisamente la capacidad que permite a Data Security Investigations encontrar contenido relevante por significado, no solo por coincidencia exacta de palabras." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Data Security Investigations puede encontrar documentos relevantes para una investigación aunque no contengan exactamente las palabras clave buscadas, gracias a la búsqueda vectorial.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
 <section id="ediscovery">
   <span class="eyebrow">Punto 4.13</span>
   <h2>eDiscovery</h2>
   <p><strong>eDiscovery (descubrimiento electrónico)</strong> es el proceso de encontrar, preservar, recopilar y exportar contenido relevante para una investigación legal, litigio o auditoría interna — por ejemplo, todos los correos y documentos relacionados con un caso concreto entre dos fechas.</p>
 
-  <p>Tiene dos niveles:</p>
-  <ul>
-    <li><strong>eDiscovery (Standard)</strong>: búsqueda y exportación básica de contenido.</li>
-    <li><strong>eDiscovery (Premium)</strong>: añade capacidades avanzadas — gestión de custodios (las personas cuyo contenido se investiga), análisis de datos más sofisticado, y herramientas de revisión del contenido encontrado.</li>
-  </ul>
+  <p>En realidad tiene <strong>tres niveles</strong>, cada uno construido sobre el anterior:</p>
+  <table>
+    <tr><th>Nivel</th><th>Qué añade</th></tr>
+    <tr><td><strong>Content Search (búsqueda de contenido)</strong></td><td>El nivel más básico: buscar contenido en todo el tenant y exportarlo, sin gestión formal de casos.</td></tr>
+    <tr><td><strong>eDiscovery (Standard)</strong></td><td>Añade la gestión de <strong>casos</strong>, <strong>retenciones legales (holds)</strong> — que preservan el contenido para que nadie pueda eliminarlo mientras dura la investigación — y la gestión de <strong>custodios</strong> (las personas cuyo contenido se investiga).</td></tr>
+    <tr><td><strong>eDiscovery (Premium)</strong></td><td>Añade <strong>conjuntos de revisión</strong>, <strong>TAR (Technology Assisted Review, revisión asistida por tecnología / codificación predictiva)</strong> — que usa aprendizaje automático para priorizar qué documentos son más relevantes, en vez de revisar todo manualmente —, y análisis de duplicados y de subprocesos de conversación. Requiere licencia E5.</td></tr>
+  </table>
 
-  <div class="tip"><strong>🎯 Truco de examen:</strong> eDiscovery encuentra y <em>preserva</em> contenido para un caso legal concreto — no lo confundas con el registro general de actividad (Audit, punto 4.14) ni con la gestión de riesgos internos (que detecta patrones de comportamiento, no busca contenido para un litigio específico).</div>
+  <div class="tip"><strong>🎯 Truco de examen:</strong> eDiscovery encuentra y <em>preserva</em> contenido para un caso legal concreto — no lo confundas con el registro general de actividad (Audit, punto 4.14) ni con la gestión de riesgos internos (que detecta patrones de comportamiento, no busca contenido para un litigio específico). Y recuerda el orden de fuerza creciente: Content Search → Standard → Premium.</div>
 
   <div class="exercise" data-answer="Si" data-explain="Encontrar y exportar todos los correos relacionados con una demanda es exactamente el propósito de eDiscovery." >
     <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Verdadero o falso? Si la empresa recibe una demanda legal y necesita encontrar y exportar todos los correos relacionados con el caso, debe usar eDiscovery.</p>
@@ -525,7 +621,132 @@
   </div>
 
   <div class="callout" style="font-style:normal;">
-    Con esto queda completo el Módulo 4 (Soluciones de cumplimiento de Microsoft, 20-25% del examen) — y con él, el temario completo del SC-900.
+    Con esto queda completo el bloque clásico de Purview. Siguen dos añadidos importantes de la actualización 2026: Communication Compliance y todo un módulo nuevo de Gobernanza de Datos.
+  </div>
+</section>
+
+<section id="commcompliance">
+  <span class="eyebrow">Punto 4.14b</span>
+  <h2>Cumplimiento de comunicaciones (Communication Compliance)</h2>
+  <p>Es una solución centrada en el <strong>riesgo interno</strong> que detecta mensajes inadecuados en los canales de comunicación de la empresa: Teams, Viva Engage, Outlook, <strong>WhatsApp</strong>, e incluso las conversaciones con <strong>Microsoft 365 Copilot</strong>. Cubre casos como acoso, lenguaje discriminatorio, filtración de información confidencial en chats, o incumplimiento de normativa financiera (por ejemplo, para sectores regulados como banca).</p>
+
+  <h3>Privacidad por diseño</h3>
+  <p>Una característica distintiva: por defecto, los <strong>nombres de los usuarios investigados aparecen seudonimizados</strong> (ocultos) para el investigador, protegiendo su privacidad hasta que el caso realmente lo justifique. El acceso se controla con RBAC, y los investigadores deben aceptar explícitamente (opt-in) su rol.</p>
+
+  <h3>Flujo de trabajo</h3>
+  <p><strong>Configurar → Investigar → Remediar → Mantener</strong>: se definen las políticas y qué se vigila, se investigan las coincidencias detectadas, se toman medidas (advertencia, escalado, acción disciplinaria), y se documenta todo para auditoría futura.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> no confundas Communication Compliance con DLP (Módulo 4.9): DLP se centra en <em>datos sensibles</em> que se comparten indebidamente (números de tarjeta, historiales médicos); Communication Compliance se centra en el <em>contenido y tono</em> de las comunicaciones entre personas (acoso, lenguaje inapropiado, riesgo normativo en las conversaciones).</div>
+
+  <div class="exercise" data-answer="Si" data-explain="Communication Compliance seudonimiza por defecto los nombres de los usuarios investigados, protegiendo su privacidad hasta que el caso avance lo suficiente como para justificar revelar su identidad." >
+    <p class="q">1. <span class="difficulty diff-hard">🔴 Difícil</span> ¿Verdadero o falso? Por defecto, un investigador de Communication Compliance no ve el nombre real del empleado investigado desde el primer momento.</p>
+    <select class="dd">
+      <option value="">-- elige --</option>
+      <option value="Si">Verdadero</option>
+      <option value="No">Falso</option>
+    </select>
+    <button class="check-btn" onclick="checkSelect(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise" data-answer="B" data-explain="Detectar lenguaje de acoso en las conversaciones de Teams es un problema de tono y contenido de la comunicación entre personas, que es justo lo que vigila Communication Compliance — no un dato sensible como los que detecta DLP." >
+    <p class="q">2. <span class="difficulty diff-med">🟡 Medio</span> Una empresa quiere detectar si algún empleado usa lenguaje de acoso hacia compañeros en los chats de Teams. ¿Qué solución de Purview es la más adecuada?</p>
+    <div class="options">
+      <label><input type="radio" name="qcc" value="A"> A) Data Loss Prevention (DLP)</label>
+      <label><input type="radio" name="qcc" value="B"> B) Communication Compliance</label>
+      <label><input type="radio" name="qcc" value="C"> C) Records Management</label>
+      <label><input type="radio" name="qcc" value="D"> D) eDiscovery</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section id="datagovintro">
+  <span class="eyebrow">Punto 4.15</span>
+  <h2>Gobernanza de datos con Microsoft Purview (módulo completo)</h2>
+  <p>Es el bloque más nuevo de todo el temario de cumplimiento: en vez de proteger o clasificar datos concretos, la <strong>gobernanza de datos</strong> se ocupa de que la organización sepa <strong>qué datos tiene, dónde están y qué significan</strong>, de forma organizada y consistente en toda la empresa.</p>
+
+  <h3>Enfoque federado</h3>
+  <p>Microsoft Purview aplica un modelo <strong>federado</strong>: una oficina central define las reglas generales, pero cada dominio de negocio (Finanzas, RR. HH., Ventas...) gobierna sus propios datos dentro de esas reglas. Ni todo centralizado ni todo descontrolado — un punto intermedio.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> la gobernanza de datos trabaja siempre sobre <strong>metadatos</strong> (información que describe los datos: de qué tipo son, dónde están, quién es su dueño), no sobre los datos en sí. Esta es la diferencia clave con DLP o las etiquetas de confidencialidad, que sí actúan directamente sobre el contenido.</div>
+
+  <h3>Microsoft Purview Data Map (Mapa de datos)</h3>
+  <p>Es la base técnica de todo lo demás: examina tus orígenes de datos (locales, multinube, aplicaciones SaaS) y construye un <strong>mapa de metadatos</strong> — técnicos (tipo de columna, formato), empresariales (a qué proceso de negocio pertenece), operativos (cómo se usa) y semánticos (qué significa). Se factura por <strong>unidad de capacidad (CU)</strong>: cada CU da cierta capacidad de examen y almacenamiento, y escala de forma elástica según lo que necesites. El rol clave para gestionarlo es el <strong>Administrador de gobernanza de datos</strong>.</p>
+
+  <svg viewBox="0 0 700 240" role="img" aria-label="De los orígenes de datos al catálogo unificado">
+    <g><rect x="20" y="90" width="160" height="70" rx="10" fill="#6C757D"/>
+      <text x="100" y="118" text-anchor="middle" class="layer-label">Orígenes de datos</text>
+      <text x="100" y="138" text-anchor="middle" class="layer-sub">Local, nube, SaaS</text></g>
+    <path d="M180 125 L218 125" stroke="#999" stroke-width="2" marker-end="url(#a6)"/>
+    <g><rect x="220" y="90" width="180" height="70" rx="10" fill="var(--navy)"/>
+      <text x="310" y="118" text-anchor="middle" class="layer-label">Data Map</text>
+      <text x="310" y="138" text-anchor="middle" class="layer-sub">Examina y captura metadatos</text></g>
+    <path d="M400 125 L438 125" stroke="#999" stroke-width="2" marker-end="url(#a6)"/>
+    <g><rect x="440" y="90" width="220" height="70" rx="10" fill="var(--teal)"/>
+      <text x="550" y="112" text-anchor="middle" class="layer-label">Unified Catalog</text>
+      <text x="550" y="132" text-anchor="middle" class="layer-sub">Dominios, productos de datos,</text>
+      <text x="550" y="148" text-anchor="middle" class="layer-sub">glosario, políticas</text></g>
+    <defs><marker id="a6" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker></defs>
+    <text x="350" y="210" text-anchor="middle" font-size="12" fill="#666">Todo funciona sobre metadatos, nunca sobre los datos en sí</text>
+  </svg>
+
+  <h3>Microsoft Purview Unified Catalog (Catálogo unificado)</h3>
+  <p>Se construye encima del Data Map, y organiza esos metadatos en conceptos de negocio comprensibles:</p>
+  <table>
+    <tr><th>Concepto</th><th>Qué es</th></tr>
+    <tr><td><strong>Dominios de gobernanza</strong></td><td>Límites organizados por concepto de negocio (por ejemplo, un dominio "Finanzas" y otro "Recursos Humanos")</td></tr>
+    <tr><td><strong>Productos de datos</strong></td><td>Una construcción empresarial con nombre propio, propietarios asignados, y una lista de los recursos de datos que lo componen</td></tr>
+    <tr><td><strong>Términos del glosario</strong></td><td>El vocabulario oficial de la empresa, con sus definiciones y las políticas que le aplican</td></tr>
+    <tr><td><strong>Elementos de datos críticos (CDE)</strong></td><td>Una agrupación lógica de datos especialmente importantes — por ejemplo, "ID de cliente" puede mapear varios campos técnicos distintos (CustID, CID) que en realidad significan lo mismo</td></tr>
+    <tr><td><strong>OKR (objetivos y resultados clave)</strong></td><td>Vinculan los datos a los objetivos de negocio, para justificar por qué un dato importa</td></tr>
+    <tr><td><strong>Políticas de acceso</strong></td><td>Reglas sobre quién puede acceder a según qué producto de datos</td></tr>
+  </table>
+
+  <p>El catálogo incluye también búsqueda con <strong>copiloto de IA</strong> (para buscar en lenguaje natural), gestión de la salud del catálogo (con una puntuación propia), y <strong>Data Quality</strong>: reglas de calidad de datos, algunas escritas sin código y otras <strong>generadas automáticamente por IA</strong>.</p>
+
+  <div class="tip"><strong>🎯 Truco de examen:</strong> el Data Map <em>captura</em> los metadatos automáticamente examinando los orígenes; el Unified Catalog <em>organiza</em> esos metadatos ya capturados en conceptos que un humano de negocio entiende (dominios, productos, glosario). Uno sin el otro no tiene sentido — el catálogo depende del mapa.</div>
+
+  <p style="font-size:0.85rem; color:#8a8578;">Existe una versión gratuita del catálogo unificado, con un límite de 1000 recursos anotados.</p>
+
+  <h3>Ejercicios</h3>
+
+  <div class="exercise" data-answer="B" data-explain="El Data Map es quien examina los orígenes de datos y captura los metadatos técnicos/empresariales/operativos/semánticos; el Unified Catalog se construye encima para organizar esos metadatos en conceptos de negocio." >
+    <p class="q">1. <span class="difficulty diff-med">🟡 Medio</span> ¿Qué componente de Purview es responsable de examinar los orígenes de datos y capturar sus metadatos técnicos y empresariales?</p>
+    <div class="options">
+      <label><input type="radio" name="qdatamap" value="A"> A) Unified Catalog</label>
+      <label><input type="radio" name="qdatamap" value="B"> B) Data Map</label>
+      <label><input type="radio" name="qdatamap" value="C"> C) Compliance Manager</label>
+      <label><input type="radio" name="qdatamap" value="D"> D) DSPM</label>
+    </div>
+    <button class="check-btn" onclick="checkRadio(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="exercise dragdrop" data-answer='{"i1":"domain","i2":"product","i3":"glossary","i4":"cde"}' data-explain="Un dominio de gobernanza agrupa por concepto de negocio. Un producto de datos tiene nombre, dueños y recursos asociados. Un término del glosario es vocabulario oficial con definición. Un elemento de datos crítico agrupa campos técnicos distintos que significan lo mismo.">
+    <p class="q">2. <span class="difficulty diff-hard">🔴 Difícil</span> Toca cada descripción y luego el concepto del Unified Catalog al que corresponde.</p>
+    <p class="dd-hint">Toca un elemento de la izquierda y después el concepto correcto.</p>
+    <div class="dd-wrap">
+      <div class="dd-pool">
+        <div class="dd-item" data-id="i1" onclick="selectDDItem(this)">Límite organizado por concepto de negocio, como "Finanzas"</div>
+        <div class="dd-item" data-id="i2" onclick="selectDDItem(this)">Construcción con nombre, propietarios y una lista de recursos</div>
+        <div class="dd-item" data-id="i3" onclick="selectDDItem(this)">Vocabulario oficial de la empresa con definiciones</div>
+        <div class="dd-item" data-id="i4" onclick="selectDDItem(this)">Agrupa campos técnicos distintos que en realidad significan lo mismo</div>
+      </div>
+      <div class="dd-zones">
+        <div class="dd-zone" data-zone="domain" onclick="placeDDItem(this)"><div class="dd-zone-label">Dominio de gobernanza</div></div>
+        <div class="dd-zone" data-zone="product" onclick="placeDDItem(this)"><div class="dd-zone-label">Producto de datos</div></div>
+        <div class="dd-zone" data-zone="glossary" onclick="placeDDItem(this)"><div class="dd-zone-label">Término del glosario</div></div>
+        <div class="dd-zone" data-zone="cde" onclick="placeDDItem(this)"><div class="dd-zone-label">Elemento de datos crítico</div></div>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkDragDrop(this)">Comprobar</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="callout" style="font-style:normal;">
+    Con esto queda completo el Módulo 4 al día (Soluciones de cumplimiento de Microsoft, 20-25% del examen) — y con él, el temario completo del SC-900 actualizado a 2026.
   </div>
 </section>
 
